@@ -1,13 +1,8 @@
 
-
-function App() {
-
+export default function App() {
   return (
-    <>
-
-      <h1 className='text-xl font-bold underline'>Hello World</h1>
-    </>
+    <div className="bg-sky-500 flex justify-center items-center h-screen">
+      <h1 className="text-sky-50 font-bold text-9xl" >Hola</h1>
+    </div>
   )
 }
-
-export default App
