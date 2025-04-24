@@ -1,7 +1,8 @@
+import { ReactNode } from "react";
 import Footer from "../components/ui/Footer.tsx";
 import Header from "../components/ui/Header.tsx";
 
-export default function MainLayout({children}: {children: React.ReactNode}) {
+export default function MainLayout({children}: {children: ReactNode}) {
     return (
         <>
             <header>
