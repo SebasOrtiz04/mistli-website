@@ -8,7 +8,7 @@ export default function MainLayout({children}: {children: ReactNode}) {
             <header>
                 <Header/>
             </header>
-            <main>
+            <main className='min-h-[calc(100vh-144px)]'>
                 {children}
             </main>
             <footer>
