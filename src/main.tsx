@@ -6,7 +6,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import {
   RouterProvider
 } from "react-router";
-import router from './routes/router.tsx';
+import router from './routes/sections/index.tsx';
 
 
 
