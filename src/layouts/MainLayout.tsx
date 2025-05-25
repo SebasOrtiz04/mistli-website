@@ -1,15 +1,19 @@
-import { Outlet } from "react-router";
+import { ReactNode } from "react";
 import Footer from "../components/ui/Footer.tsx";
 import Header from "../components/ui/Header.tsx";
 
-export default function DefaultLayout() {
+export interface IMainLayout {
+    children: ReactNode
+}
+
+export default function MainLayout({children}: IMainLayout) {
     return (
         <>
             <header>
                 <Header/>
             </header>
-            <main>
-                <Outlet/>
+            <main className='min-h-[calc(100vh-144px)]'>
+                {children}
             </main>
             <footer>
                 <Footer/>

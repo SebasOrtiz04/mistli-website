@@ -1,13 +1,13 @@
 import { Helmet } from "react-helmet-async";
-import HomePage from "../../pages/HomePage.tsx";
+import HomeView from "../../sections/website/views/HomeView.tsx";
 
-export default function HomeSection() {
+export default function HomePage() {
   return (
     <>
         <Helmet>
             <title>Bienvenido | Mistli - Soluciones en Ingeniería</title>  
         </Helmet> 
-        <HomePage/>
+        <HomeView/>
     </>
   )
 }
