@@ -1,0 +1,28 @@
+/* GradientBackground.module.css */
+
+.gradientBackground {
+  background: linear-gradient(135deg,color-mix(in oklab, var(--color-blue-500) 30%, transparent),#1151b0);
+  background-size: 200% 200%;
+  background-position: 0% 50%;
+  animation: gradientShift 10s ease infinite;
+  color: white;
+  min-height: 50vh;
+  padding: 2rem;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
