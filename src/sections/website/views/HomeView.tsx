@@ -1,11 +1,13 @@
-import HomeHero from "../home/HomeHero.tsx";
-import HomeProducts from "../home/HomeProducts.tsx";
+import Pricing from "../home/Pricing.tsx";
+import Resenas from "../home/Reseñas.tsx";
+import Hero from "../home/Hero.tsx"
 
 export default function HomeView() {
   return (
-    <>
-        <HomeHero/>
-        <HomeProducts/>
+    <>        
+        <Hero/>
+        <Pricing/>
+        <Resenas/>
     </>
   )
 }
