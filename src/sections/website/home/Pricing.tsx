@@ -1,302 +1,31 @@
-import { formatearDinero } from "../../../helpers/uiAmounts.ts";
 import styles from '../../../styles/animated.module.css';
 import { useState } from 'react';
 
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store.ts';
 import Icon from "../../../components/iconify/Icon.tsx";
-
-type idiomaString = {
-    ES: string;
-    EN: string;
-};
-
-type Language = "EN" | "ES";
-
-type Items = {
-    [key in Language]: string[];
-};
-
-type Plan = {
-    title: idiomaString;
-    description: idiomaString;
-    cost: idiomaString;
-    items: Items;
-    textButton: idiomaString;
-    whatsAppText: idiomaString;
-    popular: boolean;
-};
-
-type Plans = {
-    basic: Plan;
-    standard: Plan;
-    premium: Plan;
-};
-
-const baseWhats = "https://wa.me/2213295628?text=";
+import { PLANSAUTO,PLANSFULL,PLANSIA, PLANSMOBILE } from './Planes.ts';
 
 const Pricing: React.FC = () => {
-
     const idioma = useSelector((state: RootState) => state.locale.language);
-    const [selected, setSelected] = useState<'IA' | 'Automation' | 'Fullstack'>('IA');
+    const [selected, setSelected] = useState<'IA' | 'Automation' | 'Fullstack' | 'Mobile'>('IA');
+    const PLANS={
+        IA:PLANSIA,
+        Automation:PLANSAUTO,
+        Fullstack:PLANSFULL,
+        Mobile:PLANSMOBILE
+    }
 
-    const PLANSAUTO: Plans = {
-        basic: {
-            popular: false,
-            title: {
-                ES: "Automatización básica",
-                EN: "Basic Automation",
-            },
-            description: {
-                ES: "Automatización básica para su empresa",
-                EN: "Basic automation for your company",
-            },
-            cost: {
-                ES: `${formatearDinero(2000)} MXN`,
-                EN: `${formatearDinero(100)} USD`,
-            },
-            items: {
-                EN: ["10 Users Included", "2 GB of Storage", "Help Center Access", "Email Support"],
-                ES: ["10 usuarios Incluidos", "2 GB de Almacenamiento", "Acceso a Centro de Ayuda", "Soporte vía Email"],
-            },
-            textButton: {
-                EN: "WhatsApp",
-                ES: "WhatsApp",
-            },
-            whatsAppText: {
-                ES: baseWhats + encodeURIComponent("Hola, me interesa contratar los servicios de automatización básica para mi negocio"),
-                EN: baseWhats + encodeURIComponent("Hello, I am interested in hiring basic automation services for my business."),
-            },
-        },
-        standard: {
-            popular: true,
-            title: {
-                ES: "Automatización estándar",
-                EN: "Standard Automation",
-            },
-            description: {
-                ES: "Automatización intermedia para su empresa",
-                EN: "Standard automation for your company",
-            },
-            cost: {
-                ES: `${formatearDinero(5000)} MXN`,
-                EN: `${formatearDinero(250)} USD`,
-            },
-            items: {
-                EN: ["20 users included", "10 GB of storage", "Help center access", "Priority email support"],
-                ES: ["20 usuarios incluidos", "10 GB de almacenamiento", "Acceso al centro de ayuda", "Soporte prioritario vía email"],
-            },
-            textButton: {
-                EN: "WhatsApp",
-                ES: "WhatsApp",
-            },
-            whatsAppText: {
-                ES: baseWhats + encodeURIComponent("Hola, me interesa contratar el plan estándar de automatización para mi negocio"),
-                EN: baseWhats + encodeURIComponent("Hello, I am interested in hiring the standard automation plan for my business."),
-            },
-        },
-        premium: {
-            popular: false,
-            title: {
-                ES: "Automatización premium",
-                EN: "Premium Automation",
-            },
-            description: {
-                ES: "Automatización avanzada para su empresa",
-                EN: "Premium automation for your company",
-            },
-            cost: {
-                ES: `${formatearDinero(10000)} MXN`,
-                EN: `${formatearDinero(500)} USD`,
-            },
-            items: {
-                EN: ["50 users included", "30 GB of storage", "Help center access", "Phone & email support"],
-                ES: ["50 usuarios incluidos", "30 GB de almacenamiento", "Acceso al centro de ayuda", "Soporte telefónico y por email"],
-            },
-            textButton: {
-                EN: "WhatsApp",
-                ES: "WhatsApp",
-            },
-            whatsAppText: {
-                ES: baseWhats + encodeURIComponent("Hola, me interesa contratar el plan premium de automatización para mi negocio"),
-                EN: baseWhats + encodeURIComponent("Hello, I am interested in hiring the premium automation plan for my business."),
-            },
-        },
-    };
-    const PLANSFULL = {
-        basic: {
-            popular: false,
-            title: {
-                ES: "Software completo",
-                EN: "complete soft",
-            },
-            description: {
-                ES: "Automatización básica para su empresa",
-                EN: "Basic automation for your company",
-            },
-            cost: {
-                ES: `${formatearDinero(2000)} MXN`,
-                EN: `${formatearDinero(100)} USD`,
-            },
-            items: {
-                EN: ["10 Users Included", "2 GB of Storage", "Help Center Access", "Email Support"],
-                ES: ["10 usuarios Incluidos", "2 GB de Almacenamiento", "Acceso a Centro de Ayuda", "Soporte vía Email"],
-            },
-            textButton: {
-                EN: "WhatsApp",
-                ES: "WhatsApp",
-            },
-            whatsAppText: {
-                ES: baseWhats + encodeURIComponent("Hola, me interesa contratar los servicios de automatización básica para mi negocio"),
-                EN: baseWhats + encodeURIComponent("Hello, I am interested in hiring basic automation services for my business."),
-            },
-        },
-        standard: {
-            popular: true,
-            title: {
-                ES: "Automatización estándar",
-                EN: "Standard Automation",
-            },
-            description: {
-                ES: "Automatización intermedia para su empresa",
-                EN: "Standard automation for your company",
-            },
-            cost: {
-                ES: `${formatearDinero(5000)} MXN`,
-                EN: `${formatearDinero(250)} USD`,
-            },
-            items: {
-                EN: ["20 users included", "10 GB of storage", "Help center access", "Priority email support"],
-                ES: ["20 usuarios incluidos", "10 GB de almacenamiento", "Acceso al centro de ayuda", "Soporte prioritario vía email"],
-            },
-            textButton: {
-                EN: "WhatsApp",
-                ES: "WhatsApp",
-            },
-            whatsAppText: {
-                ES: baseWhats + encodeURIComponent("Hola, me interesa contratar el plan estándar de automatización para mi negocio"),
-                EN: baseWhats + encodeURIComponent("Hello, I am interested in hiring the standard automation plan for my business."),
-            },
-        },
-        premium: {
-            popular: false,
-            title: {
-                ES: "Automatización premium",
-                EN: "Premium Automation",
-            },
-            description: {
-                ES: "Automatización avanzada para su empresa",
-                EN: "Premium automation for your company",
-            },
-            cost: {
-                ES: `${formatearDinero(10000)} MXN`,
-                EN: `${formatearDinero(500)} USD`,
-            },
-            items: {
-                EN: ["50 users included", "30 GB of storage", "Help center access", "Phone & email support"],
-                ES: ["50 usuarios incluidos", "30 GB de almacenamiento", "Acceso al centro de ayuda", "Soporte telefónico y por email"],
-            },
-            textButton: {
-                EN: "WhatsApp",
-                ES: "WhatsApp",
-            },
-            whatsAppText: {
-                ES: baseWhats + encodeURIComponent("Hola, me interesa contratar el plan premium de automatización para mi negocio"),
-                EN: baseWhats + encodeURIComponent("Hello, I am interested in hiring the premium automation plan for my business."),
-            },
-        },
-    };
-    const PLANSIA: Plans = {
-        basic: {
-            popular: false,
-            title: {
-                ES: "Automatización básica",
-                EN: "Basic Automation",
-            },
-            description: {
-                ES: "Automatización básica para su empresa",
-                EN: "Basic automation for your company",
-            },
-            cost: {
-                ES: `${formatearDinero(2000)} MXN`,
-                EN: `${formatearDinero(100)} USD`,
-            },
-            items: {
-                EN: ["10 Users Included", "2 GB of Storage", "Help Center Access", "Email Support"],
-                ES: ["10 usuarios Incluidos", "2 GB de Almacenamiento", "Acceso a Centro de Ayuda", "Soporte vía Email"],
-            },
-            textButton: {
-                EN: "WhatsApp",
-                ES: "WhatsApp",
-            },
-            whatsAppText: {
-                ES: baseWhats + encodeURIComponent("Hola, me interesa contratar los servicios de automatización básica para mi negocio"),
-                EN: baseWhats + encodeURIComponent("Hello, I am interested in hiring basic automation services for my business."),
-            },
-        },
-        standard: {
-            popular: true,
-            title: {
-                ES: "Automatización estándar",
-                EN: "Standard Automation",
-            },
-            description: {
-                ES: "Automatización intermedia para su empresa",
-                EN: "Standard automation for your company",
-            },
-            cost: {
-                ES: `${formatearDinero(5000)} MXN`,
-                EN: `${formatearDinero(250)} USD`,
-            },
-            items: {
-                EN: ["20 users included", "10 GB of storage", "Help center access", "Priority email support"],
-                ES: ["20 usuarios incluidos", "10 GB de almacenamiento", "Acceso al centro de ayuda", "Soporte prioritario vía email"],
-            },
-            textButton: {
-                EN: "WhatsApp",
-                ES: "WhatsApp",
-            },
-            whatsAppText: {
-                ES: baseWhats + encodeURIComponent("Hola, me interesa contratar el plan estándar de automatización para mi negocio"),
-                EN: baseWhats + encodeURIComponent("Hello, I am interested in hiring the standard automation plan for my business."),
-            },
-        },
-        premium: {
-            popular: false,
-            title: {
-                ES: "Automatización premium",
-                EN: "Premium Automation",
-            },
-            description: {
-                ES: "Automatización avanzada para su empresa",
-                EN: "Premium automation for your company",
-            },
-            cost: {
-                ES: `${formatearDinero(10000)} MXN`,
-                EN: `${formatearDinero(500)} USD`,
-            },
-            items: {
-                EN: ["50 users included", "30 GB of storage", "Help center access", "Phone & email support"],
-                ES: ["50 usuarios incluidos", "30 GB de almacenamiento", "Acceso al centro de ayuda", "Soporte telefónico y por email"],
-            },
-            textButton: {
-                EN: "WhatsApp",
-                ES: "WhatsApp",
-            },
-            whatsAppText: {
-                ES: baseWhats + encodeURIComponent("Hola, me interesa contratar el plan premium de automatización para mi negocio"),
-                EN: baseWhats + encodeURIComponent("Hello, I am interested in hiring the premium automation plan for my business."),
-            },
-        },
-    };
 
     const areas = {
         IA: { ES: "IA", EN: "AI" },
         Automation: { ES: "Automatización", EN: "Automation" },
-        Fullstack: { ES: "FullStack", EN: "FullStack" }
+        Fullstack: { ES: "FullStack", EN: "FullStack" },
+        Mobile: { ES: "Móbil", EN: "Mobile" }
     } as const;
 
     type AreaKey = keyof typeof areas;
+    type PlanKey = keyof typeof PLANSAUTO; // Todas las áreas comparten keys: basic, standard, premium
 
     return (
         <div className={styles.gradientBackground}>
@@ -322,8 +51,8 @@ const Pricing: React.FC = () => {
                 ))}
             </div>
             <div className="grid md:grid-cols-3 gap-6 max-w-6xl w-full">
-                {Object.keys(PLANS).map((planKey) => {
-                    const plan = PLANS[planKey as keyof typeof PLANS];
+                {(Object.keys(PLANS[selected]) as PlanKey[]).map((planKey) => {
+                    const plan = PLANS[selected][planKey];
                     return (
                         <div 
                             key={planKey}
@@ -349,13 +78,16 @@ const Pricing: React.FC = () => {
                                     ))}
                                 </ul>
                             </div>
+                            
                             <a
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 href={plan.whatsAppText[idioma]}
-                                className="mt-auto bg-green-700 hover:bg-blue-600 text-white text-center py-2 rounded-xl transition"
+                                className="mt-auto bg-green-700 hover:bg-green-800 text-white text-center py-2 px-4 rounded-xl transition flex items-center justify-center gap-2"
+                                aria-label="Abrir WhatsApp"
                             >
-                                {plan.textButton[idioma]}
+                                <Icon icon="logos:whatsapp-icon" className="w-5 h-5" />
+                                <span>{plan.textButton[idioma]}</span>
                             </a>
                         </div>
                     );
