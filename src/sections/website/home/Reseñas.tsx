@@ -38,8 +38,8 @@ const Resenas: React.FC = () => {
   const title = idioma === 'ES' ? "Reseñas de Clientes Reales" : "Real Customer Reviews";
 
   return (
-    <section className="mt-24 px-6 md:px-20 text-center">
-      <h2 className="text-4xl font-bold mb-12 text-white">{title}</h2>
+    <section className="px-6 md:px-20 text-center">
+      <h2 className="text-4xl font-bold mb-12 text-black">{title}</h2>
       <div className="flex flex-col md:flex-row justify-center gap-8">
         {testimonials.map(({ name, text }, idx) => (
           <div

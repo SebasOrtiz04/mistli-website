@@ -3,7 +3,11 @@ import { RootState } from '../../../redux/store.ts';
 
 const Hero: React.FC = () => {
   const idioma = useSelector((state: RootState) => state.locale.language);
-
+  const baseWhats = "https://wa.me/2213295628?text=";
+  const contacto = {
+            ES: baseWhats + encodeURIComponent("Hola, me interesa una solución personalizada para mi empresa"),
+            EN: baseWhats + encodeURIComponent("Hello, I'm interested in a customized solution for my company."),
+        }
   const textos = idioma === 'ES'
     ? {
         titulo: "Una solución de ingeniería del futuro para negocios del futuro",
@@ -29,12 +33,9 @@ const Hero: React.FC = () => {
           {textos.descripcion}
         </p>
         <div className="flex justify-center md:justify-start space-x-4">
-          <button className="px-6 py-3 bg-white text-blue-900 font-semibold rounded-lg shadow hover:bg-blue-100 transition">
+          <a href={contacto[idioma]} className="px-6 py-3 bg-white text-blue-900 font-semibold rounded-lg shadow hover:bg-blue-100 transition">
             {textos.contacto}
-          </button>
-          <button className="px-6 py-3 border border-white text-white font-semibold rounded-lg hover:bg-white hover:text-blue-900 transition">
-            {textos.servicios}
-          </button>
+          </a>
         </div>
       </div>
 
