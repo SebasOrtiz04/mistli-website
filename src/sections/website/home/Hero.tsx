@@ -3,7 +3,7 @@ import { RootState } from '../../../redux/store.ts';
 
 const Hero: React.FC = () => {
   const idioma = useSelector((state: RootState) => state.locale.language);
-  const baseWhats = "https://wa.me/2213295628?text=";
+  const baseWhats = "https://wa.me/2212135220?text=";
   const contacto = {
             ES: baseWhats + encodeURIComponent("Hola, me interesa una solución personalizada para mi empresa"),
             EN: baseWhats + encodeURIComponent("Hello, I'm interested in a customized solution for my company."),
