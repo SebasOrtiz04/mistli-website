@@ -27,7 +27,7 @@ type Plans = {
   premium: Plan;
 };
 
-const baseWhats = "https://wa.me/2213295628?text=";
+const baseWhats = "https://wa.me/2212135220?text=";
 
 /* ======================================================
    AUTOMATIZACIÓN EMPRESARIAL
