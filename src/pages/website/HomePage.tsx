@@ -1,11 +1,11 @@
-import { Helmet } from "react-helmet-async";
+import { Title } from 'react-head';
 import HomeView from "../../sections/website/views/HomeView.tsx";
 export default function HomePage() {
   return (
     <>
-      <Helmet>
+      <Title>
         <title>Bienvenido | Mistli - Soluciones en Ingeniería</title>
-      </Helmet>
+      </Title>
       <HomeView/>
     </>
   )

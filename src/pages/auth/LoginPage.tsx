@@ -1,12 +1,12 @@
-import { Helmet } from 'react-helmet-async'
 import LoginView from '../../sections/auth/LoginView.tsx'
+import { Title } from 'react-head';
 
 export default function LoginPage() {
   return (
     <>
-        <Helmet>
+        <Title>
             <title>Iniciar sesión</title>
-        </Helmet>
+        </Title>
 
         <LoginView/> 
     </>
