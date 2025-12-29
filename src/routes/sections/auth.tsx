@@ -1,5 +1,5 @@
 import { lazy } from "react";
-import { Outlet, RouteObject } from "react-router";
+import { Outlet, RouteObject } from "react-router-dom";
 import AuthLayout from "../../layouts/AuthLayout.tsx";
 
 const LoginPage = lazy(() => import('../../pages/auth/LoginPage.tsx'));
