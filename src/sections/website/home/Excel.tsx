@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { Icon } from '@iconify/react';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../redux/store';
-
-type Language = 'ES' | 'EN';
+import { baseWhats } from '../../../constants';
+import { useTranslation } from 'react-i18next';
 
 interface ReportGenerationSectionProps {
   className?: string;
@@ -12,88 +10,16 @@ interface ReportGenerationSectionProps {
 const ReportGenerationSection: React.FC<ReportGenerationSectionProps> = ({
   className = '',
 }) => {
-  const idioma = useSelector(
-    (state: RootState) => state.locale.language as Language
-  );
-
   const [isRedirecting, setIsRedirecting] = useState<boolean>(false);
-
-  const copy: Record<
-    Language,
-    {
-      badge: string;
-      title: string;
-      description: string;
-      whatsappMsg: string;
-      redirecting: string;
-      cta: string;
-      features: {
-        icon: string;
-        title: string;
-        description: string;
-      }[];
-    }
-  > = {
-    ES: {
-      badge: 'Automatización de reportes y dashboards',
-      title: 'Reportes y dashboards a partir de tus datos',
-      description:
-        'Procesamos tus datos desde CSV, Excel o bases de datos para generar documentos profesionales y dashboards interactivos que impulsan decisiones claras.',
-      whatsappMsg:
-        'Hola, quiero información sobre la generación de reportes y dashboards',
-      redirecting: 'Redirigiendo…',
-      cta: 'Contáctanos por WhatsApp',
-      features: [
-        {
-          icon: 'solar:document-text-bold-duotone',
-          title: 'Reportes automatizados',
-          description:
-            'Documentos PDF o Word generados automáticamente desde tus datos.',
-        },
-        {
-          icon: 'solar:chart-2-bold-duotone',
-          title: 'Dashboards interactivos',
-          description:
-            'Visualización en tiempo real con métricas clave y gráficas claras.',
-        },
-      ],
-    },
-    EN: {
-      badge: 'Report & dashboard automation',
-      title: 'Reports and dashboards from your data',
-      description:
-        'We process your data from CSV, Excel or databases to generate professional documents and interactive dashboards.',
-      whatsappMsg:
-        'Hi, I would like information about report and dashboard generation',
-      redirecting: 'Redirecting…',
-      cta: 'Contact us on WhatsApp',
-      features: [
-        {
-          icon: 'solar:document-text-bold-duotone',
-          title: 'Automated reports',
-          description:
-            'PDF or Word documents generated automatically from your data.',
-        },
-        {
-          icon: 'solar:chart-2-bold-duotone',
-          title: 'Interactive dashboards',
-          description:
-            'Real-time visualization with key metrics and charts.',
-        },
-      ],
-    },
-  };
-
-  const t = copy[idioma];
+  const { t } = useTranslation();
+  const features = t('home.excel.features', { returnObjects: true }) as { title: string; description: string,icon:string }[];
 
   const handleRedirectWhatsApp = () => {
     setIsRedirecting(true);
 
     setTimeout(() => {
       window.open(
-        `https://wa.me/5212212135220?text=${encodeURIComponent(
-          t.whatsappMsg
-        )}`,
+        `${baseWhats}${encodeURIComponent(t('home.excel.whatsappMsg'))}`,
         '_blank'
       );
       setIsRedirecting(false);
@@ -119,7 +45,7 @@ const ReportGenerationSection: React.FC<ReportGenerationSectionProps> = ({
               icon="solar:document-text-bold-duotone"
               className="w-4 h-4"
             />
-            {t.badge}
+            {t('home.excel.badge')}
           </div>
 
           <h2
@@ -128,16 +54,16 @@ const ReportGenerationSection: React.FC<ReportGenerationSectionProps> = ({
               text-gray-900 leading-tight tracking-tight
             "
           >
-            {t.title}
+            {t('home.excel.title')}
           </h2>
 
           <p className="text-lg text-gray-600 max-w-xl">
-            {t.description}
+            {t('home.excel.description')}
           </p>
 
           {/* FEATURES */}
           <div className="space-y-5">
-            {t.features.map((feature, index) => (
+            {features.map((feature, index) => (
               <div
                 key={index}
                 className="
@@ -194,7 +120,7 @@ const ReportGenerationSection: React.FC<ReportGenerationSectionProps> = ({
                   icon="svg-spinners:ring-resize"
                   className="w-5 h-5"
                 />
-                {t.redirecting}
+                {t('home.excel.redirecting')}
               </>
             ) : (
               <>
@@ -202,7 +128,7 @@ const ReportGenerationSection: React.FC<ReportGenerationSectionProps> = ({
                   icon="logos:whatsapp-icon"
                   className="w-5 h-5"
                 />
-                {t.cta}
+                {t('home.excel.cta')}
               </>
             )}
           </button>

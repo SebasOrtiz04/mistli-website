@@ -1,5 +1,5 @@
 import { formatearDinero } from "../../../helpers/uiAmounts.ts";
-
+import { baseWhats } from '../../../constants';
 type idiomaString = {
   ES: string;
   EN: string;
@@ -27,7 +27,6 @@ type Plans = {
   premium: Plan;
 };
 
-const baseWhats = "https://wa.me/2212135220?text=";
 
 /* ======================================================
    AUTOMATIZACIÓN EMPRESARIAL

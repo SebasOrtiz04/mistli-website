@@ -1,13 +1,13 @@
 import styles from '../../../styles/animated.module.css';
 import { useState } from 'react';
-
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../redux/store.ts';
 import Icon from "../../../components/iconify/Icon.tsx";
 import { PLANSAUTO,PLANSFULL,PLANSIA, PLANSMOBILE } from './Planes.ts';
+import { useTranslation } from 'react-i18next';
 
 const Pricing: React.FC = () => {
-    const idioma = useSelector((state: RootState) => state.locale.language);
+    const { t } = useTranslation();
+    const areas = t('home.pricing.areas', { returnObjects: true }) as { IA: string; Automation: string,Fullstack:string,Mobile:string }[];
+
     const [selected, setSelected] = useState<'IA' | 'Automation' | 'Fullstack' | 'Mobile'>('IA');
     const PLANS={
         IA:PLANSIA,
@@ -15,18 +15,6 @@ const Pricing: React.FC = () => {
         Fullstack:PLANSFULL,
         Mobile:PLANSMOBILE
     }
-    const disclaimer = {
-        ES: "*Precio de desarrollo únicamente. Costos adicionales por separado: APIs de IA, servicios cloud, hardware especializado (GPU), integración con tus APIs/servicios existentes (CRM, ERP, sistemas de pago, etc.) y mantenimiento técnico según uso real.",
-        EN: "*Development price only. Additional costs billed separately: AI APIs, cloud services, specialized hardware (GPU), integration with your existing APIs/services (CRM, ERP, payment systems, etc.) and technical maintenance based on actual usage."
-    }
-
-
-    const areas = {
-        IA: { ES: "IA", EN: "AI" },
-        Automation: { ES: "Automatización", EN: "Automation" },
-        Fullstack: { ES: "FullStack", EN: "FullStack" },
-        Mobile: { ES: "Móvil", EN: "Mobile" }
-    } as const;
 
     type AreaKey = keyof typeof areas;
     type PlanKey = keyof typeof PLANSAUTO; // Todas las áreas comparten keys: basic, standard, premium
@@ -66,7 +54,7 @@ const Pricing: React.FC = () => {
                         )}
                         
                         <span className="relative z-10 flex items-center gap-2">
-                            {areas[clave][idioma]}
+                            {areas[clave]}
                             {selected === clave && (
                                 <svg className={`${styles.animateFadeIn} w-4 h-4`} fill="currentColor" viewBox="0 0 20 20">
                                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
@@ -182,7 +170,7 @@ const Pricing: React.FC = () => {
         );
     })}
 </div>
-            <div>{disclaimer[idioma]}</div>
+            <div>{t('home.pricing.disclaimer')[idioma]}</div>
         </div>
     );
 };
