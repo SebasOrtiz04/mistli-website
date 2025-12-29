@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { createBrowserRouter, Outlet } from "react-router";
+import { createBrowserRouter, Outlet } from "react-router-dom";
 import Splash from "../../components/ui/Splash.tsx";
 import authRoutes from "./auth.tsx";
 import websiteRoutes from "./website.tsx";

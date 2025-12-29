@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { paths } from "../../routes/paths.ts";
 import Icon from "../iconify/Icon.tsx";
 
