@@ -1,10 +1,7 @@
 import { FaQuoteLeft } from "react-icons/fa";
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../redux/store.ts';
 import { useTranslation } from 'react-i18next';
 
 const Resenas: React.FC = () => {
-  const idioma = useSelector((state: RootState) => state.locale.language);
   const { t } = useTranslation();
 
   const testimonials = [
