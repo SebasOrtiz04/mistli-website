@@ -1,13 +1,13 @@
 import styles from '../../../styles/animated.module.css';
 import { useState } from 'react';
-
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../redux/store.ts';
 import Icon from "../../../components/iconify/Icon.tsx";
 import { PLANSAUTO,PLANSFULL,PLANSIA, PLANSMOBILE } from './Planes.ts';
+import { useTranslation } from 'react-i18next';
+import { baseWhats } from '../../../constants';
 
 const Pricing: React.FC = () => {
-    const idioma = useSelector((state: RootState) => state.locale.language);
+    const { t } = useTranslation();
+    const areas = t('home.pricing.areas', { returnObjects: true }) as { IA: string; Automation: string,Fullstack:string,Mobile:string };
     const [selected, setSelected] = useState<'IA' | 'Automation' | 'Fullstack' | 'Mobile'>('IA');
     const PLANS={
         IA:PLANSIA,
@@ -15,18 +15,6 @@ const Pricing: React.FC = () => {
         Fullstack:PLANSFULL,
         Mobile:PLANSMOBILE
     }
-    const disclaimer = {
-        ES: "*Precio de desarrollo únicamente. Costos adicionales por separado: APIs de IA, servicios cloud, hardware especializado (GPU), integración con tus APIs/servicios existentes (CRM, ERP, sistemas de pago, etc.) y mantenimiento técnico según uso real.",
-        EN: "*Development price only. Additional costs billed separately: AI APIs, cloud services, specialized hardware (GPU), integration with your existing APIs/services (CRM, ERP, payment systems, etc.) and technical maintenance based on actual usage."
-    }
-
-
-    const areas = {
-        IA: { ES: "IA", EN: "AI" },
-        Automation: { ES: "Automatización", EN: "Automation" },
-        Fullstack: { ES: "FullStack", EN: "FullStack" },
-        Mobile: { ES: "Móvil", EN: "Mobile" }
-    } as const;
 
     type AreaKey = keyof typeof areas;
     type PlanKey = keyof typeof PLANSAUTO; // Todas las áreas comparten keys: basic, standard, premium
@@ -66,7 +54,7 @@ const Pricing: React.FC = () => {
                         )}
                         
                         <span className="relative z-10 flex items-center gap-2">
-                            {areas[clave][idioma]}
+                            {areas[clave]}
                             {selected === clave && (
                                 <svg className={`${styles.animateFadeIn} w-4 h-4`} fill="currentColor" viewBox="0 0 20 20">
                                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
@@ -79,6 +67,10 @@ const Pricing: React.FC = () => {
 <div className="grid md:grid-cols-3 gap-8 max-w-7xl w-full">
     {(Object.keys(PLANS[selected]) as PlanKey[]).map((planKey) => {
         const plan = PLANS[selected][planKey];
+        const raw = t(plan.items, { returnObjects: true });
+
+        const items: string[] = Array.isArray(raw) ? raw : [];
+
         return (
             <div 
                 key={planKey}
@@ -106,10 +98,10 @@ const Pricing: React.FC = () => {
                     {/* Header del plan */}
                     <div className="mb-8">
                         <h2 className={`${styles.planTitle} text-2xl font-bold mb-3 bg-gradient-to-r from-blue-200 to-blue-400 bg-clip-text text-transparent`}>
-                            {plan.title[idioma]}
+                            {t(plan.title)}
                         </h2>
                         <p className="text-blue-200/80 text-base leading-relaxed">
-                            {plan.description[idioma]}
+                            {t(plan.description)}
                         </p>
                     </div>
 
@@ -122,13 +114,13 @@ const Pricing: React.FC = () => {
                     {/* Precio con estilo destacado */}
                     <div className="mb-8">
                         <h3 className={`${styles.price} text-4xl font-black mb-2 bg-gradient-to-r from-blue-100 to-blue-300 bg-clip-text text-transparent`}>
-                            {plan.cost[idioma]}
+                            {t(plan.cost)}
                         </h3>
                     </div>
 
                     {/* Lista de características mejorada */}
                     <ul className="space-y-4 mb-8">
-                        {plan.items[idioma].map((item, index) => (
+                        {items.map((item, index) => (
                             <li 
                                 key={index} 
                                 className={`${styles.featureItem} flex items-start gap-3 text-blue-100 group/item`}
@@ -149,7 +141,7 @@ const Pricing: React.FC = () => {
                 <a
                     target="_blank"
                     rel="noopener noreferrer"
-                    href={plan.whatsAppText[idioma]}
+                    href={baseWhats+encodeURIComponent(t(plan.whatsAppText))}
                     className={`${styles.whatsappButton} relative mt-auto overflow-hidden
                         bg-gradient-to-r from-green-500 to-green-600 hover:from-green-400 hover:to-green-500
                         text-white font-semibold text-center py-4 px-6 rounded-2xl
@@ -166,7 +158,7 @@ const Pricing: React.FC = () => {
                         icon="logos:whatsapp-icon" 
                         className="w-6 h-6 group-hover/button:scale-110 transition-transform duration-300" 
                     />
-                    <span className="relative z-10">{plan.textButton[idioma]}</span>
+                    <span className="relative z-10">{t(plan.textButton)}</span>
                     
                     {/* Flecha animada */}
                     <svg 
@@ -182,7 +174,7 @@ const Pricing: React.FC = () => {
         );
     })}
 </div>
-            <div>{disclaimer[idioma]}</div>
+            <div>{t('home.pricing.disclaimer')}</div>
         </div>
     );
 };

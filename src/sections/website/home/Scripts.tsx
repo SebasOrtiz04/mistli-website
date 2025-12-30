@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Icon } from '@iconify/react';
-import { useSelector } from 'react-redux';
-import type { RootState } from '../../../redux/store.ts';
-
-type Language = 'ES' | 'EN';
+import { baseWhats } from '../../../constants.ts';
+import { useTranslation } from 'react-i18next';
 
 interface CustomScriptSectionProps {
   className?: string;
@@ -37,139 +35,29 @@ interface CustomScriptSectionProps {
     '    automation.send_notifications(report)',
   ];
 
-const TEXT = {
-  ES: {
-    badge: 'Automatización de Tareas',
-    title: 'Scripts para automatizar tus tareas repetitivas',
-    description:
-      'Desarrollamos scripts personalizados en Python que automatizan las tareas que consumen tu tiempo. Desde organización de archivos hasta procesamiento de datos, eliminamos el trabajo manual.',
-    features: [
-      {
-        title: 'Organización automática de archivos',
-        desc: 'Clasifica, renombra y ordena documentos automáticamente',
-      },
-      {
-        title: 'Procesamiento de datos',
-        desc: 'Extrae, transforma y analiza información de múltiples fuentes',
-      },
-      {
-        title: 'Fácil de ejecutar',
-        desc: 'Scripts simples que funcionan con un solo clic',
-      },
-    ],
-    cta: 'Cotizar en WhatsApp',
-    footer: 'Scripts eficientes y fáciles de usar',
-    terminal: 'Escribiendo automatización...',
-    waMessage:
-      'Hola! Me interesa un script de automatización. Mi proceso es el siguiente: ',
-    code: [
-      '# Script de Automatización de Tareas',
-      'import pandas as pd',
-      'import requests',
-      'from datetime import datetime',
-      'from pathlib import Path',
-      '',
-      'class TaskAutomation:',
-      '    def __init__(self):',
-      '        self.today = datetime.now()',
-      '        ',
-      '    def process_excel_reports(self, file_path):',
-      '        """Procesa reportes de Excel automáticamente"""',
-      '        df = pd.read_excel(file_path)',
-      '        df_filtered = df[df["status"] == "active"]',
-      '        return df_filtered.groupby("category").sum()',
-      '        ',
-      '    def send_notifications(self, data):',
-      '        """Envía notificaciones automáticas"""',
-      '        for item in data:',
-      '            message = f"Tarea completada: {item}"',
-      '            self.notify_user(message)',
-      '',
-      'if __name__ == "__main__":',
-      '    automation = TaskAutomation()',
-      '    report = automation.process_excel_reports("data.xlsx")',
-      '    automation.send_notifications(report)',
-    ],
-  },
-  EN: {
-    badge: 'Task Automation',
-    title: 'Scripts to automate repetitive tasks',
-    description:
-      'We build custom Python scripts that automate time-consuming tasks. From file organization to data processing, we eliminate manual work.',
-    features: [
-      {
-        title: 'Automatic file organization',
-        desc: 'Automatically classify, rename and organize documents',
-      },
-      {
-        title: 'Data processing',
-        desc: 'Extract, transform and analyze data from multiple sources',
-      },
-      {
-        title: 'Easy to run',
-        desc: 'Simple scripts that work with a single click',
-      },
-    ],
-    cta: 'Get a Quote on WhatsApp',
-    footer: 'Efficient and easy-to-use scripts',
-    terminal: 'Writing automation...',
-    waMessage:
-      'Hi! I am interested in an automation script. My process is the following: ',
-    code: [
-      '# Task Automation Script',
-      'import pandas as pd',
-      'import requests',
-      'from datetime import datetime',
-      'from pathlib import Path',
-      '',
-      'class TaskAutomation:',
-      '    def __init__(self):',
-      '        self.today = datetime.now()',
-      '        ',
-      '    def process_excel_reports(self, file_path):',
-      '        """Automatically process Excel reports"""',
-      '        df = pd.read_excel(file_path)',
-      '        df_filtered = df[df["status"] == "active"]',
-      '        return df_filtered.groupby("category").sum()',
-      '        ',
-      '    def send_notifications(self, data):',
-      '        """Send automatic notifications"""',
-      '        for item in data:',
-      '            message = f"Task completed: {item}"',
-      '            self.notify_user(message)',
-      '',
-      'if __name__ == "__main__":',
-      '    automation = TaskAutomation()',
-      '    report = automation.process_excel_reports("data.xlsx")',
-      '    automation.send_notifications(report)',
-    ],
-  },
-};
+
 
 const CustomScriptSection: React.FC<CustomScriptSectionProps> = ({
   className = '',
 }) => {
-  const idioma = useSelector(
-    (state: RootState) => state.locale.language as Language
-  );
-
-  const t = TEXT[idioma] ?? TEXT.ES;
   const [currentLine, setCurrentLine] = useState(0);
-
+  const { t } = useTranslation();
+  const features = t('home.scripts.features', { returnObjects: true }) as { title: string; desc: string }[];
+  const code = t('home.scripts.code', { returnObjects: true }) as string[];
   const handleRequestScript = () => {
-    const message = encodeURIComponent(t.waMessage);
-    window.open(`https://wa.me/5212212135220?text=${message}`, '_blank');
+    const message = encodeURIComponent(t('home.scripts.waMessage'));
+    window.open(`${baseWhats}${message}`, '_blank');
   };
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentLine((prev) =>
-        prev >= t.code.length - 1 ? 0 : prev + 1
+        prev >= code.length - 1 ? 0 : prev + 1
       );
     }, 150);
 
     return () => clearInterval(interval);
-  }, [t.code.length]);
+  }, [code.length]);
 
   return (
     <section className={`w-full max-w-6xl mx-auto px-4 py-16 ${className}`}>
@@ -334,15 +222,15 @@ const CustomScriptSection: React.FC<CustomScriptSectionProps> = ({
         <div className="space-y-6">
           <span className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-100 text-indigo-700 rounded-full text-sm font-medium">
             <Icon icon="solar:programming-bold-duotone" />
-            {t.badge}
+            {t('home.scripts.badge')}
           </span>
 
-          <h2 className="text-4xl font-bold text-gray-900">{t.title}</h2>
+          <h2 className="text-4xl font-bold text-gray-900">{t('home.scripts.title')}</h2>
 
-          <p className="text-lg text-gray-600">{t.description}</p>
+          <p className="text-lg text-gray-600">{t('home.scripts.description')}</p>
 
           <div className="space-y-4">
-            {t.features.map((f, i) => (
+            {features.map((f, i) => (
               <div key={i} className="flex gap-3">
                 <Icon icon="solar:check-circle-bold" className="w-5 h-5 text-indigo-600 mt-1" />
                 <div>
@@ -358,12 +246,12 @@ const CustomScriptSection: React.FC<CustomScriptSectionProps> = ({
             className="flex items-center gap-3 px-8 py-4 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition transform hover:scale-105"
           >
             <Icon icon="mdi:whatsapp" />
-            {t.cta}
+            {t('home.scripts.cta')}
           </button>
 
           <p className="text-sm text-gray-500 flex items-center gap-2">
             <Icon icon="solar:shield-check-bold" className="text-indigo-600" />
-            {t.footer}
+            {t('home.scripts.footer')}
           </p>
         </div>
       </div>

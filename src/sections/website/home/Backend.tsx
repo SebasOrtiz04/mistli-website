@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import { Icon } from '@iconify/react';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../redux/store';
-
-type Language = 'ES' | 'EN';
-
+import { useTranslation } from 'react-i18next';
+import { baseWhats } from '../../../constants';
 interface BackendAPIsSectionProps {
   className?: string;
 }
@@ -19,88 +16,16 @@ const methodColors: Record<string, string> = {
 const BackendAPIsSection: React.FC<BackendAPIsSectionProps> = ({
   className = '',
 }) => {
-  const idioma = useSelector(
-    (state: RootState) => state.locale.language as Language
-  );
-
   const [isRedirecting, setIsRedirecting] = useState(false);
-
-  const copy: Record<
-    Language,
-    {
-      badge: string;
-      title: string;
-      description: string;
-      whatsappMsg: string;
-      redirecting: string;
-      cta: string;
-      features: {
-        icon: string;
-        title: string;
-        description: string;
-      }[];
-    }
-  > = {
-    ES: {
-      badge: 'Desarrollo de infraestructura digital',
-      title: 'Backends y APIs escalables para tu negocio',
-      description:
-        'Construimos la columna vertebral de tu aplicación con arquitecturas modernas, bases de datos optimizadas y APIs seguras que conectan todos tus servicios.',
-      whatsappMsg:
-        'Hola, quiero información sobre desarrollo de backends y APIs',
-      redirecting: 'Redirigiendo…',
-      cta: 'Contáctanos por WhatsApp',
-      features: [
-        {
-          icon: 'solar:server-bold-duotone',
-          title: 'Backends robustos',
-          description:
-            'Arquitecturas escalables, seguras y listas para alto tráfico.',
-        },
-        {
-          icon: 'solar:code-bold-duotone',
-          title: 'APIs personalizadas',
-          description:
-            'REST o GraphQL diseñadas exactamente para tu producto.',
-        },
-      ],
-    },
-    EN: {
-      badge: 'Digital infrastructure development',
-      title: 'Scalable backends and APIs for your business',
-      description:
-        'We build the backbone of your application with modern architectures, optimized databases and secure APIs that connect all your services.',
-      whatsappMsg:
-        'Hi, I would like information about backend and API development',
-      redirecting: 'Redirecting…',
-      cta: 'Contact us on WhatsApp',
-      features: [
-        {
-          icon: 'solar:server-bold-duotone',
-          title: 'Robust backends',
-          description:
-            'Scalable, secure architectures built for high traffic.',
-        },
-        {
-          icon: 'solar:code-bold-duotone',
-          title: 'Custom APIs',
-          description:
-            'REST or GraphQL endpoints tailored to your product.',
-        },
-      ],
-    },
-  };
-
-  const t = copy[idioma];
+  const { t } = useTranslation();
+  const features = t('home.backend.features', { returnObjects: true }) as { title: string; description: string,icon:string }[];
 
   const handleRedirectWhatsApp = () => {
     setIsRedirecting(true);
 
     setTimeout(() => {
       window.open(
-        `https://wa.me/5212212135220?text=${encodeURIComponent(
-          t.whatsappMsg
-        )}`,
+        `${baseWhats}${encodeURIComponent(t('home.backend.whatsappMsg'))}`,
         '_blank'
       );
       setIsRedirecting(false);
@@ -116,20 +41,20 @@ const BackendAPIsSection: React.FC<BackendAPIsSectionProps> = ({
         <div className="space-y-8">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-100 text-indigo-700 text-sm font-medium">
             <Icon icon="solar:server-bold-duotone" className="w-4 h-4" />
-            {t.badge}
+            {t('home.backend.badge')}
           </div>
 
           <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900">
-            {t.title}
+            {t('home.backend.title')}
           </h2>
 
           <p className="text-lg text-gray-600 max-w-xl">
-            {t.description}
+            {t('home.backend.description')}
           </p>
 
           {/* FEATURES */}
           <div className="space-y-5">
-            {t.features.map((feature, i) => (
+            {features.map((feature, i) => (
               <div key={i} className="flex items-start gap-4">
                 <div className="w-11 h-11 rounded-xl bg-indigo-100 flex items-center justify-center">
                   <Icon
@@ -170,7 +95,7 @@ const BackendAPIsSection: React.FC<BackendAPIsSectionProps> = ({
                   icon="svg-spinners:ring-resize"
                   className="w-5 h-5"
                 />
-                {t.redirecting}
+                {t('home.backend.redirecting')}
               </>
             ) : (
               <>
@@ -178,7 +103,7 @@ const BackendAPIsSection: React.FC<BackendAPIsSectionProps> = ({
                   icon="logos:whatsapp-icon"
                   className="w-5 h-5"
                 />
-                {t.cta}
+                {t('home.backend.cta')}
               </>
             )}
           </button>

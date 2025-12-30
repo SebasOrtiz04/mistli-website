@@ -1,41 +1,28 @@
 import { FaQuoteLeft } from "react-icons/fa";
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store.ts';
+import { useTranslation } from 'react-i18next';
 
 const Resenas: React.FC = () => {
   const idioma = useSelector((state: RootState) => state.locale.language);
+  const { t } = useTranslation();
 
-  const testimonials = idioma === 'ES'
-    ? [
+  const testimonials = [
         {
           name: "Facundo M.",
-          text: "Me encantó mi página web orientada a mi negocio.",
+          text: t('home.reviews.text1'),
         },
         {
           name: "Eren A.",
-          text: "La inteligencia artificial que hicieron para poder clasificar mis datos sobrepasó mis expectativas.",
+          text: t('home.reviews.text2'),
         },
         {
           name: "Pedro J.",
-          text: "El algoritmo que desarrollaron para mi trabajo es exactamente lo que necesitaba para cumplir mi meta laboral.",
-        },
-      ]
-    : [
-        {
-          name: "Facundo M.",
-          text: "I loved the website they built for my business.",
-        },
-        {
-          name: "Eren A.",
-          text: "The AI they built to classify my data exceeded my expectations.",
-        },
-        {
-          name: "Pedro J.",
-          text: "The algorithm they developed was exactly what I needed to reach my professional goals.",
+          text: t('home.reviews.text3'),
         },
       ];
 
-  const title = idioma === 'ES' ? "Reseñas de Clientes Reales" : "Real Customer Reviews";
+  const title = t('home.reviews.title');
 
   return (
     <section className="px-6 md:px-20 text-center">
