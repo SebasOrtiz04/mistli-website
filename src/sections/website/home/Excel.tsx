@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Icon } from '@iconify/react';
 import { baseWhats } from '../../../constants';
 import { useTranslation } from 'react-i18next';
+import CustomButton from '../../../components/utils/CustomButton';
 
 interface ReportGenerationSectionProps {
   className?: string;
@@ -10,25 +11,13 @@ interface ReportGenerationSectionProps {
 const ReportGenerationSection: React.FC<ReportGenerationSectionProps> = ({
   className = '',
 }) => {
-  const [isRedirecting, setIsRedirecting] = useState<boolean>(false);
   const { t } = useTranslation();
   const features = t('home.excel.features', { returnObjects: true }) as { title: string; description: string,icon:string }[];
 
-  const handleRedirectWhatsApp = () => {
-    setIsRedirecting(true);
-
-    setTimeout(() => {
-      window.open(
-        `${baseWhats}${encodeURIComponent(t('home.excel.whatsappMsg'))}`,
-        '_blank'
-      );
-      setIsRedirecting(false);
-    }, 1200);
-  };
 
   return (
     <section
-      className={`w-full max-w-7xl mx-auto px-6 py-20 ${className}`}
+      className={`w-full max-w-6xl mx-auto flex md:h-[100vh] ${className}`}
     >
       <div className="grid md:grid-cols-2 gap-16 items-center">
         {/* LEFT */}
@@ -36,7 +25,7 @@ const ReportGenerationSection: React.FC<ReportGenerationSectionProps> = ({
           <div
             className="
               inline-flex items-center gap-2 px-4 py-2
-              bg-gradient-to-r from-blue-50 to-indigo-50
+              bg-gradient-to-r from-blue-50 to-purple-50
               text-blue-700 rounded-full text-sm font-semibold
               border border-blue-100
             "
@@ -76,7 +65,7 @@ const ReportGenerationSection: React.FC<ReportGenerationSectionProps> = ({
                 <div
                   className="
                     flex-shrink-0 w-11 h-11
-                    bg-gradient-to-br from-blue-500 to-indigo-500
+                    bg-gradient-to-br from-blue-500 to-purple-500
                     rounded-lg flex items-center justify-center
                   "
                 >
@@ -99,39 +88,7 @@ const ReportGenerationSection: React.FC<ReportGenerationSectionProps> = ({
           </div>
 
           {/* CTA */}
-          <button
-            onClick={handleRedirectWhatsApp}
-            disabled={isRedirecting}
-            className={`
-              inline-flex items-center justify-center gap-3
-              px-8 py-4 rounded-xl font-semibold text-lg
-              transition-all duration-300
-              ${
-                isRedirecting
-                  ? 'bg-gray-400 cursor-not-allowed'
-                  : 'bg-gradient-to-r from-green-500 to-emerald-600 hover:scale-[1.03] hover:shadow-xl'
-              }
-              text-white w-fit
-            `}
-          >
-            {isRedirecting ? (
-              <>
-                <Icon
-                  icon="svg-spinners:ring-resize"
-                  className="w-5 h-5"
-                />
-                {t('home.excel.redirecting')}
-              </>
-            ) : (
-              <>
-                <Icon
-                  icon="logos:whatsapp-icon"
-                  className="w-5 h-5"
-                />
-                {t('home.excel.cta')}
-              </>
-            )}
-          </button>
+          <CustomButton href={baseWhats + encodeURIComponent(t('home.excel.whatsappMsg'))}  icon="mdi:whatsapp" label={t('home.excel.cta')} />
         </div>
 
         {/* RIGHT - VISUAL */}
@@ -146,7 +103,7 @@ const ReportGenerationSection: React.FC<ReportGenerationSectionProps> = ({
               transition-all duration-300
             "
           >
-            <div className="h-10 bg-gradient-to-r from-blue-600 to-indigo-600 flex items-center px-3">
+            <div className="h-10 bg-gradient-to-r from-blue-600 to-purple-600 flex items-center px-3">
               <Icon
                 icon="solar:document-add-bold"
                 className="w-5 h-5 text-white"
@@ -177,7 +134,7 @@ const ReportGenerationSection: React.FC<ReportGenerationSectionProps> = ({
               hover:rotate-0 transition-all duration-300
             "
           >
-            <div className="h-10 bg-gradient-to-r from-purple-600 to-pink-600 flex items-center px-3">
+            <div className="h-10 bg-gradient-to-r from-purple-600 to-blue-600 flex items-center px-3">
               <Icon
                 icon="solar:chart-bold"
                 className="w-5 h-5 text-white"
@@ -212,7 +169,7 @@ const ReportGenerationSection: React.FC<ReportGenerationSectionProps> = ({
                   (height, i) => (
                     <div
                       key={i}
-                      className="bg-gradient-to-t from-purple-500 to-pink-500 rounded-t w-full"
+                      className="bg-gradient-to-t from-purple-500 to-blue-500 rounded-t w-full"
                       style={{ height: `${height}%` }}
                     />
                   )

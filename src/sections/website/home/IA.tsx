@@ -2,26 +2,24 @@ import React from 'react';
 import { Icon } from '@iconify/react';
 import { baseWhats } from '../../../constants';
 import { useTranslation } from 'react-i18next';
+import CustomButton from '../../../components/utils/CustomButton';
 
 
 interface AISectionProps {
   className?: string;
 }
+
 const AISection: React.FC<AISectionProps> = ({ className = '' }) => {
   const { t } = useTranslation();
   const metrics = t('home.ia.metrics', { returnObjects: true }) as { label: string; value: string }[];
   const services = t('home.ia.services', { returnObjects: true }) as { title: string; desc: string }[];
   const pipeline = t('home.ia.pipeline', { returnObjects: true }) as string[];
-  const handleRequestQuote = () => {
-    const message = encodeURIComponent(t('home.ia.whatsappMsg'));
-    window.open(`${baseWhats}${message}`, '_blank');
-  };
 
   return (
-    <section className={`w-full max-w-6xl mx-auto px-4 py-20 ${className}`}>
+    <section className={`w-full md:h-[100vh] flex  max-w-6xl mx-auto ${className}`}>
       <div className="grid md:grid-cols-2 gap-14 items-center">
         {/* Left */}
-        <div className="relative bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl shadow-2xl p-6 text-white">
+        <div className="relative w-full  bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl shadow-2xl p-6 text-white">
           <div className="flex items-center justify-between mb-6">
             <span className="font-semibold">{t('home.ia.header')}</span>
             <Icon icon="mdi:brain" className="w-6 h-6 text-purple-400" />
@@ -82,15 +80,7 @@ const AISection: React.FC<AISectionProps> = ({ className = '' }) => {
             ))}
           </div>
 
-          <button
-            onClick={handleRequestQuote}
-            className="inline-flex items-center gap-3 px-8 py-4 rounded-xl
-              bg-purple-600 hover:bg-purple-700 text-white font-semibold text-lg
-              transition transform hover:scale-105 hover:shadow-lg"
-          >
-            <Icon icon="mdi:whatsapp" className="w-5 h-5" />
-            {t('home.ia.cta')}
-          </button>
+          <CustomButton href={baseWhats + encodeURIComponent(t('home.ia.whatsappMsg'))} color="purple" icon="mdi:whatsapp" label={t('home.ia.cta')} />
 
           <p className="text-sm text-gray-500 flex items-center gap-2">
             <Icon icon="solar:shield-check-bold" className="text-purple-600" />
