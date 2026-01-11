@@ -22,24 +22,26 @@ const Resenas: React.FC = () => {
   const title = t('home.reviews.title');
 
   return (
-    <section className="px-6 md:px-20 text-center">
-      <h2 className="text-4xl font-bold mb-12 text-black">{title}</h2>
-      <div className="flex flex-col md:flex-row justify-center gap-8">
-        {testimonials.map(({ name, text }, idx) => (
-          <div
-            key={idx}
-            className="relative bg-gradient-to-br from-[#1A1A1E] to-[#26262A] text-white p-8 rounded-3xl shadow-xl max-w-sm w-full mx-auto hover:scale-[1.03] transition duration-300"
-          >
-            {/* Comillas grandes al fondo */}
-            <FaQuoteLeft className="absolute top-6 left-6 text-[#A1F0D1] opacity-20 text-4xl" />
+    <section className="md:h-[100vh] flex items-center text-center">
+      <div className="max-w-6xl mx-auto">
+        <h2 className="text-4xl font-bold mb-12 text-black">{title}</h2>
+        <div className="flex flex-col md:flex-row justify-center gap-8">
+          {testimonials.map(({ name, text }, idx) => (
+            <div
+              key={idx}
+              className="relative bg-gradient-to-br from-[#1A1A1E] to-[#26262A] text-white p-8 rounded-3xl shadow-xl max-w-sm w-full mx-auto hover:scale-[1.03] transition duration-300"
+            >
+              {/* Comillas grandes al fondo */}
+              <FaQuoteLeft className="absolute top-6 left-6 text-[#A1F0D1] opacity-20 text-4xl" />
 
-            <p className="text-lg leading-relaxed z-10 relative">{text}</p>
-            
-            <div className="mt-6 text-right">
-              <p className="text-sm text-[#A1F0D1] font-semibold">— {name}</p>
+              <p className="text-lg leading-relaxed z-10 relative">{text}</p>
+              
+              <div className="mt-6 text-right">
+                <p className="text-sm text-[#A1F0D1] font-semibold">— {name}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </section>
   );

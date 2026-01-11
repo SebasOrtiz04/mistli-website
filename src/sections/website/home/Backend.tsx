@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Icon } from '@iconify/react';
 import { useTranslation } from 'react-i18next';
 import { baseWhats } from '../../../constants';
+import CustomButton from '../../../components/utils/CustomButton';
 interface BackendAPIsSectionProps {
   className?: string;
 }
@@ -16,30 +17,18 @@ const methodColors: Record<string, string> = {
 const BackendAPIsSection: React.FC<BackendAPIsSectionProps> = ({
   className = '',
 }) => {
-  const [isRedirecting, setIsRedirecting] = useState(false);
+
   const { t } = useTranslation();
   const features = t('home.backend.features', { returnObjects: true }) as { title: string; description: string,icon:string }[];
 
-  const handleRedirectWhatsApp = () => {
-    setIsRedirecting(true);
-
-    setTimeout(() => {
-      window.open(
-        `${baseWhats}${encodeURIComponent(t('home.backend.whatsappMsg'))}`,
-        '_blank'
-      );
-      setIsRedirecting(false);
-    }, 1200);
-  };
-
   return (
     <section
-      className={`w-full max-w-7xl mx-auto px-6 py-20 ${className}`}
+      className={`w-full md:h-[100vh] flex  max-w-6xl mx-auto ${className}`}
     >
       <div className="grid md:grid-cols-2 gap-16 items-center">
         {/* LEFT */}
         <div className="space-y-8">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-100 text-indigo-700 text-sm font-medium">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 text-blue-700 text-sm font-medium">
             <Icon icon="solar:server-bold-duotone" className="w-4 h-4" />
             {t('home.backend.badge')}
           </div>
@@ -56,10 +45,10 @@ const BackendAPIsSection: React.FC<BackendAPIsSectionProps> = ({
           <div className="space-y-5">
             {features.map((feature, i) => (
               <div key={i} className="flex items-start gap-4">
-                <div className="w-11 h-11 rounded-xl bg-indigo-100 flex items-center justify-center">
+                <div className="w-11 h-11 rounded-xl bg-blue-100 flex items-center justify-center">
                   <Icon
                     icon={feature.icon}
-                    className="w-6 h-6 text-indigo-600"
+                    className="w-6 h-6 text-blue-600"
                   />
                 </div>
                 <div>
@@ -75,38 +64,7 @@ const BackendAPIsSection: React.FC<BackendAPIsSectionProps> = ({
           </div>
 
           {/* CTA */}
-          <button
-            onClick={handleRedirectWhatsApp}
-            disabled={isRedirecting}
-            className={`
-              inline-flex items-center gap-3 px-8 py-4 rounded-xl
-              font-semibold text-lg transition-all duration-300
-              ${
-                isRedirecting
-                  ? 'bg-gray-400 cursor-not-allowed'
-                  : 'bg-green-600 hover:bg-green-700 hover:scale-[1.03] shadow-lg hover:shadow-green-500/30'
-              }
-              text-white
-            `}
-          >
-            {isRedirecting ? (
-              <>
-                <Icon
-                  icon="svg-spinners:ring-resize"
-                  className="w-5 h-5"
-                />
-                {t('home.backend.redirecting')}
-              </>
-            ) : (
-              <>
-                <Icon
-                  icon="logos:whatsapp-icon"
-                  className="w-5 h-5"
-                />
-                {t('home.backend.cta')}
-              </>
-            )}
-          </button>
+          <CustomButton href={baseWhats + encodeURIComponent(t('home.backend.whatsappMsg'))} icon="mdi:whatsapp" label={t('home.backend.cta')} />
         </div>
 
         {/* RIGHT – VISUAL (hidden mobile) */}
@@ -155,7 +113,7 @@ const BackendAPIsSection: React.FC<BackendAPIsSectionProps> = ({
 
           {/* API PANEL */}
           <div className="absolute right-6 top-0 w-72 h-80 bg-white rounded-xl shadow-2xl overflow-hidden rotate-6 hover:rotate-0 transition-transform duration-300">
-            <div className="h-10 bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center px-3 gap-2">
+            <div className="h-10 bg-gradient-to-r from-blue-600 to-purple-600 flex items-center px-3 gap-2">
               <Icon
                 icon="solar:routing-2-bold"
                 className="w-5 h-5 text-white"
@@ -201,7 +159,7 @@ const BackendAPIsSection: React.FC<BackendAPIsSectionProps> = ({
                   <span className="text-gray-600">
                     Response Time
                   </span>
-                  <span className="text-indigo-600 font-medium">
+                  <span className="text-blue-600 font-medium">
                     45ms
                   </span>
                 </div>

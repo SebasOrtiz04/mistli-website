@@ -4,6 +4,7 @@ import Icon from "../../../components/iconify/Icon.tsx";
 import { PLANSAUTO,PLANSFULL,PLANSIA, PLANSMOBILE } from './Planes.ts';
 import { useTranslation } from 'react-i18next';
 import { baseWhats } from '../../../constants';
+import CustomButton from '../../../components/utils/CustomButton.tsx';
 
 const Pricing: React.FC = () => {
     const { t } = useTranslation();
@@ -20,7 +21,7 @@ const Pricing: React.FC = () => {
     type PlanKey = keyof typeof PLANSAUTO; // Todas las áreas comparten keys: basic, standard, premium
 
     return (
-        <div className={styles.gradientBackground}>
+        <section className={`${styles.gradientBackground} md:h-[100vh] flex`}>
             <div className="flex flex-wrap gap-3 mb-8 p-1 bg-gray-50/80 backdrop-blur-sm rounded-2xl border border-gray-200/50">
                 {(Object.keys(areas) as AreaKey[]).map((clave: AreaKey) => (
                     <label
@@ -138,44 +139,13 @@ const Pricing: React.FC = () => {
                 </div>
                 
                 {/* Botón de WhatsApp mejorado */}
-                <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href={baseWhats+encodeURIComponent(t(plan.whatsAppText))}
-                    className={`${styles.whatsappButton} relative mt-auto overflow-hidden
-                        bg-gradient-to-r from-green-500 to-green-600 hover:from-green-400 hover:to-green-500
-                        text-white font-semibold text-center py-4 px-6 rounded-2xl
-                        transition-all duration-300 ease-out
-                        hover:shadow-2xl hover:shadow-green-500/25 hover:-translate-y-1
-                        flex items-center justify-center gap-3 group/button`}
-                    aria-label="Abrir WhatsApp"
-                >
-                    {/* Efecto de brillo en el botón */}
-                    <div className={`${styles.buttonShimmer} absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent 
-                        transform -skew-x-12 -translate-x-full group-hover/button:translate-x-full transition-transform duration-700`} />
-                    
-                    <Icon 
-                        icon="logos:whatsapp-icon" 
-                        className="w-6 h-6 group-hover/button:scale-110 transition-transform duration-300" 
-                    />
-                    <span className="relative z-10">{t(plan.textButton)}</span>
-                    
-                    {/* Flecha animada */}
-                    <svg 
-                        className="w-4 h-4 group-hover/button:translate-x-1 transition-transform duration-300" 
-                        fill="none" 
-                        stroke="currentColor" 
-                        viewBox="0 0 24 24"
-                    >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                </a>
+                <CustomButton  href={baseWhats+encodeURIComponent(t(plan.whatsAppText))} icon="mdi:whatsapp" label={t(plan.textButton)} />
             </div>
         );
     })}
 </div>
             <div>{t('home.pricing.disclaimer')}</div>
-        </div>
+        </section>
     );
 };
 
