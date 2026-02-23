@@ -2,6 +2,7 @@ import React from 'react';
 import { Icon } from '@iconify/react';
 import { useTranslation } from 'react-i18next';
 import { baseWhats } from '../../../constants';
+import CustomButton from '../../../components/utils/CustomButton';
 
 interface FrontendDevSectionProps {
   className?: string;
@@ -10,17 +11,12 @@ interface FrontendDevSectionProps {
 const FrontendDevSection: React.FC<FrontendDevSectionProps> = ({ className = '' }) => {
   const { t } = useTranslation();
 
-  const handleRequestQuote = () => {
-    const message = encodeURIComponent(t('home.frontend.whatsappMsg'));
-    window.open(`${baseWhats}${message}`, '_blank');
-  };
-
     const cards = t('home.frontend.cards', { returnObjects: true }) as { label: string; value: string,icon:string }[];
     const features = t('home.frontend.features', { returnObjects: true }) as { title: string; desc: string }[];
 
 
   return (
-    <section className={`w-full max-w-6xl mx-auto px-4 py-20 ${className}`}>
+    <section className={`w-full max-w-6xl mx-auto flex md:h-[100vh] ${className}`}>
       <div className="grid md:grid-cols-2 gap-14 items-center">
         {/* Left – UI preview */}
         <div className="relative bg-white rounded-2xl shadow-xl border border-gray-100 p-6">
@@ -39,18 +35,18 @@ const FrontendDevSection: React.FC<FrontendDevSectionProps> = ({ className = '' 
                 key={i}
                 className="rounded-xl border border-gray-100 p-4 hover:shadow-md transition"
               >
-                <Icon icon={item.icon} className="w-6 h-6 text-cyan-600 mb-2" />
+                <Icon icon={item.icon} className="w-6 h-6 text-blue-600 mb-2" />
                 <div className="text-xl font-bold text-gray-900">{item.value}</div>
                 <div className="text-sm text-gray-500">{item.label}</div>
               </div>
             ))}
           </div>
 
-          <div className="h-28 rounded-xl bg-gradient-to-r from-cyan-100 to-blue-100 flex items-end gap-2 p-4">
+          <div className="h-28 rounded-xl bg-gradient-to-r from-blue-100 to-purple-100 flex items-end gap-2 p-4">
             {[40, 60, 35, 80, 55, 90, 70].map((h, i) => (
               <div
                 key={i}
-                className="flex-1 rounded-md bg-cyan-500"
+                className="flex-1 rounded-md bg-blue-500"
                 style={{ height: `${h}%` }}
               />
             ))}
@@ -59,7 +55,7 @@ const FrontendDevSection: React.FC<FrontendDevSectionProps> = ({ className = '' 
 
         {/* Right – Content */}
         <div className="space-y-6">
-          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-100 text-cyan-700 text-sm font-medium">
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 text-blue-700 text-sm font-medium">
             <Icon icon="solar:programming-bold-duotone" />
             {t('home.frontend.badge')}
           </span>
@@ -75,7 +71,7 @@ const FrontendDevSection: React.FC<FrontendDevSectionProps> = ({ className = '' 
               <div key={i} className="flex gap-3">
                 <Icon
                   icon="solar:check-circle-bold"
-                  className="w-5 h-5 text-cyan-600 mt-1"
+                  className="w-5 h-5 text-blue-600 mt-1"
                 />
                 <div>
                   <div className="font-semibold text-gray-900">{item.title}</div>
@@ -85,18 +81,11 @@ const FrontendDevSection: React.FC<FrontendDevSectionProps> = ({ className = '' 
             ))}
           </div>
 
-          <button
-            onClick={handleRequestQuote}
-            className="inline-flex items-center gap-3 px-8 py-4 rounded-xl
-              bg-green-600 hover:bg-green-700 text-white font-semibold text-lg
-              transition transform hover:scale-105 hover:shadow-lg"
-          >
-            <Icon icon="mdi:whatsapp" className="w-5 h-5" />
-            {t('home.frontend.cta')}
-          </button>
+          {/* CTA */}
+          <CustomButton href={baseWhats + encodeURIComponent(t('home.frontend.whatsappMsg'))} color='purple'  icon="mdi:whatsapp" label={t('home.frontend.cta')} />
 
           <p className="text-sm text-gray-500 flex items-center gap-2">
-            <Icon icon="solar:shield-check-bold" className="text-cyan-600" />
+            <Icon icon="solar:shield-check-bold" className="text-blue-600" />
             {t('home.frontend.footer')}
           </p>
         </div>

@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next';
 import { baseWhats } from '../../../constants';
-
 const Hero: React.FC = () => {
   const { t } = useTranslation();
   const contacto = baseWhats + encodeURIComponent(t('home.msgwhats1'));
