@@ -6,7 +6,6 @@ import ExcelCreationAnimation from "../home/Excel.tsx"
 import BackendAPIsSection from "../home/Backend.tsx";
 import FrontendDevSection from "../home/Frontend.tsx";
 import AISection from "../home/IA.tsx";
-import Footer from "../home/Footer.tsx";
 
 export default function HomeView() {
   return (
@@ -19,7 +18,6 @@ export default function HomeView() {
         {/* <PythonAutomationSection/> */}
         {/* <Pricing/>
         <Resenas/> */}
-        <Footer/>
     </>
   )
 }

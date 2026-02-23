@@ -64,7 +64,7 @@ const BackendAPIsSection: React.FC<BackendAPIsSectionProps> = ({
           </div>
 
           {/* CTA */}
-          <CustomButton href={baseWhats + encodeURIComponent(t('home.backend.whatsappMsg'))} icon="mdi:whatsapp" label={t('home.backend.cta')} />
+          <CustomButton href={baseWhats + encodeURIComponent(t('home.backend.whatsappMsg'))} color='green' icon="mdi:whatsapp" label={t('home.backend.cta')} />
         </div>
 
         {/* RIGHT – VISUAL (hidden mobile) */}
@@ -77,7 +77,7 @@ const BackendAPIsSection: React.FC<BackendAPIsSectionProps> = ({
                 <div className="w-3 h-3 rounded-full bg-yellow-500" />
                 <div className="w-3 h-3 rounded-full bg-green-500" />
               </div>
-              <span className="ml-2 text-xs text-gray-400 font-mono">
+              <span className="ml-2 text-xs ytext-gray-400 font-mono">
                 server.js
               </span>
             </div>

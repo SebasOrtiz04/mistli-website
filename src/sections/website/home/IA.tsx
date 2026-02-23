@@ -2,18 +2,20 @@ import React from 'react';
 import { Icon } from '@iconify/react';
 import { baseWhats } from '../../../constants';
 import { useTranslation } from 'react-i18next';
-import CustomButton from '../../../components/utils/CustomButton';
 
 
 interface AISectionProps {
   className?: string;
 }
-
 const AISection: React.FC<AISectionProps> = ({ className = '' }) => {
   const { t } = useTranslation();
   const metrics = t('home.ia.metrics', { returnObjects: true }) as { label: string; value: string }[];
   const services = t('home.ia.services', { returnObjects: true }) as { title: string; desc: string }[];
   const pipeline = t('home.ia.pipeline', { returnObjects: true }) as string[];
+  const handleRequestQuote = () => {
+    const message = encodeURIComponent(t('home.ia.whatsappMsg'));
+    window.open(`${baseWhats}${message}`, '_blank');
+  };
 
   return (
     <section className={`w-full max-w-7xl mx-auto px-6 py-28 ${className}`}>

@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import Footer from "../components/ui/Footer.tsx";
+import Footer from "../sections/website/home/Footer.tsx";
 import Header from "../components/ui/Header.tsx";
 
 export interface IMainLayout {
@@ -16,7 +16,7 @@ export default function MainLayout({children}: IMainLayout) {
                 {children}
             </main>
             <footer>
-                <Footer/>
+                <Footer/>   
             </footer>
         </>
   )
