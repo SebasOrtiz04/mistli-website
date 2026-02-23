@@ -23,7 +23,7 @@ const BackendAPIsSection: React.FC<BackendAPIsSectionProps> = ({
 
   return (
     <section
-      className={`w-full md:h-[100vh] flex  max-w-6xl mx-auto ${className}`}
+      className={`w-full bg-gray-100 max-w-7xl mx-auto px-6 py-20 ${className}`}
     >
       <div className="grid md:grid-cols-2 gap-16 items-center">
         {/* LEFT */}
@@ -44,8 +44,8 @@ const BackendAPIsSection: React.FC<BackendAPIsSectionProps> = ({
           {/* FEATURES */}
           <div className="space-y-5">
             {features.map((feature, i) => (
-              <div key={i} className="flex items-start gap-4">
-                <div className="w-11 h-11 rounded-xl bg-blue-100 flex items-center justify-center">
+              <div key={i} className="flex items-start bg-white gap-4 border-l-4 rounded-2xl p-5">
+                <div className="w-11 h-11 rounded-xl bg-indigo-100 flex items-center justify-center">
                   <Icon
                     icon={feature.icon}
                     className="w-6 h-6 text-blue-600"
@@ -64,7 +64,7 @@ const BackendAPIsSection: React.FC<BackendAPIsSectionProps> = ({
           </div>
 
           {/* CTA */}
-          <CustomButton href={baseWhats + encodeURIComponent(t('home.backend.whatsappMsg'))} icon="mdi:whatsapp" label={t('home.backend.cta')} />
+          <CustomButton href={baseWhats + encodeURIComponent(t('home.backend.whatsappMsg'))} color='green' icon="mdi:whatsapp" label={t('home.backend.cta')} />
         </div>
 
         {/* RIGHT – VISUAL (hidden mobile) */}
@@ -77,7 +77,7 @@ const BackendAPIsSection: React.FC<BackendAPIsSectionProps> = ({
                 <div className="w-3 h-3 rounded-full bg-yellow-500" />
                 <div className="w-3 h-3 rounded-full bg-green-500" />
               </div>
-              <span className="ml-2 text-xs text-gray-400 font-mono">
+              <span className="ml-2 text-xs ytext-gray-400 font-mono">
                 server.js
               </span>
             </div>

@@ -82,7 +82,7 @@ const FrontendDevSection: React.FC<FrontendDevSectionProps> = ({ className = '' 
           </div>
 
           {/* CTA */}
-          <CustomButton href={baseWhats + encodeURIComponent(t('home.frontend.whatsappMsg'))} color='purple'  icon="mdi:whatsapp" label={t('home.frontend.cta')} />
+          <CustomButton href={baseWhats + encodeURIComponent(t('home.frontend.whatsappMsg'))} color='green'  icon="mdi:whatsapp" label={t('home.frontend.cta')} />
 
           <p className="text-sm text-gray-500 flex items-center gap-2">
             <Icon icon="solar:shield-check-bold" className="text-blue-600" />

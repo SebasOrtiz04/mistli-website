@@ -5,7 +5,7 @@ export default {
         msgwhats1: "Hello, I'm interested in a customized solution for my company.",
         title: "An engineering solution of the future for businesses of the future",
         subtitle: "Creamos soluciones a medida",
-        descripcion: "Cloud-based, scalable, and custom software development to boost your company.",
+        descripcion: "Cloud-based, scalable, and customized software development to propel your business to the next technological level..",
         contacto: "Contact Us",
         servicios: "View Services"
     },
@@ -47,13 +47,13 @@ export default {
                 icon: 'solar:document-text-bold-duotone',
                 title: 'Automated reports',
                 description:
-                    'PDF or Word documents generated automatically from your data.',
+                    'PDF or text documents generated dinamically.',
             },
             {
                 icon: 'solar:chart-2-bold-duotone',
                 title: 'Interactive dashboards',
                 description:
-                    'Real-time visualization with key metrics and charts.',
+                    'Real-time visualization with key metrics.',
             },
         ],
     },
@@ -379,5 +379,18 @@ export default {
         text1: "I loved the website they built for my business.",
         text2: "The AI they built to classify my data exceeded my expectations.",
         text3: "The algorithm they developed was exactly what I needed to reach my professional goals.",
-    }
+    },
+    footer:{
+    name:"Mistli",
+    slogan:"Taking software engineering to the next level with solutions in AI, Cloud, and automation.",
+    links:[
+    {"name":"Artificial Intelligence"},
+    {"name":"Cloud Computing"},
+    {"name":"Fullstack Development"},
+    {"name":"IT Consulting"}
+    ],
+    ley:"© 2024 Mistli Software Agency. All rights reserved.",
+    terms:"Terms",
+    privacy:"Privacy"
+}
 };

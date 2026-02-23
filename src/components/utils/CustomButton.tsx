@@ -1,6 +1,6 @@
 import Icon from "../iconify/Icon";
 
-type ButtonColor = 'blue' | 'purple' | 'white';
+type ButtonColor = 'blue' | 'purple' | 'white'| 'green';
 
 interface ICustomButtonProps {
     label: string;
@@ -25,7 +25,8 @@ export default function CustomButton({
     const colorDict : IColorDict = {
         blue: "bg-blue-600 hover:bg-blue-700 text-white",
         purple: "bg-purple-600 hover:bg-purple-700 text-white",
-        white: "bg-white hover:bg-gray-300 text-blue-900"
+        white: "bg-white hover:bg-gray-300 text-blue-900",
+        green: "bg-green-600 hover:bg-green-700 text-white"
     };
 
     const baseClassName = ` ${colorDict[color]} inline-flex justify-center items-center gap-3 px-8 py-4 rounded-xl
