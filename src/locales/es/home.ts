@@ -4,7 +4,7 @@ export default {
   hero: {
     msgwhats1: "Hola, me interesa una solución personalizada para mi empresa",
     title: "Una solución de ingeniería del futuro para negocios del futuro",
-    descripcion: "Desarrollo de software en la nube, escalable y a medida para impulsar tu empresa.",
+    descripcion: "Desarrollo de software en la nube, escalable y a medida para impulsar tu empresa hacia el siguiente nivel tecnológico.",
     contacto: "Contáctanos",
     servicios: "Ver Servicios"
   },
@@ -46,13 +46,13 @@ export default {
         icon: 'solar:document-text-bold-duotone',
         title: 'Reportes automatizados',
         description:
-          'Documentos PDF o Word generados automáticamente desde tus datos.',
+          'Documentos PDF o documentos de texto generados dinámicamente.',
       },
       {
         icon: 'solar:chart-2-bold-duotone',
         title: 'Dashboards interactivos',
         description:
-          'Visualización en tiempo real con métricas clave y gráficas claras.',
+          'Visualización en tiempo real con métricas clave.',
       },
     ],
   },
@@ -65,8 +65,8 @@ export default {
     cards: [
       { label: 'Usuarios activos', value: '2,430', icon: 'mdi:account' },
       { label: 'Conversiones', value: '18.2%', icon: 'mdi:chart-line' },
-      { label: 'Ventas', value: '$124K', icon: 'mdi:cash' },
-      { label: 'Performance', value: '99.9%', icon: 'mdi:speedometer' },
+      // { label: 'Ventas', value: '$124K', icon: 'mdi:cash' },
+      // { label: 'Performance', value: '99.9%', icon: 'mdi:speedometer' },
     ],
     features: [
       {
@@ -375,5 +375,18 @@ export default {
     text1: "Me encantó mi página web orientada a mi negocio.",
     text2: "La inteligencia artificial que hicieron para poder clasificar mis datos sobrepasó mis expectativas.",
     text3: "El algoritmo que desarrollaron para mi trabajo es exactamente lo que necesitaba para cumplir mi meta laboral."
+  },
+  footer:{
+    name:"Mistli",
+    slogan:"Llevando la ingeniería de software al siguiente nivel con soluciones en IA, Cloud y automatización.",
+    links:[
+      {"name":"Inteligencia Artificial"},
+      {"name":"Cloud Computing"},
+      {"name":"Fullstack Development"},
+      {"name":"Consultoría IT"}
+    ],
+    ley:"© 2024 Mistli Software Agency. Todos los derechos reservados.",
+    terms:"Términos",
+    privacy:"Privacidad"
   }
 };

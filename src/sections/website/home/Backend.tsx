@@ -34,7 +34,7 @@ const BackendAPIsSection: React.FC<BackendAPIsSectionProps> = ({
 
   return (
     <section
-      className={`w-full max-w-7xl mx-auto px-6 py-20 ${className}`}
+      className={`w-full bg-gray-100 max-w-7xl mx-auto px-6 py-20 ${className}`}
     >
       <div className="grid md:grid-cols-2 gap-16 items-center">
         {/* LEFT */}
@@ -55,7 +55,7 @@ const BackendAPIsSection: React.FC<BackendAPIsSectionProps> = ({
           {/* FEATURES */}
           <div className="space-y-5">
             {features.map((feature, i) => (
-              <div key={i} className="flex items-start gap-4">
+              <div key={i} className="flex items-start bg-white gap-4 border-l-4 rounded-2xl p-5">
                 <div className="w-11 h-11 rounded-xl bg-indigo-100 flex items-center justify-center">
                   <Icon
                     icon={feature.icon}
