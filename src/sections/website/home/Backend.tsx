@@ -23,6 +23,7 @@ const BackendAPIsSection: React.FC<BackendAPIsSectionProps> = ({
 
   return (
     <section
+    id='backend'
       className={`w-full bg-gray-100 max-w-7xl mx-auto px-6 py-20 ${className}`}
     >
       <div className="grid md:grid-cols-2 gap-16 items-center">
