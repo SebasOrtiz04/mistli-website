@@ -10,11 +10,12 @@ export default function Nabvar() {
     const Bandera=idioma=="ES"?"circle-flags:mx":"circle-flags:us-um"
     return (
         <nav className="hidden sm:flex justify-between py-4 text-lg gap-7">
-            <a href="#ia">IA</a>
-            <a href="#backend">Backend</a>
-            <a href="#frontend">Frontend</a>
-            <a href="#mobile">Mobile</a>
-            <a href="#automatizaciones">Automatizaciones</a>
+            <a href="/#ia">IA</a>
+            <a href="/#backend">Backend</a>
+            <a href="/#frontend">Frontend</a>
+            <a href="/#documentos">Documentos</a>
+            {/* <a href="#automatizaciones">Automatizaciones</a> */}
+            <a href="/noticias">Noticias</a>
             <div
                 className=" hover:cursor-pointer"
                 onClick={() => dispatch(toggleLanguage())}

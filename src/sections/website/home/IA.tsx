@@ -18,7 +18,7 @@ const AISection: React.FC<AISectionProps> = ({ className = '' }) => {
   };
 
   return (
-    <section className={`w-full max-w-7xl mx-auto px-6 py-28 ${className}`}>
+    <section id='ia' className={`w-full max-w-7xl mx-auto px-6 py-28 ${className}`}>
       <div className="grid md:grid-cols-2 gap-14 items-center">
         {/* Left */}
         <div className="relative bg-[#0f172a] rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.5)] p-8 text-white">
