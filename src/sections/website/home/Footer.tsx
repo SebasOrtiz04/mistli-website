@@ -27,8 +27,8 @@ const Footer: React.FC = () => {
           <div>
             <h3 className="text-white font-semibold mb-4">Servicios</h3>
             <ul className="space-y-3 text-sm text-gray-400">
-                {links.map((link) => (
-              <li className="hover:text-white transition">{link.name}</li>))}
+                {links.map((link,index) => (
+              <li key={index} className="hover:text-white transition">{link.name}</li>))}
             </ul>
           </div>
 
@@ -38,7 +38,7 @@ const Footer: React.FC = () => {
             <ul className="space-y-3 text-sm text-gray-400">
               <li className="flex items-center gap-2">
                 <Icon icon="mdi:email-outline" className="w-4 h-4" />
-                hola@mistli.tech
+                email
               </li>
               <li className="flex items-center gap-2">
                 <Icon icon="mdi:map-marker-outline" className="w-4 h-4" />

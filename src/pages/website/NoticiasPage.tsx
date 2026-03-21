@@ -1,4 +1,4 @@
-import NoticiasView from "../../sections/website/views/NoticiasView.tsx";
+import NoticiasView from "../../sections/website/views/NoticiasView";
 export default function NoticiasPage() {
   return (
     <>

@@ -1,8 +1,8 @@
 import NoticiaView from "../../sections/website/views/NoticiaView";
-export default function NoticiaPage() {
+export default function NoticiasPage() {
   return (
     <>
-      <title>Noticias | Mistli - Soluciones en Ingeniería</title>
+      <title>Noticia | Mistli - Soluciones en Ingeniería</title>
       <NoticiaView/>
     </>
   )

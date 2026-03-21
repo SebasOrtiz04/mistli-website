@@ -9,7 +9,8 @@ import {
   signInWithEmailAndPassword,
   signOut,
   GoogleAuthProvider,
-  signInWithPopup
+  signInWithPopup,
+  sendPasswordResetEmail 
 } from "firebase/auth";
 
 import { getFirestore, Firestore } from "firebase/firestore";
@@ -64,6 +65,14 @@ class Firebase {
     return await updateProfile(nuevoUsuario.user, {
       displayName: nombre
     })
+  }
+
+  async recuperarPassword(email: string): Promise<void> {
+
+    if (!this.auth || !this.provider) {
+      throw new Error("Auth no inicializado")
+    }
+    await sendPasswordResetEmail(this.auth, email);
   }
 
   async registrarGoogle() {
