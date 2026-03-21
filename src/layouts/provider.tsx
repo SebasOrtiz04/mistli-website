@@ -1,6 +1,6 @@
 'use client'
 
-import firebase, { FirebaseContext } from "../lib/firebase/index.js";
+import firebase, { FirebaseContext } from "../lib/firebase/index.ts";
 import useAutenticacion from "../hooks/useAutenticacion.js";
 import { ReactNode } from 'react';
 

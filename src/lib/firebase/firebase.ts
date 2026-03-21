@@ -1,5 +1,5 @@
 import { initializeApp, FirebaseApp } from "firebase/app";
-import firebaseConfig from "./config.js"
+import firebaseConfig from "./config.ts"
 
 import {
   getAuth,
