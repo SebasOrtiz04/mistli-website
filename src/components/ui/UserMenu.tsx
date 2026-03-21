@@ -3,13 +3,13 @@
 import { useContext, useState, useCallback, useRef, useEffect } from "react"
 import Icon from "../iconify/Icon"
 import { FirebaseContext } from "../../lib/firebase"
-
+import { useNavigate } from "react-router-dom"
 export default function UserMenu() {
   const context = useContext(FirebaseContext)
   const [loading, setLoading] = useState(false)
   const [open, setOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
-
+    const navigate = useNavigate()
   // Cierra el dropdown al hacer click fuera
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -24,19 +24,6 @@ export default function UserMenu() {
   if (!context) return null
 
   const { usuario, firebase } = context
-
-  const iniciarSesion = useCallback(async () => {
-    if (!firebase) return
-    try {
-      setLoading(true)
-      await firebase.registrarGoogle()
-    } catch (err) {
-      console.error("Error login:", err)
-    } finally {
-      setLoading(false)
-    }
-  }, [firebase])
-
   const cerrarSesion = useCallback(async () => {
     if (!firebase) return
     try {
@@ -55,7 +42,7 @@ export default function UserMenu() {
     return (
       <button
         disabled={loading}
-        onClick={iniciarSesion}
+        onClick={()=>navigate("/auth/login")}
         className="flex items-center gap-2 px-4 py-2 rounded-full
           bg-blue-500 text-white text-sm font-medium
           hover:bg-blue-600 active:scale-95
@@ -64,7 +51,7 @@ export default function UserMenu() {
         {loading ? (
           <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
         ) : (
-          <Icon icon="mdi:google" className="text-base" />
+          <Icon icon="mdi:login" className="text-base" />
         )}
         {loading ? "Entrando..." : "Iniciar sesión"}
       </button>
