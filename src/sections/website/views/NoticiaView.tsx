@@ -1,31 +1,13 @@
 import {Noticia} from "../noticias/[noticia].tsx"
+import useNoticias from "../../../hooks/useNoticias"
+import { News } from "../../../types/types.ts"
 
 export default function NoticiaView() {
-  const noticias=[{
-    breadcrumb:[{label:"inicio",href:"/"}],
-    category:"AI UPDATE",
-    categoryColor:"cyan" as const,
-    date:"",
-    readTime:5,
-    title:"titulo",
-    titleHighlight:"highlight",
-    heroImage:"",
-    heroImageAlt:"",
-    content: (
-      <p>contenido</p>
-    ),    
-    relatedPosts:[{
-    id: "1",
-    title: "Otra noticia",
-    date: "2024",
-    category: "AI",
-    link: "/url"
-  }]
-  }]
+  const {data:noticias} = useNoticias()
   return (
     <>        
-        {noticias.map((noticia, index) => (
-          <Noticia key={index} {...noticia} />
+        {noticias.map((noticia:News) => (
+          <Noticia key={noticia.id} {...noticia} />
         ))}
     </>
   )

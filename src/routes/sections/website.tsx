@@ -1,10 +1,11 @@
 import { lazy } from "react";
 import { RouteObject } from "react-router-dom";
 import MainLayout from "../../layouts/MainLayout.tsx";
+import CrearNoticia from "../../pages/website/CrearNoticia.tsx";
 
 const HomePage = lazy(() => import('../../pages/website/HomePage.tsx'))
 const NoticiasPage = lazy(() => import('../../pages/website/NoticiasPage'))
-const NoticiaPage = lazy(() => import('../../pages/website/NoticiaPage.tsx'))
+const NoticiaPage = lazy(() => import('../../pages/website/CrearNoticia.tsx'))
 const DocsPage = lazy(() => import('../../pages/website/DocsPage.tsx'))
 const PrivacyPage = lazy(() => import('../../pages/website/PrivacyPage.tsx'))
 const StatusPage = lazy(() => import('../../pages/website/StatusPage.tsx'))
@@ -92,6 +93,17 @@ const websiteRoutes : RouteObject[] = [
             {
                 element : (
                     <TermsPage/>
+                ),
+                index : true
+            }
+        ]
+    },
+    {
+        path: "/createnews",
+        children : [
+            {
+                element : (
+                    <CrearNoticia/>
                 ),
                 index : true
             }
