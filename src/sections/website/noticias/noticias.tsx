@@ -1,20 +1,7 @@
 import React, { useState } from "react";
-
-interface NoticiasCard {
-  id: string;
-  title: string;
-  description: string;
-  image: string;
-  date: string;
-  link?: string;
-  category?: string;
-  categoryColor?: "cyan" | "purple" | "green" | "orange" | "blue" | "pink";
-  icon?: "ai" | "api" | "automation" | "cloud" | "frontend" | "news";
-}
+import useNoticias from "../../../hooks/useNoticias";
 
 interface NoticiasProps {
-  cards?: NoticiasCard[];
-  itemsPerPage?: number;
 }
 
 const categoryColors: Record<string, string> = {
@@ -35,27 +22,11 @@ const icons: Record<string, React.ReactNode> = {
   news: <span>📰</span>,
 };
 
-const defaultCards: NoticiasCard[] = [
-  {
-    id: "1",
-    title: "Mistli Intelligence 2.0: Nueva arquitectura de LLMs",
-    description: "Hemos optimizado nuestra infraestructura...",
-    image: "",
-    date: "24 Oct, 2024",
-    link: "/noticias/ai",
-    category: "AI UPDATE",
-    categoryColor: "cyan",
-    icon: "ai",
-  },
-];
-
-export const Noticias: React.FC<NoticiasProps> = ({
-  cards = defaultCards,
-  itemsPerPage = 6,
-}) => {
+export const Noticias: React.FC<NoticiasProps> = () => {
+  const {data:cards} = useNoticias()
+  const itemsPerPage = 6
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(cards.length / itemsPerPage);
-
   const paginatedCards = cards.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
@@ -130,9 +101,9 @@ export const Noticias: React.FC<NoticiasProps> = ({
 
                   {/* footer */}
                   <div className="flex justify-between items-center pt-3 border-t border-white/10">
-                    {card.link ? (
+                    {card.id ? (
                       <a
-                        href={card.link}
+                        href={`/noticias/${card.id}`}
                         className="flex items-center gap-1 text-white/60 hover:text-white text-sm transition"
                       >
                         Leer más →

@@ -1,29 +1,7 @@
 import React, { useState } from "react";
-
-interface RelatedPost {
-  id: string;
-  title: string;
-  date: string;
-  category: string;
-  categoryColor?: "cyan" | "purple" | "green" | "orange" | "blue" | "pink";
-  link?: string;
-}
-
-interface NoticiaProps {
-  breadcrumb?: { label: string; href?: string }[];
-  category?: string;
-  categoryColor?: "cyan" | "purple" | "green" | "orange" | "blue" | "pink";
-  date?: string;
-  readTime?: number;
-  title: string;
-  titleHighlight?: string;
-  heroImage?: string;
-  heroImageAlt?: string;
-  content: React.ReactNode;
-  relatedPosts?: RelatedPost[];
-  onSubscribe?: (email: string) => void;
-  onAllNews?: () => void;
-}
+import { News } from "../../../types/types";
+import { RenderBlock } from "../../../components/news/RenderBlocks";
+import useContent from "../../../hooks/useContent";
 
 const categoryStyles: Record<string, { badge: string; text: string }> = {
   cyan:   { badge: "bg-cyan-500/15 text-cyan-400 border border-cyan-500/40",   text: "text-cyan-400" },
@@ -41,12 +19,12 @@ const ShareIcon = () => (
   </svg>
 );
 
-const MailIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="2" y="4" width="20" height="16" rx="2"/>
-    <polyline points="22,4 12,13 2,4"/>
-  </svg>
-);
+// const MailIcon = () => (
+//   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+//     <rect x="2" y="4" width="20" height="16" rx="2"/>
+//     <polyline points="22,4 12,13 2,4"/>
+//   </svg>
+// );
 
 const XIcon = () => (
   <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
@@ -80,78 +58,31 @@ const ClockIcon = () => (
   </svg>
 );
 
-const defaultContent = (
-  <>
-    <p>
-      Tras meses de investigación y pruebas intensivas, presentamos Mistli Intelligence 2.0. Esta nueva versión no es solo una mejora incremental; es una reconstrucción total de cómo procesamos y orquestamos modelos de lenguaje de gran tamaño (LLMs) para aplicaciones empresariales.
-    </p>
-    <h2>La Revolución de la Latencia</h2>
-    <p>
-      Uno de los mayores desafíos en la implementación de IA generativa a escala es la latencia. Con nuestra nueva arquitectura "Context-Aware Routing", hemos logrado reducir los tiempos de respuesta en un 40% sin sacrificar la coherencia del modelo.
-    </p>
-    <h3>Componentes clave:</h3>
-    <ul>
-      <li><strong>Dynamic Quantization:</strong> Ajuste dinámico de precisión según la complejidad de la tarea.</li>
-      <li><strong>Edge Orchestration:</strong> Procesamiento híbrido entre la nube y el edge para minimizar el TTL.</li>
-      <li><strong>Semantic Caching:</strong> Sistema inteligente de memoria que reconoce peticiones similares conceptualmente.</li>
-    </ul>
-  </>
-);
 
-const defaultRelated: RelatedPost[] = [
-  {
-    id: "1",
-    title: "Lanzamiento de API v4 para Fintech con cifrado post-cuántico",
-    date: "18 Oct, 2024",
-    category: "NEW API",
-    categoryColor: "purple",
-  },
-  {
-    id: "2",
-    title: "Automatización de reportes PDF dinámicos desde SQL",
-    date: "12 Oct, 2024",
-    category: "AUTOMATION",
-    categoryColor: "green",
-  },
-];
-
-export const Noticia: React.FC<NoticiaProps> = ({
-  breadcrumb = [
-    { label: "Inicio", href: "/" },
-    { label: "Noticias", href: "/noticias" },
-    { label: "Mistli Intelligence 2.0" },
-  ],
-  category = "AI UPDATE",
-  categoryColor = "cyan",
-  date = "24 de octubre, 2024",
-  readTime = 8,
-  title = "Mistli Intelligence 2.0:",
-  titleHighlight = "Nueva arquitectura de LLMs",
+export const Noticia: React.FC<News> = ({
+  breadcrumb,
+  category,
+  categoryColor,
+  date,
+  readTime,
+  title,
+  titleHighlight,
   heroImage,
-  heroImageAlt = "Hero image",
-  content = defaultContent,
-  relatedPosts = defaultRelated,
-  onSubscribe,
-  onAllNews,
+  heroImageAlt,
+  relatedPosts
 }) => {
-  const [email, setEmail] = useState("");
-  const [subscribed, setSubscribed] = useState(false);
+  // const [email, setEmail] = useState("");
+  // const [subscribed, setSubscribed] = useState(false);
   const [copied, setCopied] = useState(false);
 
   const colorKey = categoryColor ?? "cyan";
   const styles = categoryStyles[colorKey];
-
+  const {blocks:content} = useContent()
   const handleCopyLink = () => {
     navigator.clipboard.writeText(window.location.href).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     });
-  };
-
-  const handleSubscribe = () => {
-    if (!email.trim()) return;
-    setSubscribed(true);
-    onSubscribe?.(email);
   };
 
   return (
@@ -212,8 +143,10 @@ export const Noticia: React.FC<NoticiaProps> = ({
             </div>
 
             {/* Article body */}
-            <article className="prose-noticia text-white/70 text-[15px] leading-relaxed space-y-5 [&_h2]:text-white [&_h2]:text-xl [&_h2]:font-bold [&_h2]:mt-8 [&_h2]:mb-3 [&_h3]:text-white [&_h3]:text-base [&_h3]:font-semibold [&_h3]:mt-6 [&_h3]:mb-2 [&_strong]:text-white [&_strong]:font-semibold [&_ul]:space-y-2 [&_ul]:pl-0 [&_ul]:list-none [&_li]:flex [&_li]:items-start [&_li]:gap-2 [&_li]:before:content-['•'] [&_li]:before:text-violet-400 [&_li]:before:mt-0.5 [&_li]:before:shrink-0 [&_p]:text-white/60">
-              {content}
+            <article className="prose-noticia text-[15px] leading-relaxed space-y-5">
+              {content?.map((block) => (
+                <RenderBlock key={block.id} block={block} />
+              ))}
             </article>
           </div>
 
@@ -280,17 +213,17 @@ export const Noticia: React.FC<NoticiaProps> = ({
                     );
                   })}
                 </div>
-                <button
+                {/* <button
                   onClick={onAllNews}
                   className="w-full mt-1 py-2.5 rounded-lg border border-white/10 text-white/60 text-sm font-medium hover:text-white hover:border-white/20 hover:bg-white/[0.04] transition-all"
                 >
                   Ver todas las noticias
-                </button>
+                </button> */}
               </div>
             )}
 
             {/* Newsletter card */}
-            <div className="bg-white/[0.04] border border-white/[0.08] rounded-2xl p-5 flex flex-col gap-3">
+            {/* <div className="bg-white/[0.04] border border-white/[0.08] rounded-2xl p-5 flex flex-col gap-3">
               <div className="text-violet-400">
                 <MailIcon />
               </div>
@@ -325,7 +258,7 @@ export const Noticia: React.FC<NoticiaProps> = ({
                   </button>
                 </>
               )}
-            </div>
+            </div> */}
 
           </aside>
         </div>
