@@ -103,7 +103,7 @@ export const Noticias: React.FC<NoticiasProps> = () => {
                   <div className="flex justify-between items-center pt-3 border-t border-white/10">
                     {card.id ? (
                       <a
-                        href={`/noticias/${card.id}`}
+                        href={`/noticias/${card.uid}`}
                         className="flex items-center gap-1 text-white/60 hover:text-white text-sm transition"
                       >
                         Leer más →

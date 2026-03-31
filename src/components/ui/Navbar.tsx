@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState, AppDispatch } from '../../redux/store'
 import { toggleLanguage } from '../../redux'
 
-export default function Nabvar() {
+export default function Nabvar({role}:{role:string}) {
     const idioma = useSelector((state: RootState) => state.locale.language)
     const dispatch = useDispatch<AppDispatch>()
     const Bandera=idioma=="ES"?"circle-flags:mx":"circle-flags:us-um"
@@ -18,6 +18,9 @@ export default function Nabvar() {
             <button onClick={() => navigate("/#documentos")}>Documentos</button>
             {/* <a href="#automatizaciones">Automatizaciones</a> */}
             <button onClick={() => navigate("/noticias")}>Noticias</button>
+            {role === "admin" && (
+                <button onClick={() => navigate("/createnews")}>Crear Noticia</button>
+            )}
             <div
                 className=" hover:cursor-pointer"
                 onClick={() => dispatch(toggleLanguage())}
