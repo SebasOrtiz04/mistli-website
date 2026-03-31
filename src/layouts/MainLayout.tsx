@@ -16,7 +16,7 @@ export default function MainLayout({ children }: IMainLayout) {
         <>
             <Providers>
                 <header>
-                    <Header />
+                    <Header role={role} />
                 </header>
                 <main className='min-h-[calc(100vh-144px)]'>
                     {children}
