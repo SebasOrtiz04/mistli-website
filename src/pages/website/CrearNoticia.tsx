@@ -250,7 +250,6 @@ const CreateNoticia: React.FC = () => {
   const usuario = useAutenticacion();
   const role =  useRole(usuario);
   const [saved, setSaved] = useState(false);
-  const [jsonOutput, setJsonOutput] = useState<string | null>(null);
 
   // Meta fields
   const [title, setTitle] = useState("");
@@ -570,20 +569,6 @@ const CreateNoticia: React.FC = () => {
                 </div>
               </div>
             </div>
-
-            {/* JSON preview */}
-            {jsonOutput && (
-              <div className="bg-white/[0.03] border border-white/[0.07] rounded-2xl p-5">
-                <h3 className="text-white/80 text-sm font-semibold mb-3 flex items-center gap-2">
-                  <span className="w-1 h-4 rounded-full bg-gradient-to-b from-emerald-400 to-cyan-500 inline-block" />
-                  JSON generado
-                </h3>
-                <div className="rounded-lg bg-black/30 border border-white/[0.06] p-3 max-h-64 overflow-auto">
-                  <pre className="text-[10px] text-emerald-400/80 font-mono leading-relaxed whitespace-pre-wrap">{jsonOutput.slice(0, 800)}{jsonOutput.length > 800 ? "\n..." : ""}</pre>
-                </div>
-                <p className="text-white/20 text-[10px] mt-2">El archivo completo fue descargado</p>
-              </div>
-            )}
 
             {/* Summary card */}
             <div className="bg-white/[0.03] border border-white/[0.07] rounded-2xl p-5">

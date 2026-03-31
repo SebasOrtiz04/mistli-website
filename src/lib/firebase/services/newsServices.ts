@@ -1,5 +1,5 @@
 import {Content, News} from "../../../types/types"
-import {collection, documentId,addDoc,doc,getDoc, getDocs, query, where, Query} from "firebase/firestore"
+import {collection,addDoc,doc,getDoc, getDocs, query} from "firebase/firestore"
 import firebase from "../firebase"
 
 export async function obtenerNews(): Promise<News[]> {
