@@ -1,5 +1,5 @@
 export type UserRole = "usuario" | "admin"
-export type CategoryColor = "cyan" | "blue" | "green" | "yellow" | "red" | "purple"
+export type CategoryColor = "cyan" | "blue" | "green" | "yellow" | "red" | "purple" | "orange" | "pink"
 export type Category = "AI UPDATE" | "AI" | "INGENIERÍA" | "TECNOLOGÍA"
 
 export interface UserProfile {
@@ -88,6 +88,7 @@ export type ContentBlock =
   | DividerBlock
 
 export interface News {
+  uid?:string
   id:string
   breadcrumb: {label: string, href: string}[]
   description:string
@@ -98,13 +99,14 @@ export interface News {
   icon: "ai" | "api" | "automation" | "cloud" | "frontend" | "news"
   readTime:number
   title:string
+  content:string | ContentBlock[]
   titleHighlight:string
   heroImage:string
   heroImageAlt:string
   relatedPosts:RelatedNew[]
 }
 
-export interface CompleteNews extends News {
+export interface Content {
   content:ContentBlock[]
 }
 

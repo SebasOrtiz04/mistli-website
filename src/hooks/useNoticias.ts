@@ -18,7 +18,8 @@ export default function useNoticias() {
       (snapshot) => {
         const docs = snapshot.docs.map((doc) => ({
           id: doc.id,
-          ...doc.data() as Omit<News, "id">
+          uid: doc.id,
+          ...doc.data() as Omit<News, "id" | "uid">
         }))
         setData(docs)
         setLoading(false)

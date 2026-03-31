@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { News } from "../../../types/types";
 import { RenderBlock } from "../../../components/news/RenderBlocks";
 import useContent from "../../../hooks/useContent";
-
+import { useParams } from "react-router-dom";
+import {obtenerUnaNews} from "../../../lib/firebase/services/newsServices";
 const categoryStyles: Record<string, { badge: string; text: string }> = {
   cyan:   { badge: "bg-cyan-500/15 text-cyan-400 border border-cyan-500/40",   text: "text-cyan-400" },
   purple: { badge: "bg-violet-500/15 text-violet-400 border border-violet-500/40", text: "text-violet-400" },
@@ -59,25 +60,43 @@ const ClockIcon = () => (
 );
 
 
-export const Noticia: React.FC<News> = ({
-  breadcrumb,
-  category,
-  categoryColor,
-  date,
-  readTime,
-  title,
-  titleHighlight,
-  heroImage,
-  heroImageAlt,
-  relatedPosts
-}) => {
+export const Noticia: React.FC<News> = () => {
   // const [email, setEmail] = useState("");
   // const [subscribed, setSubscribed] = useState(false);
+  const { noticia } = useParams();
   const [copied, setCopied] = useState(false);
+  const [newsData, setNewsData] = useState<News | null>(null);
+  const [loadingNews, setLoadingNews] = useState(true);
+  const {blocks} = useContent(newsData?.content as string);
+  console.log("Blocks:", newsData);
+  useEffect(() => {
+    if (!noticia) return;
+    setLoadingNews(true);
+    const fetchNews = async () => {
+      const actualNew = await obtenerUnaNews(noticia);
+      setNewsData(actualNew);
+      setLoadingNews(false);
+    }
+    fetchNews();
+  }, [noticia]);
+
+  if (loadingNews || !newsData) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-[#0a0e2e] via-[#0d1545] to-[#0a1a3a] flex items-center justify-center">
+        <div className="text-white/30 text-sm">Cargando...</div>
+      </div>
+    );
+  }
+
+  const {
+    breadcrumb, category, categoryColor, date, readTime,
+    title, titleHighlight, heroImage, heroImageAlt, relatedPosts
+  } = newsData;
+
+  console.log("Noticia ID:", noticia);
 
   const colorKey = categoryColor ?? "cyan";
   const styles = categoryStyles[colorKey];
-  const {blocks:content} = useContent()
   const handleCopyLink = () => {
     navigator.clipboard.writeText(window.location.href).then(() => {
       setCopied(true);
@@ -144,8 +163,8 @@ export const Noticia: React.FC<News> = ({
 
             {/* Article body */}
             <article className="prose-noticia text-[15px] leading-relaxed space-y-5">
-              {content?.map((block) => (
-                <RenderBlock key={block.id} block={block} />
+              {blocks?.map((block,index) => (
+                <RenderBlock key={index+block.type} block={block} />
               ))}
             </article>
           </div>

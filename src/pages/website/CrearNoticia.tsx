@@ -1,9 +1,10 @@
 import React, { useState, useCallback } from "react";
-
+import useAutenticacion from "../../hooks/useAutenticacion";
+import useRole from "../../hooks/useRole";
+import { createNews } from "../../lib/firebase/services/newsServices";
+import { Category,CategoryColor,News } from "../../types/types";
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type Category = string;
-type CategoryColor = "cyan" | "purple" | "green" | "orange" | "blue" | "pink";
 type Icon = "ai" | "api" | "automation" | "cloud" | "frontend" | "news";
 
 interface RelatedNew {
@@ -28,23 +29,6 @@ interface DividerBlock extends BaseBlock { type: "divider"; }
 
 type ContentBlock = ParagraphBlock | HeadingBlock | ListBlock | ImageBlock | VideoBlock | CodeBlock | EmbedBlock | QuoteBlock | DividerBlock;
 
-interface CompleteNews {
-  id: string;
-  breadcrumb: { label: string; href: string }[];
-  description: string;
-  image: string;
-  category: Category;
-  categoryColor: CategoryColor;
-  date: string;
-  icon: Icon;
-  readTime: number;
-  title: string;
-  titleHighlight: string;
-  heroImage: string;
-  heroImageAlt: string;
-  relatedPosts: RelatedNew[];
-  content: ContentBlock[];
-}
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -55,6 +39,8 @@ const CATEGORY_COLORS: Record<CategoryColor, { badge: string; ring: string; acce
   orange: { badge: "bg-orange-500/15 text-orange-400 border-orange-500/40", ring: "ring-orange-500/40", accent: "text-orange-400", glow: "shadow-orange-500/20" },
   blue:   { badge: "bg-blue-500/15 text-blue-400 border-blue-500/40",   ring: "ring-blue-500/40",   accent: "text-blue-400",   glow: "shadow-blue-500/20" },
   pink:   { badge: "bg-pink-500/15 text-pink-400 border-pink-500/40",   ring: "ring-pink-500/40",   accent: "text-pink-400",   glow: "shadow-pink-500/20" },
+  yellow: { badge: "bg-yellow-500/15 text-yellow-400 border-yellow-500/40", ring: "ring-yellow-500/40", accent: "text-yellow-400", glow: "shadow-yellow-500/20" },
+  red:    { badge: "bg-red-500/15 text-red-400 border-red-500/40",     ring: "ring-red-500/40",     accent: "text-red-400",     glow: "shadow-red-500/20" },
 };
 
 const BLOCK_TYPES = [
@@ -261,6 +247,8 @@ const BlockEditor: React.FC<{ block: ContentBlock; onChange: (b: ContentBlock) =
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 const CreateNoticia: React.FC = () => {
+  const usuario = useAutenticacion();
+  const role =  useRole(usuario);
   const [saved, setSaved] = useState(false);
   const [jsonOutput, setJsonOutput] = useState<string | null>(null);
 
@@ -268,7 +256,7 @@ const CreateNoticia: React.FC = () => {
   const [title, setTitle] = useState("");
   const [titleHighlight, setTitleHighlight] = useState("");
   const [description, setDescription] = useState("");
-  const [category, setCategory] = useState<Category>("");
+  const [category, setCategory] = useState<Category>("INGENIERÍA");
   const [categoryColor, setCategoryColor] = useState<CategoryColor>("cyan");
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
   const [readTime, setReadTime] = useState(5);
@@ -308,34 +296,24 @@ const CreateNoticia: React.FC = () => {
 
   const addBlock = (type: string) => setBlocks(prev => [...prev, makeBlock(type)]);
 
-  const addRelated = () => setRelatedPosts(prev => [...prev, { id: uid(), title: "", date: Date.now(), category: "", categoryColor: "cyan", link: "" }]);
+  const addRelated = () => setRelatedPosts(prev => [...prev, { id: uid(), title: "", date: Date.now(), category: "" as Category, categoryColor: "cyan", link: "" }]);
   const updateRelated = (i: number, data: Partial<RelatedNew>) => setRelatedPosts(prev => prev.map((r, j) => j === i ? { ...r, ...data } : r));
   const removeRelated = (i: number) => setRelatedPosts(prev => prev.filter((_, j) => j !== i));
 
-  const handleSave = () => {
-    const news: CompleteNews = {
+  const handleSave = async () => {
+    const news: News = {
       id: uid(),
       title, titleHighlight, description, category, categoryColor,
       date, readTime, icon, heroImage, heroImageAlt, image,
       breadcrumb, relatedPosts, content: blocks,
     };
-    const json = JSON.stringify(news, null, 2);
-    setJsonOutput(json);
+    await createNews(news);
+    
     setSaved(true);
     setTimeout(() => setSaved(false), 3000);
-
-    // Download
-    const blob = new Blob([json], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `noticia-${Date.now()}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
   };
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0a0e2e] via-[#0d1545] to-[#0a1a3a] text-white">
+  return role=="admin" ? (<div className="min-h-screen bg-gradient-to-br from-[#0a0e2e] via-[#0d1545] to-[#0a1a3a] text-white">
 
       {/* Ambient orbs */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
@@ -484,7 +462,7 @@ const CreateNoticia: React.FC = () => {
                     </div>
                     <input type="text" className={fieldClass} placeholder="Título de la noticia..." value={post.title} onChange={e => updateRelated(i, { title: e.target.value })} />
                     <div className="flex gap-3">
-                      <input type="text" className={fieldClass} placeholder="Categoría..." value={post.category} onChange={e => updateRelated(i, { category: e.target.value })} />
+                      <input type="text" className={fieldClass} placeholder="Categoría..." value={post.category} onChange={e => updateRelated(i, { category: e.target.value as Category })} />
                       <select value={post.categoryColor} onChange={e => updateRelated(i, { categoryColor: e.target.value as CategoryColor })}
                         className="bg-white/[0.04] border border-white/[0.08] rounded-xl px-3 py-2 text-white/70 text-sm outline-none focus:border-white/20 shrink-0">
                         {COLORS.map(c => <option key={c} value={c} className="bg-[#0d1545]">{c}</option>)}
@@ -529,7 +507,20 @@ const CreateNoticia: React.FC = () => {
               <div className="space-y-3">
                 <div>
                   <label className={labelClass}>Nombre</label>
-                  <input type="text" className={fieldClass} placeholder="ej: IA, Noticias..." value={category} onChange={e => setCategory(e.target.value)} />
+                  <select
+                    className={fieldClass}
+                    value={category}
+                    onChange={e => setCategory(e.target.value as Category)}
+                  >
+                    <option value="" disabled className="bg-[#0d1545] text-white/30">
+                      Selecciona una categoría...
+                    </option>
+                    {(["AI UPDATE", "AI", "INGENIERÍA", "TECNOLOGÍA"] as const).map(cat => (
+                      <option key={cat} value={cat} className="bg-[#0d1545] text-white">
+                        {cat}
+                      </option>
+                    ))}
+                  </select>
                 </div>
                 <div>
                   <label className={labelClass}>Color</label>
@@ -628,7 +619,78 @@ const CreateNoticia: React.FC = () => {
         <div className="h-16" />
       </div>
     </div>
-  );
+  ) : (
+  <div className="min-h-screen bg-gradient-to-br from-[#0a0e2e] via-[#0d1545] to-[#0a1a3a] flex items-center justify-center p-8">
+
+    {/* Ambient orbs */}
+    <div className="fixed inset-0 overflow-hidden pointer-events-none">
+      <div className="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] rounded-full bg-red-600/5 blur-[120px]" />
+      <div className="absolute bottom-[-10%] left-[-5%] w-[500px] h-[500px] rounded-full bg-violet-500/5 blur-[100px]" />
+    </div>
+
+    <div className="relative text-center max-w-md w-full">
+
+      {/* Lock icon with rings */}
+      <div className="relative w-20 h-20 mx-auto mb-8 flex items-center justify-center">
+        <div className="absolute inset-0 rounded-full bg-red-500/8 border border-red-500/20" />
+        <div className="absolute inset-2 rounded-full bg-red-500/6 border border-red-500/15" />
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(239,68,68,0.8)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+      </div>
+
+      {/* Badge */}
+      <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-500/8 border border-red-500/20 mb-5">
+        <span className="w-1.5 h-1.5 rounded-full bg-red-500 inline-block" />
+        <span className="text-[11px] font-semibold tracking-widest text-red-400 uppercase">Acceso restringido</span>
+      </div>
+
+      <h1 className="text-2xl font-bold text-white mb-3 leading-tight">
+        Área de administración
+      </h1>
+      <p className="text-sm text-white/40 leading-relaxed mb-8">
+        No tienes los permisos necesarios para acceder a esta sección.
+        Solo los administradores pueden crear y gestionar noticias.
+      </p>
+
+      {/* Info cards */}
+      <div className="bg-white/[0.03] border border-white/[0.07] rounded-2xl p-5 mb-6 text-left space-y-4">
+        <div className="flex items-start gap-3">
+          <div className="w-8 h-8 rounded-lg bg-violet-500/12 border border-violet-500/20 flex items-center justify-center shrink-0 mt-0.5">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(167,139,250,0.9)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/>
+            </svg>
+          </div>
+          <div>
+            <p className="text-[13px] font-semibold text-white/75 mb-0.5">¿Eres administrador?</p>
+            <p className="text-[12px] text-white/35 leading-relaxed">Contacta al equipo de soporte si crees que deberías tener acceso a esta sección.</p>
+          </div>
+        </div>
+        <div className="h-px bg-white/5" />
+        <div className="flex items-start gap-3">
+          <div className="w-8 h-8 rounded-lg bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center shrink-0 mt-0.5">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(34,211,238,0.9)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+          </div>
+          <div>
+            <p className="text-[13px] font-semibold text-white/75 mb-0.5">Volver al inicio</p>
+            <p className="text-[12px] text-white/35 leading-relaxed">Regresa a la página principal para explorar el contenido disponible.</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Actions */}
+      <div className="flex gap-2.5 justify-center">
+        <a href="/" className="flex-1 max-w-[160px] py-2.5 px-4 rounded-xl text-[13px] font-semibold text-white bg-gradient-to-r from-cyan-500 to-violet-600 hover:from-cyan-400 hover:to-violet-500 transition-all text-center">
+          Ir al inicio
+        </a>
+      </div>
+
+    </div>
+  </div>
+);
 };
 
 export default CreateNoticia;
