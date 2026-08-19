@@ -106,7 +106,7 @@ export default function NotFoundPage() {
           <p className="text-[11px] font-medium text-[#444] uppercase tracking-widest">Or try one of these</p>
           <div className="flex gap-2 flex-wrap justify-center">
             {[
-              { label: "Documentation", path: "/docs" },
+              { label: "Documentation", path: "/documentation" },
               { label: "Support", path: "/support" },
               { label: "System Status", path: "/statuspage" },
             ].map((link) => (

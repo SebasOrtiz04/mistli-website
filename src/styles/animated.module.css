@@ -11,6 +11,7 @@
   justify-content: center;
   align-items: center;
 }
+
 .animateFadeIn {
   animation: fadeIn 0.3s ease-out;
 }

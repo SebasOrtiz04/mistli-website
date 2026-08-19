@@ -1,9 +1,11 @@
 import { useTranslation } from 'react-i18next';
 import { Icon } from '@iconify/react';
+import { useNavigate } from "react-router-dom";
 
 const Footer: React.FC = () => {
     const { t } = useTranslation();
       const links = t('home.footer.links', { returnObjects: true }) as { name: string }[];
+    const navigate = useNavigate()
 
   return (
     <footer className="bg-[#0b1a33] text-gray-300">
@@ -28,7 +30,10 @@ const Footer: React.FC = () => {
             <h3 className="text-white font-semibold mb-4">Servicios</h3>
             <ul className="space-y-3 text-sm text-gray-400">
                 {links.map((link,index) => (
-              <li key={index} className="hover:text-white transition">{link.name}</li>))}
+              <li key={index} 
+              // Aquí hasta que se desarrolle estas paginas de servicios
+              // onClick={() => navigate(`/${link.name.toLowerCase().replace(/\s+/g, '-')}`)} 
+              className="hover:text-white transition">{link.name}</li>))}
             </ul>
           </div>
 
@@ -38,7 +43,7 @@ const Footer: React.FC = () => {
             <ul className="space-y-3 text-sm text-gray-400">
               <li className="flex items-center gap-2">
                 <Icon icon="mdi:email-outline" className="w-4 h-4" />
-                email
+                fernandosanchezor@gmail.com
               </li>
               <li className="flex items-center gap-2">
                 <Icon icon="mdi:map-marker-outline" className="w-4 h-4" />
@@ -57,10 +62,10 @@ const Footer: React.FC = () => {
           <p>{t('home.footer.ley')}</p>
           
           <div className="flex gap-6">
-            <span className="hover:text-white transition cursor-pointer">
+            <span className="hover:text-white transition cursor-pointer" onClick={() => navigate("/terms")}>
               {t('home.footer.terms')}
             </span>
-            <span className="hover:text-white transition cursor-pointer">
+            <span className="hover:text-white transition cursor-pointer" onClick={() => navigate("/privacy")}>
               {t('home.footer.privacy')}
             </span>
           </div>
