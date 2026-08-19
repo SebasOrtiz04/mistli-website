@@ -18,7 +18,7 @@ const ReportGenerationSection: React.FC<ReportGenerationSectionProps> = ({
   return (
     <section
     id='documentos'
-      className={`w-full max-w-6xl mx-auto flex md:h-[100vh] ${className}`}
+      className={`w-full max-w-6xl mx-auto flex px-6 py-28 md:h-[100vh] ${className}`}
     >
       <div className="grid md:grid-cols-2 gap-16 items-center">
         {/* LEFT */}
