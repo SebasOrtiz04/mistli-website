@@ -11,7 +11,7 @@ const Hero: React.FC = () => {
 
         {/* Columna izquierda - Texto */}
         <div className="space-y-8 animate-fade-in">
-          <h1 className="text-5xl md:text-7xl font-black text-white leading-[1.05] tracking-tight font-pathway">            {t('home.hero.title')}
+          <h1 className="text-5xl md:text-7xl font-black text-white leading-[1.05] tracking-tight">            {t('home.hero.title')}
           </h1>
           <p className="text-lg text-blue-100 max-w-md leading-relaxed">            {t('home.hero.descripcion')}
           </p>
