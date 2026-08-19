@@ -16,7 +16,7 @@ const FrontendDevSection: React.FC<FrontendDevSectionProps> = ({ className = '' 
 
 
   return (
-    <section id='frontend' className={`w-full max-w-6xl mx-auto flex md:h-[100vh] ${className}`}>
+    <section id='frontend' className={`w-full max-w-7xl mx-auto flex px-6 py-28 md:h-[100vh] ${className}`}>
       <div className="grid md:grid-cols-2 gap-14 items-center">
         {/* Left – UI preview */}
         <div className="relative bg-white rounded-2xl shadow-xl border border-gray-100 p-6">
