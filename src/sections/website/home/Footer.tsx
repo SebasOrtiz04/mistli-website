@@ -41,10 +41,14 @@ const Footer: React.FC = () => {
           <div>
             <h3 className="text-white font-semibold mb-4">Contacto</h3>
             <ul className="space-y-3 text-sm text-gray-400">
+              <a href="mailto:fernandosanchezor@gmail.com">
               <li className="flex items-center gap-2">
-                <Icon icon="mdi:email-outline" className="w-4 h-4" />
+                <Icon icon="mdi:email-outline" className="w-4 h-4"
+                  
+                />
                 fernandosanchezor@gmail.com
               </li>
+              </a>
               <li className="flex items-center gap-2">
                 <Icon icon="mdi:map-marker-outline" className="w-4 h-4" />
                 México / Remoto
