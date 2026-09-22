@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import {obtenerUnaNews} from "../../../lib/firebase/services/newsServices";
 const categoryStyles: Record<string, { badge: string; text: string }> = {
   cyan:   { badge: "bg-cyan-500/15 text-cyan-400 border border-cyan-500/40",   text: "text-cyan-400" },
-  purple: { badge: "bg-violet-500/15 text-violet-400 border border-violet-500/40", text: "text-violet-400" },
+  purple: { badge: "bg-violet-500/15 text-brand-400 border border-brand-500/40", text: "text-brand-400" },
   green:  { badge: "bg-emerald-500/15 text-emerald-400 border border-emerald-500/40", text: "text-emerald-400" },
   orange: { badge: "bg-orange-500/15 text-orange-400 border border-orange-500/40", text: "text-orange-400" },
   blue:   { badge: "bg-blue-500/15 text-blue-400 border border-blue-500/40",   text: "text-blue-400" },
@@ -243,7 +243,7 @@ export const Noticia: React.FC<News> = () => {
 
             {/* Newsletter card */}
             {/* <div className="bg-white/[0.04] border border-white/[0.08] rounded-2xl p-5 flex flex-col gap-3">
-              <div className="text-violet-400">
+              <div className="text-brand-400">
                 <MailIcon />
               </div>
               <div>
@@ -267,7 +267,7 @@ export const Noticia: React.FC<News> = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter" && handleSubscribe()}
-                    className="w-full h-10 px-3 rounded-lg bg-white/[0.06] border border-white/10 text-white text-sm placeholder:text-white/25 outline-none focus:border-violet-500/50 transition-colors"
+                    className="w-full h-10 px-3 rounded-lg bg-white/[0.06] border border-white/10 text-white text-sm placeholder:text-white/25 outline-none focus:border-brand-500/50 transition-colors"
                   />
                   <button
                     onClick={handleSubscribe}

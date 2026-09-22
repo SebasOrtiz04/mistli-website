@@ -1,5 +1,3 @@
-import PageLayout from "../../layouts/PageLayout";
-
 const sections = [
   {
     title: "Information We Collect",
@@ -60,7 +58,6 @@ const sections = [
 
 export default function PrivacyPage() {
   return (
-    <PageLayout>
       <div className="max-w-3xl mx-auto px-6 py-14">
 
         {/* Header */}
@@ -116,6 +113,5 @@ export default function PrivacyPage() {
           ))}
         </div>
       </div>
-    </PageLayout>
   );
 }

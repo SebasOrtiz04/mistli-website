@@ -1,0 +1,25 @@
+{
+    "dataset_path": "dataset.csv",
+    "rows": 20,
+    "columns": 13,
+    "features": [
+        "feature_01",
+        "feature_02",
+        "feature_03",
+        "feature_04",
+        "feature_05",
+        "feature_06",
+        "feature_07",
+        "feature_08",
+        "feature_09",
+        "feature_10",
+        "feature_11",
+        "feature_12"
+    ],
+    "target": "target",
+    "num_classes": 2,
+    "classes": [
+        "clase_0",
+        "clase_1"
+    ]
+}

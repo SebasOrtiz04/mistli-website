@@ -1,5 +1,5 @@
 import { useState } from "react";
-import PageLayout from "../../layouts/PageLayout";
+import MainLayout from "../../layouts/MainLayout";
 
 type Status = "operational" | "degraded" | "outage" | "maintenance";
 
@@ -94,7 +94,7 @@ export default function StatusPage() {
   const [expandedIncident, setExpandedIncident] = useState<string | null>("INC-2024-031");
 
   return (
-    <PageLayout>
+    <MainLayout>
       <div className="max-w-3xl mx-auto px-6 py-14">
 
         {/* Header */}
@@ -258,6 +258,6 @@ export default function StatusPage() {
           </p>
         </section>
       </div>
-    </PageLayout>
+    </MainLayout>
   );
 }

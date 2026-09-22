@@ -1,5 +1,4 @@
 import { useState } from "react";
-import PageLayout from "../../layouts/PageLayout";
 
 const sections = [
   {
@@ -58,7 +57,6 @@ export default function DocsPage() {
     });
 
   return (
-    <PageLayout>
       <div className="flex min-h-[calc(100vh-120px)]">
 
         {/* Sidebar */}
@@ -169,6 +167,5 @@ export default function DocsPage() {
           )}
         </div>
       </div>
-    </PageLayout>
   );
 }

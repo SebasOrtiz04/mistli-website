@@ -1,6 +1,13 @@
 import Icon from "../iconify/Icon";
 
-type ButtonColor = 'blue' | 'purple' | 'white'| 'green';
+type ButtonColor =
+  | 'primary'
+  | 'gradient'
+  | 'cyan'
+  | 'magenta'
+  | 'white'
+  | 'dark';
+
 
 interface ICustomButtonProps {
     label: string;
@@ -11,23 +18,34 @@ interface ICustomButtonProps {
     icon?: string;
 }
 
-type IColorDict = Record<ButtonColor, string>;
-
 export default function CustomButton({
     label,
-    color = 'blue',
+    color = 'primary',
     href ,
     target = '_blank',
     onClick,
     icon
 }: ICustomButtonProps) {
 
-    const colorDict : IColorDict = {
-        blue: "bg-blue-600 hover:bg-blue-700 text-white",
-        purple: "bg-purple-600 hover:bg-purple-700 text-white",
-        white: "bg-white hover:bg-gray-300 text-blue-900",
-        green: "bg-green-600 hover:bg-green-700 text-white"
-    };
+    const colorDict = {
+  primary:
+    "bg-brand-500 hover:bg-brand-600 text-white",
+
+  gradient:
+    "bg-gradient-to-r from-cyan-400 via-brand-500 to-magenta-400 text-white",
+
+  cyan:
+    "bg-cyan-400 hover:bg-cyan-500 text-ink-950",
+
+  magenta:
+    "bg-magenta-400 hover:bg-magenta-500 text-white",
+
+  white:
+    "bg-white hover:bg-ink-100 text-ink-950",
+
+  dark:
+    "bg-ink-800 hover:bg-ink-700 text-white",
+};
 
     const baseClassName = ` ${colorDict[color]} inline-flex justify-center items-center gap-3 px-8 py-4 rounded-xl
                  font-semibold text-lg

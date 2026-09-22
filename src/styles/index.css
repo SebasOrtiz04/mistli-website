@@ -1,0 +1,456 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* ================================
+     MISTLI BRAND
+     ================================ */
+
+  --mistli-primary: #7992FC;
+  --mistli-cyan: #60E0FA;
+  --mistli-magenta: #FB5FEF;
+  --mistli-pink: #FDBDF8;
+
+  /* ================================
+     MISTLI DARK
+     ================================ */
+
+  --mistli-bg: #080A10;
+  --mistli-surface: #11131C;
+  --mistli-surface-elevated: #1A1D28;
+
+  /* ================================
+     TEXT
+     (secondary y muted cumplen contraste AA sobre --mistli-bg;
+      evita grises más oscuros como #555 / #666 para texto)
+     ================================ */
+
+  --mistli-text: #F4F5F8;
+  --mistli-text-secondary: #AEB3C2;
+  --mistli-text-muted: #858B9D;
+
+  /* ================================
+     BORDERS
+     ================================ */
+
+  --mistli-border: rgba(255, 255, 255, 0.08);
+  --mistli-border-strong: rgba(255, 255, 255, 0.14);
+
+  /* ================================
+     GRADIENT
+     ================================ */
+
+  --mistli-gradient:
+    linear-gradient(
+      135deg,
+      #60E0FA 0%,
+      #7992FC 45%,
+      #FB5FEF 100%
+    );
+
+  --mistli-gradient-text:
+    linear-gradient(
+      100deg,
+      #60E0FA 0%,
+      #7992FC 50%,
+      #FB5FEF 100%
+    );
+
+  /* ================================
+     GLOWS
+     ================================ */
+
+  --mistli-glow-blue:
+    rgba(121, 146, 252, 0.18);
+
+  --mistli-glow-cyan:
+    rgba(96, 224, 250, 0.14);
+
+  --mistli-glow-magenta:
+    rgba(251, 95, 239, 0.14);
+
+  /* ================================
+     ACCENT (por defecto = marca).
+     Cada servicio lo sobreescribe con data-accent.
+     ================================ */
+
+  --accent: var(--mistli-primary);
+  --accent-2: var(--mistli-cyan);
+}
+
+/* ==========================================================
+   ACENTOS POR SERVICIO
+
+   Uso: <div data-accent="ia"> ... </div>
+   Todo lo que esté dentro puede usar var(--accent) / var(--accent-2)
+   y las clases .m-card, .m-icon-tile, .m-accent-text, etc.
+   Sirve igual para las páginas /ia, /web, /backend, ...
+   ========================================================== */
+
+[data-accent="ia"]             { --accent: var(--mistli-magenta); --accent-2: var(--mistli-primary); }
+[data-accent="web"]            { --accent: var(--mistli-cyan);    --accent-2: var(--mistli-primary); }
+[data-accent="backend"]        { --accent: var(--mistli-primary); --accent-2: var(--mistli-cyan); }
+[data-accent="automatizacion"] { --accent: var(--mistli-pink);    --accent-2: var(--mistli-cyan); }
+[data-accent="documentos"]     { --accent: var(--mistli-cyan);    --accent-2: var(--mistli-magenta); }
+[data-accent="aplicaciones"]   { --accent: var(--mistli-primary); --accent-2: var(--mistli-magenta); }
+
+html {
+  scroll-behavior: smooth;
+  /* Compensa el header fijo (72px) en anclas como #servicios */
+  scroll-padding-top: 88px;
+}
+
+body {
+  background: var(--mistli-bg);
+  color: var(--mistli-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: rgba(121, 146, 252, 0.35);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--mistli-cyan);
+  outline-offset: 3px;
+}
+
+/* ==========================================================
+   COMPONENTES MISTLI (prefijo m-)
+   ========================================================== */
+
+@layer components {
+
+  /* ---------- Texto con degradado de marca ---------- */
+
+  .m-gradient-text {
+    background-image: var(--mistli-gradient-text);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  .m-accent-text {
+    color: var(--accent);
+  }
+
+  /* ---------- Botones ---------- */
+
+  .m-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 0.75rem;
+    padding: 0.875rem 1.5rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.3s ease,
+      background-position 0.4s ease,
+      background-color 0.2s ease,
+      border-color 0.2s ease;
+  }
+
+  /* Texto oscuro sobre el degradado: contraste alto en cian, azul y magenta */
+  .m-btn-primary {
+    color: #080A10;
+    background-image: var(--mistli-gradient);
+    background-size: 160% 160%;
+    background-position: 0% 50%;
+    box-shadow:
+      0 10px 30px -10px rgba(121, 146, 252, 0.55),
+      inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  }
+
+  .m-btn-primary:hover {
+    transform: translateY(-2px);
+    background-position: 100% 50%;
+    box-shadow:
+      0 18px 40px -12px rgba(121, 146, 252, 0.75),
+      inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  }
+
+  .m-btn-ghost {
+    color: var(--mistli-text);
+    border: 1px solid var(--mistli-border-strong);
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  .m-btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.24);
+  }
+
+  /* ---------- Icono / badge con color de acento ---------- */
+
+  .m-icon-tile {
+    color: var(--accent);
+    background:
+      linear-gradient(
+        color-mix(in srgb, var(--accent) 12%, transparent),
+        color-mix(in srgb, var(--accent) 12%, transparent)
+      ),
+      #0B0D14;
+    border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+  }
+
+  /* ---------- Tarjeta de servicio con spotlight que sigue al cursor ---------- */
+
+  .m-card {
+    border: 1px solid var(--mistli-border);
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.04),
+        rgba(255, 255, 255, 0.015)
+      );
+    transition:
+      transform 0.3s ease,
+      border-color 0.3s ease;
+  }
+
+  .m-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    background:
+      radial-gradient(
+        380px circle at var(--mx, 85%) var(--my, 0%),
+        color-mix(in srgb, var(--accent) 18%, transparent),
+        transparent 62%
+      );
+  }
+
+  .m-card > * {
+    position: relative;
+  }
+
+  .m-card:hover {
+    transform: translateY(-4px);
+    border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+  }
+
+  .m-card:hover::before {
+    opacity: 1;
+  }
+
+  /* ---------- Fondo: cuadrícula con desvanecido ---------- */
+
+  .m-grid-bg {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+    background-size: 64px 64px;
+    -webkit-mask-image: radial-gradient(ellipse 70% 55% at 50% 30%, #000 25%, transparent 75%);
+    mask-image: radial-gradient(ellipse 70% 55% at 50% 30%, #000 25%, transparent 75%);
+  }
+
+  /* ---------- Borde con degradado (CTA) ---------- */
+
+  .m-gradient-border {
+    background-image: var(--mistli-gradient);
+  }
+
+  /* ---------- Línea de tiempo (enfoque) ---------- */
+
+  .m-timeline-line {
+    background:
+      linear-gradient(
+        to bottom,
+        var(--mistli-cyan),
+        var(--mistli-primary),
+        var(--mistli-magenta)
+      );
+    opacity: 0.35;
+  }
+
+  /* ---------- Flujo animado del hero ---------- */
+
+  .m-flow-step {
+    position: relative;
+  }
+
+  .m-flow-step::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    background:
+      linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--accent) 16%, transparent),
+        transparent 80%
+      );
+    border: 1px solid color-mix(in srgb, var(--accent) 32%, transparent);
+    animation: m-flow-row 6s ease-in-out infinite;
+    animation-delay: calc(var(--i, 0) * 1.5s);
+  }
+
+  .m-flow-dot {
+    animation: m-flow-dot 6s ease-in-out infinite;
+    animation-delay: calc(var(--i, 0) * 1.5s);
+  }
+
+  /* ---------- Chips flotantes ---------- */
+
+  .m-float {
+    animation: m-float 6s ease-in-out infinite;
+  }
+
+  .m-float-b {
+    animation-delay: -3s;
+  }
+
+  /* ---------- Glitch RGB del 404 (cian / magenta) ---------- */
+
+  .m-glitch-a {
+    opacity: 0.55;
+    transform: translate(-3px, 0);
+    clip-path: polygon(0 30%, 100% 30%, 100% 50%, 0 50%);
+    animation: m-glitch-a 5s steps(1, end) infinite;
+  }
+
+  .m-glitch-b {
+    opacity: 0.45;
+    transform: translate(3px, 0);
+    clip-path: polygon(0 60%, 100% 60%, 100% 78%, 0 78%);
+    animation: m-glitch-b 5s steps(1, end) infinite;
+  }
+
+  /* ---------- Reveal al hacer scroll ---------- */
+
+  .m-reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 0.7s ease,
+      transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+    transition-delay: var(--d, 0ms);
+  }
+
+  .m-reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ==========================================================
+   KEYFRAMES
+   ========================================================== */
+
+/* 4 pasos x 1.5s = 6s. Cada paso se ilumina 1.5s y el ciclo se repite. */
+
+@keyframes m-flow-row {
+  0%, 3%    { opacity: 0; }
+  8%, 22%   { opacity: 1; }
+  27%, 100% { opacity: 0; }
+}
+
+@keyframes m-flow-dot {
+  0%, 3% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 transparent;
+  }
+  8%, 22% {
+    transform: scale(1.07);
+    box-shadow: 0 0 22px color-mix(in srgb, var(--accent) 55%, transparent);
+  }
+  27%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+
+/* Reposo casi todo el ciclo; un destello corto cada 5s */
+
+@keyframes m-glitch-a {
+  0%, 92%, 100% {
+    transform: translate(-3px, 0);
+    clip-path: polygon(0 30%, 100% 30%, 100% 50%, 0 50%);
+  }
+  93% {
+    transform: translate(-9px, 0);
+    clip-path: polygon(0 8%, 100% 8%, 100% 26%, 0 26%);
+  }
+  95% {
+    transform: translate(6px, 0);
+    clip-path: polygon(0 52%, 100% 52%, 100% 68%, 0 68%);
+  }
+  97% {
+    transform: translate(-6px, 0);
+    clip-path: polygon(0 38%, 100% 38%, 100% 58%, 0 58%);
+  }
+}
+
+@keyframes m-glitch-b {
+  0%, 93%, 100% {
+    transform: translate(3px, 0);
+    clip-path: polygon(0 60%, 100% 60%, 100% 78%, 0 78%);
+  }
+  94% {
+    transform: translate(9px, 0);
+    clip-path: polygon(0 74%, 100% 74%, 100% 92%, 0 92%);
+  }
+  96% {
+    transform: translate(-5px, 0);
+    clip-path: polygon(0 18%, 100% 18%, 100% 34%, 0 34%);
+  }
+  98% {
+    transform: translate(7px, 0);
+    clip-path: polygon(0 46%, 100% 46%, 100% 62%, 0 62%);
+  }
+}
+
+@keyframes m-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+
+/* ==========================================================
+   ACCESIBILIDAD: reducir movimiento
+   ========================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .m-flow-step::before,
+  .m-flow-dot,
+  .m-float,
+  .m-glitch-a,
+  .m-glitch-b {
+    animation: none !important;
+  }
+
+  .m-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .m-card,
+  .m-btn {
+    transition: none;
+  }
+
+  .m-card:hover,
+  .m-btn-primary:hover {
+    transform: none;
+  }
+}

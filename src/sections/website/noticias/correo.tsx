@@ -53,7 +53,7 @@ export const NewsletterBanner: React.FC<NewsletterBannerProps> = ({
                   if (error) setError("");
                 }}
                 onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
-                className={`flex-1 h-11 px-4 bg-white/[0.06] border border-white/[0.12] border-r-0 rounded-l-lg text-white text-sm placeholder:text-white/30 outline-none focus:border-violet-500/50 focus:bg-white/[0.08] transition-colors ${error ? "border-red-500/50" : ""}`}
+                className={`flex-1 h-11 px-4 bg-white/[0.06] border border-white/[0.12] border-r-0 rounded-l-lg text-white text-sm placeholder:text-white/30 outline-none focus:border-brand-500/50 focus:bg-white/[0.08] transition-colors ${error ? "border-red-500/50" : ""}`}
               />
               <button
                 onClick={handleSubmit}

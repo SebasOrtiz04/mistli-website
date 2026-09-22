@@ -65,7 +65,7 @@ const BackendAPIsSection: React.FC<BackendAPIsSectionProps> = ({
           </div>
 
           {/* CTA */}
-          <CustomButton href={baseWhats + encodeURIComponent(t('home.backend.whatsappMsg'))} color='green' icon="mdi:whatsapp" label={t('home.backend.cta')} />
+          <CustomButton href={baseWhats + encodeURIComponent(t('home.backend.whatsappMsg'))} color='dark' icon="mdi:whatsapp" label={t('home.backend.cta')} />
         </div>
 
         {/* RIGHT – VISUAL (hidden mobile) */}

@@ -34,7 +34,7 @@ type ContentBlock = ParagraphBlock | HeadingBlock | ListBlock | ImageBlock | Vid
 
 const CATEGORY_COLORS: Record<CategoryColor, { badge: string; ring: string; accent: string; glow: string }> = {
   cyan:   { badge: "bg-cyan-500/15 text-cyan-400 border-cyan-500/40",   ring: "ring-cyan-500/40",   accent: "text-cyan-400",   glow: "shadow-cyan-500/20" },
-  purple: { badge: "bg-violet-500/15 text-violet-400 border-violet-500/40", ring: "ring-violet-500/40", accent: "text-violet-400", glow: "shadow-violet-500/20" },
+  purple: { badge: "bg-violet-500/15 text-brand-400 border-brand-500/40", ring: "ring-violet-500/40", accent: "text-brand-400", glow: "shadow-violet-500/20" },
   green:  { badge: "bg-emerald-500/15 text-emerald-400 border-emerald-500/40", ring: "ring-emerald-500/40", accent: "text-emerald-400", glow: "shadow-emerald-500/20" },
   orange: { badge: "bg-orange-500/15 text-orange-400 border-orange-500/40", ring: "ring-orange-500/40", accent: "text-orange-400", glow: "shadow-orange-500/20" },
   blue:   { badge: "bg-blue-500/15 text-blue-400 border-blue-500/40",   ring: "ring-blue-500/40",   accent: "text-blue-400",   glow: "shadow-blue-500/20" },
@@ -642,7 +642,7 @@ const CreateNoticia: React.FC = () => {
       {/* Info cards */}
       <div className="bg-white/[0.03] border border-white/[0.07] rounded-2xl p-5 mb-6 text-left space-y-4">
         <div className="flex items-start gap-3">
-          <div className="w-8 h-8 rounded-lg bg-violet-500/12 border border-violet-500/20 flex items-center justify-center shrink-0 mt-0.5">
+          <div className="w-8 h-8 rounded-lg bg-violet-500/12 border border-brand-500/20 flex items-center justify-center shrink-0 mt-0.5">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(167,139,250,0.9)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/>
             </svg>
