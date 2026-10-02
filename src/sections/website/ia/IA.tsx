@@ -1,131 +1,144 @@
-import { FormEvent, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import Icon from "../../../components/iconify/Icon";
-import MainLayout from "../../../layouts/MainLayout";
+import { useTranslation } from 'react-i18next';
+import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 
 type Message = {
   id: number;
   role: "assistant" | "user";
   content: string;
+  error?: boolean;
 };
 
-const suggestedPrompts = [
-  "¿Qué puede automatizar la IA en mi empresa?",
-  "Quiero conectar un chatbot con mis documentos",
-  "¿Qué es un agente de IA?",
-];
+const WELCOME_ID = 1;
+const MAX_HISTORY = 20;
 
-const capabilities = [
-  {
-    icon: "mdi:robot-outline",
-    title: "Agentes de IA",
-    text: "Sistemas capaces de razonar, consultar información y ejecutar acciones.",
-  },
-  {
-    icon: "mdi:database-search-outline",
-    title: "RAG",
-    text: "Conecta modelos de lenguaje con tus propios documentos y datos.",
-  },
-  {
-    icon: "mdi:brain",
-    title: "Machine Learning",
-    text: "Modelos predictivos y de clasificación adaptados a problemas reales.",
-  },
-  {
-    icon: "mdi:api",
-    title: "Integraciones",
-    text: "Conectamos la IA con tus APIs, sistemas internos y herramientas.",
-  },
-];
+// Limpia el historial antes de mandarlo al backend
+const buildHistory = (items: Message[]) => {
+  const merged: { role: Message["role"]; content: string }[] = [];
 
+  for (const m of items) {
+    if (m.id === WELCOME_ID || m.error) continue;
+
+    const last = merged[merged.length - 1];
+    if (last && last.role === m.role) {
+      // evita dos mensajes seguidos del mismo rol
+      last.content += `\n\n${m.content}`;
+    } else {
+      merged.push({ role: m.role, content: m.content });
+    }
+  }
+
+  const recent = merged.slice(-MAX_HISTORY);
+
+  // el historial debe empezar con un mensaje del usuario
+  while (recent.length && recent[0].role === "assistant") recent.shift();
+
+  return recent;
+};
 export default function IA() {
-  const [messages, setMessages] = useState<Message[]>([
+  const { t } = useTranslation();
+  const capabilities = [
     {
-      id: 1,
-      role: "assistant",
-      content:
-        "Hola. Soy el asistente de Mistli. Puedo ayudarte a explorar cómo aplicar IA, automatización y machine learning a tu negocio.",
+      icon: "mdi:robot-outline",
+      title: t('ia.aside.capabilities.0.title'),
+      text: t('ia.aside.capabilities.0.text'),
     },
+    {
+      icon: "mdi:database-search-outline",
+      title: t('ia.aside.capabilities.1.title'),
+      text: t('ia.aside.capabilities.1.text'),
+    },
+    {
+      icon: "mdi:brain",
+      title: t('ia.aside.capabilities.2.title'),
+      text: t('ia.aside.capabilities.2.text'),
+    },
+    {
+      icon: "mdi:api",
+      title: t('ia.aside.capabilities.3.title'),
+      text: t('ia.aside.capabilities.3.text'),
+    },
+  ];
+  const suggestedPrompts = [
+    t('ia.chat.suggestedPrompts.0'),
+    t('ia.chat.suggestedPrompts.1'),
+    t('ia.chat.suggestedPrompts.2'),
+  ];
+  const [messages, setMessages] = useState<Message[]>([
+    // { id: WELCOME_ID, role: "assistant", content: t('ia.chat.welcomeMessage') },
   ]);
 
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
+
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (el) el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
+  }, [messages, isTyping]);
 
   const canSend = useMemo(
     () => input.trim().length > 0,
     [input]
   );
 
+  const API_URL = import.meta.env.VITE_MISTLI_AI_URL;
+
   const sendMessage = async (event?: FormEvent) => {
     event?.preventDefault();
 
     const message = input.trim();
-
     if (!message || isTyping) return;
 
-    setMessages((current) => [
-      ...current,
-      {
-        id: Date.now(),
-        role: "user",
-        content: message,
-      },
-    ]);
+    const userMessage: Message = { id: Date.now(), role: "user", content: message };
+    const conversation = [...messages, userMessage];
 
+    setMessages(conversation);
     setInput("");
     setIsTyping(true);
 
-    /*
-     * FUTURO BACKEND
-     *
-     * Aquí conectaremos el chatbot real con tu backend.
-     *
-     * Ejemplo:
-     *
-     * const response = await fetch("/api/chat", {
-     *   method: "POST",
-     *   headers: {
-     *     "Content-Type": "application/json",
-     *   },
-     *   body: JSON.stringify({
-     *     message,
-     *     conversationId,
-     *   }),
-     * });
-     *
-     * const data = await response.json();
-     *
-     * setMessages((current) => [
-     *   ...current,
-     *   {
-     *     id: Date.now(),
-     *     role: "assistant",
-     *     content: data.message,
-     *   },
-     * ]);
-     */
+    try {
+      const response = await fetch(`${API_URL}/chat`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          message,
+          messages: buildHistory(conversation),
+        }),
+      });
 
-    window.setTimeout(() => {
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+      const data: { message: string } = await response.json();
+
+      setMessages((current) => [
+        ...current,
+        { id: Date.now() + 1, role: "assistant", content: data.message },
+      ]);
+    } catch (error) {
+      console.error("Error comunicando con Mistli IA:", error);
+
       setMessages((current) => [
         ...current,
         {
-          id: Date.now(),
+          id: Date.now() + 1,
           role: "assistant",
+          error: true,
           content:
-            "Este chatbot está en modo demostración. La siguiente etapa será conectarlo con un modelo de IA mediante tu backend FastAPI y, posteriormente, agregar memoria, RAG y herramientas.",
+            "Disculpa, en este momento no pude conectarme con nuestro asistente. Intenta nuevamente en unos segundos.",
         },
       ]);
-
+    } finally {
       setIsTyping(false);
-    }, 700);
+    }
   };
-
   const usePrompt = (prompt: string) => {
     setInput(prompt);
   };
 
   return (
-    <MainLayout>
     <main className="relative overflow-hidden bg-[#080A10] text-[#F4F5F8]">
       {/* =====================================================
           BACKGROUND
@@ -170,21 +183,19 @@ export default function IA() {
               />
 
               <span className="text-xs font-medium uppercase tracking-[0.14em] text-[#C7D0FE]">
-                Inteligencia Artificial
+                {t('ia.hero.badge')}
               </span>
             </div>
 
             <h1 className="text-[2.8rem] font-semibold leading-[1.02] tracking-[-0.045em] sm:text-6xl lg:text-7xl">
-              IA que entiende
+              {t('ia.hero.titleLine1')}
               <span className="m-gradient-text block pb-2">
-                tu negocio.
+                {t('ia.hero.titleHighlight')}
               </span>
             </h1>
 
             <p className="mt-7 max-w-2xl text-base leading-8 text-[#AEB3C2] sm:text-lg">
-              Integramos inteligencia artificial en procesos reales:
-              asistentes, agentes, RAG, machine learning y automatización
-              conectados con los sistemas que ya utilizas.
+              {t('ia.hero.description')}
             </p>
           </div>
         </div>
@@ -218,39 +229,33 @@ export default function IA() {
 
                   <div className="min-w-0">
                     <h2 className="text-sm font-semibold">
-                      Asistente Mistli
+                      {t('ia.chat.assistantName')}
                     </h2>
 
                     <div className="mt-0.5 flex items-center gap-1.5 text-xs text-[#858B9D]">
                       <span className="h-1.5 w-1.5 rounded-full bg-[#60E0FA]" />
-                      IA disponible
+                      {t('ia.chat.status')}
                     </div>
                   </div>
                 </div>
-
-                <span className="hidden rounded-full border border-white/[0.08] bg-white/[0.03] px-3 py-1.5 text-[10px] uppercase tracking-[0.14em] text-[#858B9D] sm:inline-flex">
-                  Demo
-                </span>
               </header>
 
               {/* Messages */}
-              <div className="relative flex min-h-[430px] flex-col gap-5 p-5 sm:p-6">
-                <div className="flex-1 space-y-4 overflow-y-auto">
+              <div className="relative flex min-h-auto flex-col gap-5 p-5 sm:p-6">
+                <div   ref={scrollRef} className=" object-contain flex-1 space-y-4 overflow-y-auto pr-1">
                   {messages.map((message) => (
                     <div
                       key={message.id}
-                      className={`flex ${
-                        message.role === "user"
-                          ? "justify-end"
-                          : "justify-start"
-                      }`}
+                      className={`flex ${message.role === "user"
+                        ? "justify-end"
+                        : "justify-start"
+                        }`}
                     >
                       <div
-                        className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-6 ${
-                          message.role === "user"
-                            ? "bg-[#7992FC] text-white"
-                            : "border border-white/[0.07] bg-white/[0.035] text-[#C4C9D6]"
-                        }`}
+                        className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-6 ${message.role === "user"
+                          ? "bg-[#7992FC] text-white"
+                          : "border border-white/[0.07] bg-white/[0.035] text-[#C4C9D6]"
+                          }`}
                       >
                         {message.content}
                       </div>
@@ -317,9 +322,6 @@ export default function IA() {
                   </button>
                 </form>
 
-                <p className="text-center text-[10px] text-[#5F6473]">
-                  El asistente de esta página es una demostración.
-                </p>
               </div>
             </div>
 
@@ -327,16 +329,15 @@ export default function IA() {
             <aside className="space-y-4">
               <div className="rounded-3xl border border-white/[0.08] bg-[#0D0F17]/80 p-6 backdrop-blur-xl">
                 <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#60E0FA]">
-                  IA aplicada
+                  {t('ia.aside.badge')}
                 </p>
 
                 <h2 className="mt-3 text-xl font-semibold tracking-tight">
-                  No se trata de poner un chatbot.
+                  {t('ia.aside.title')}
                 </h2>
 
                 <p className="mt-3 text-sm leading-6 text-[#AEB3C2]">
-                  Se trata de conectar inteligencia con información,
-                  herramientas y procesos para resolver problemas concretos.
+                  {t('ia.aside.text')}
                 </p>
               </div>
 
@@ -393,20 +394,19 @@ export default function IA() {
 
               <div className="relative">
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#60E0FA]">
-                  ¿Tienes un proceso que mejorar?
+                  {t('ia.cta.eyebrow')}
                 </p>
 
                 <h2 className="mt-4 text-4xl font-semibold leading-tight tracking-[-0.03em] sm:text-5xl">
-                  Hagamos que la IA
+                  {t('ia.cta.titleLine1')}
                   <span className="m-gradient-text">
                     {" "}
-                    trabaje para ti.
+                    {t('ia.cta.titleHighlight')}
                   </span>
                 </h2>
 
                 <p className="mx-auto mt-6 max-w-xl text-base leading-7 text-[#AEB3C2]">
-                  Cuéntanos qué quieres automatizar, predecir, clasificar o
-                  conectar y diseñemos una solución alrededor de tu problema.
+                  {t('ia.cta.text')}
                 </p>
 
                 <div className="mt-9">
@@ -414,7 +414,7 @@ export default function IA() {
                     to="/contacto"
                     className="m-btn m-btn-primary px-7"
                   >
-                    Hablar con Mistli
+                    {t('ia.cta.button')}
                     <Icon
                       icon="mdi:arrow-right"
                       width={19}
@@ -428,6 +428,5 @@ export default function IA() {
         </div>
       </section>
     </main>
-    </MainLayout>
   );
 }

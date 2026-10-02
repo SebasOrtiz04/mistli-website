@@ -1,5 +1,4 @@
 import { useState } from "react";
-import MainLayout from "../../layouts/MainLayout";
 
 const faqs = [
   { q: "How do I reset my password?", a: "Go to the login page and click 'Forgot?' next to the password field. Enter your work email and we'll send a reset link within seconds. The link expires after 1 hour." },
@@ -40,7 +39,6 @@ export default function SupportPage() {
   };
 
   return (
-    <MainLayout>
       <div className="max-w-4xl mx-auto px-6 py-14">
 
         {/* Hero */}
@@ -173,6 +171,5 @@ export default function SupportPage() {
           )}
         </section>
       </div>
-    </MainLayout>
   );
 }

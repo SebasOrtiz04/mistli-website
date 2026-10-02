@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import Icon from "../../../components/iconify/Icon";
-import MainLayout from "../../../layouts/MainLayout";
 
 const features = [
   ["mdi:web", "Landing pages", "Páginas enfocadas en presentar tu negocio y convertir visitas en clientes."],
@@ -13,7 +12,6 @@ const stack = ["React", "Next.js", "Vite", "TypeScript", "Tailwind CSS", "APIs",
 
 export default function Web() {
   return (
-    <MainLayout>
     <main className="relative overflow-hidden bg-[#080A10] text-[#F4F5F8]">
       <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-[850px] overflow-hidden">
         <div className="absolute -top-40 left-[8%] h-[520px] w-[520px] rounded-full opacity-[0.18] blur-[130px]" style={{ background: "var(--mistli-cyan)" }} />
@@ -107,6 +105,5 @@ export default function Web() {
         </div>
       </section>
     </main>
-    </MainLayout>
   );
 }

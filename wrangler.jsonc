@@ -1,0 +1,15 @@
+{
+  "name": "mistli-website",
+  "main": "./src/worker/index.ts",
+  "compatibility_date": "2026-10-01",
+
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application"
+  },
+
+  "ai": {
+    "binding": "AI"
+  }
+}

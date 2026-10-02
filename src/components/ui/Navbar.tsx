@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 
 import { useLocation, useNavigate } from "react-router-dom";
 import Icon from "../iconify/Icon";
+import { useTranslation } from 'react-i18next';
+
 
 interface NavbarProps {
   open: boolean;
@@ -9,44 +11,6 @@ interface NavbarProps {
   onClose: () => void;
 }
 
-const services = [
-  {
-    label: "Inteligencia Artificial",
-    description: "Agentes, RAG y soluciones con IA",
-    path: "/ia",
-    icon: "mdi:brain",
-  },
-  {
-    label: "Desarrollo Web",
-    description: "Sitios y plataformas web",
-    path: "/web",
-    icon: "mdi:web",
-  },
-  {
-    label: "Backend & APIs",
-    description: "APIs, sistemas e integraciones",
-    path: "/backend",
-    icon: "mdi:server-outline",
-  },
-  {
-    label: "Automatización",
-    description: "Procesos y flujos inteligentes",
-    path: "/automatizacion",
-    icon: "mdi:lightning-bolt",
-  },
-  {
-    label: "Documentos",
-    description: "Procesamiento inteligente",
-    path: "/documentos",
-    icon: "mdi:file-document-outline",
-  },
-  {
-    label: "Aplicaciones",
-    description: "Web, mobile y software a medida",
-    path: "/aplicaciones",
-    icon: "mdi:application-brackets-outline",
-  },
-];
 
 /* Estilo compartido de los links de escritorio */
 const desktopLink = (active: boolean) =>
@@ -55,6 +19,46 @@ const desktopLink = (active: boolean) =>
   }`;
 
 export default function Navbar({ open, onToggle, onClose }: NavbarProps) {
+  const { t } = useTranslation();
+  const services = [
+  {
+    label: t('navbar.services.items.ai.label'),
+    description: t('navbar.services.items.ai.description'),
+    path: "/ia",
+    icon: "mdi:brain",
+  },
+  {
+    label: t('navbar.services.items.web.label'),
+    description: t('navbar.services.items.web.description'),
+    path: "/web",
+    icon: "mdi:web",
+  },
+  {
+    label: t('navbar.services.items.backend.label'),
+    description: t('navbar.services.items.backend.description'),
+    path: "/backend",
+    icon: "mdi:server-outline",
+  },
+  {
+    label: t('navbar.services.items.automation.label'),
+    description: t('navbar.services.items.automation.description'),
+    path: "/automatizacion",
+    icon: "mdi:lightning-bolt",
+  },
+  {
+    label: t('navbar.services.items.documents.label'),
+    description: t('navbar.services.items.documents.description'),
+    path: "/documentos",
+    icon: "mdi:file-document-outline",
+  },
+  {
+    label: t('navbar.services.items.apps.label'),
+    description: t('navbar.services.items.apps.description'),
+    path: "/aplicaciones",
+    icon: "mdi:application-brackets-outline",
+  },
+];
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -169,7 +173,7 @@ export default function Navbar({ open, onToggle, onClose }: NavbarProps) {
                 : "text-[#aaa] hover:text-white"
             }`}
           >
-            <span>Servicios</span>
+            <span>{t("navbar.services.label")}</span>
 
             <Icon
               icon={servicesOpen ? "mdi:chevron-up" : "mdi:chevron-down"}
@@ -251,7 +255,7 @@ export default function Navbar({ open, onToggle, onClose }: NavbarProps) {
           onClick={() => goTo("/documentation")}
           className={desktopLink(isActive("/documentation"))}
         >
-          Documentación
+          {t('navbar.documentation')}
         </button>
 
         {/* SOPORTE */}
@@ -261,7 +265,7 @@ export default function Navbar({ open, onToggle, onClose }: NavbarProps) {
           onClick={() => goTo("/support")}
           className={desktopLink(isActive("/support"))}
         >
-          Soporte
+          {t('navbar.support')}
         </button>
       </div>
 
@@ -332,7 +336,7 @@ export default function Navbar({ open, onToggle, onClose }: NavbarProps) {
                 className="text-brand-400"
               />
 
-              <span>Servicios</span>
+              <span>{t('navbar.services.label')}</span>
             </div>
 
             <Icon
@@ -387,7 +391,7 @@ export default function Navbar({ open, onToggle, onClose }: NavbarProps) {
               isActive("/documentation") ? "text-white" : "text-[#ccc]"
             }`}
           >
-            Documentación
+            {t('navbar.documentation')}
           </button>
 
           {/* SOPORTE */}
@@ -399,7 +403,7 @@ export default function Navbar({ open, onToggle, onClose }: NavbarProps) {
               isActive("/support") ? "text-white" : "text-[#ccc]"
             }`}
           >
-            Soporte
+            {t('navbar.support')}
           </button>
         </div>
       )}
