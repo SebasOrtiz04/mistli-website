@@ -240,7 +240,7 @@ const CustomScriptSection: React.FC<CustomScriptSectionProps> = ({
           </div>
 
           {/* CTA */}
-          <CustomButton color='purple' href={baseWhats + encodeURIComponent(t('home.scripts.whatsappMsg'))} icon="mdi:whatsapp" label={t('home.scripts.cta')} />
+          <CustomButton color='magenta' href={baseWhats + encodeURIComponent(t('home.scripts.whatsappMsg'))} icon="mdi:whatsapp" label={t('home.scripts.cta')} />
 
           <p className="text-sm text-gray-500 flex items-center gap-2">
             <Icon icon="solar:shield-check-bold" className="text-blue-600" />

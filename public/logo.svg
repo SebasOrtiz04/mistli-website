@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="mistli-gradient" x1="72" y1="120" x2="440" y2="410" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#60E0FA"/>
+      <stop offset="0.48" stop-color="#7992FC"/>
+      <stop offset="1" stop-color="#FB5FEF"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Mistli cloud mark: rounded, soft silhouette inspired by the supplied logo -->
+  <path
+    d="M137 365
+       C102 365 76 339 76 306
+       C76 275 99 250 129 246
+       C135 188 184 144 244 144
+       C293 144 335 172 353 212
+       C364 208 376 206 388 206
+       C424 206 454 235 454 271
+       C454 307 426 336 391 339
+       C382 355 365 365 343 365
+       Z"
+    fill="url(#mistli-gradient)"
+  />
+
+  <!-- Subtle lower cloud extension / softness -->
+  <path
+    d="M137 365
+       C164 392 204 407 249 407
+       H343
+       C370 407 392 390 401 366
+       C398 366 395 366 391 366
+       H137 Z"
+    fill="url(#mistli-gradient)"
+    opacity="0.98"
+  />
+</svg>

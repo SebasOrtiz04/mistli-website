@@ -1,11 +1,21 @@
 .gradientBackground {
-  background: linear-gradient(135deg,color-mix(in oklab, var(--color-blue-500) 30%, transparent),#1151b0);
+  background:
+    linear-gradient(
+      135deg,
+      rgba(96, 224, 250, 0.30),
+      rgba(121, 146, 252, 0.75),
+      rgba(251, 95, 239, 0.35)
+    );
+
   background-size: 200% 200%;
   background-position: 0% 50%;
+
   animation: gradientShift 10s ease infinite;
+
   color: white;
   min-height: 50vh;
   padding: 2rem;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -29,43 +39,100 @@
 /* Plans.module.css */
 
 .planCard {
-  border: 1px solid rgba(59, 130, 246, 0.2);
-  box-shadow: 
+  border: 1px solid rgba(121, 146, 252, 0.20);
+
+  box-shadow:
     0 10px 25px -5px rgba(0, 0, 0, 0.3),
-    0 0 0 1px rgba(59, 130, 246, 0.1);
+    0 0 0 1px rgba(121, 146, 252, 0.10);
 }
 
 .regularPlan {
-  background: linear-gradient(135deg, 
-    rgba(31, 31, 47, 0.95) 0%, 
-    rgba(42, 42, 61, 0.85) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(17, 19, 28, 0.96) 0%,
+    rgba(26, 29, 40, 0.90) 100%
+  );
 }
 
 .popularPlan {
-  background: linear-gradient(135deg, 
-    rgba(42, 42, 61, 0.95) 0%, 
-    rgba(31, 41, 55, 0.95) 50%,
-    rgba(42, 42, 61, 0.95) 100%);
-  border: 1px solid rgba(59, 130, 246, 0.4);
-  box-shadow: 
+  background:
+    linear-gradient(
+      135deg,
+      rgba(26, 29, 40, 0.96) 0%,
+      rgba(29, 32, 46, 0.95) 50%,
+      rgba(26, 29, 40, 0.96) 100%
+    );
+
+  border: 1px solid rgba(121, 146, 252, 0.40);
+
+  box-shadow:
     0 20px 40px -10px rgba(0, 0, 0, 0.4),
-    0 0 0 1px rgba(59, 130, 246, 0.3),
-    0 0 50px -10px rgba(59, 130, 246, 0.2);
+    0 0 0 1px rgba(121, 146, 252, 0.20),
+    0 0 50px -10px rgba(121, 146, 252, 0.20);
+}
+.popularPlan:hover {
+  box-shadow:
+    0 35px 60px -10px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(121, 146, 252, 0.45),
+    0 0 100px -15px rgba(121, 146, 252, 0.30);
 }
 
 .backgroundGlow {
-  background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
-    rgba(59, 130, 246, 0.1), 
-    rgba(147, 197, 253, 0.05), 
-    transparent 40%);
+  background:
+    radial-gradient(
+      600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+      rgba(121, 146, 252, 0.14),
+      rgba(96, 224, 250, 0.06),
+      transparent 40%
+    );
 }
-
+.backgroundGlowAI {
+  background:
+    radial-gradient(
+      600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+      rgba(251, 95, 239, 0.15),
+      rgba(121, 146, 252, 0.06),
+      transparent 40%
+    );
+}
+.backgroundGlowWeb {
+  background:
+    radial-gradient(
+      600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+      rgba(96, 224, 250, 0.15),
+      rgba(121, 146, 252, 0.06),
+      transparent 40%
+    );
+}
 .backgroundPattern {
-  background-image: 
-    radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.1) 0%, transparent 25%),
-    radial-gradient(circle at 75% 75%, rgba(147, 197, 253, 0.1) 0%, transparent 25%);
+  background-image:
+    radial-gradient(
+      circle at 25% 25%,
+      rgba(121, 146, 252, 0.08) 0%,
+      transparent 25%
+    ),
+    radial-gradient(
+      circle at 75% 75%,
+      rgba(96, 224, 250, 0.08) 0%,
+      transparent 25%
+    );
+
   background-size: 50px 50px;
   background-position: 0 0, 25px 25px;
+}
+
+.backgroundPatternAI {
+  background-image:
+    radial-gradient(
+      circle at 25% 25%,
+      rgba(251, 95, 239, 0.08) 0%,
+      transparent 25%
+    ),
+    radial-gradient(
+      circle at 75% 75%,
+      rgba(121, 146, 252, 0.08) 0%,
+      transparent 25%
+    );
 }
 
 .popularBadge {
@@ -94,12 +161,22 @@
 
 .planTitle::after {
   content: '';
+
   position: absolute;
   bottom: -4px;
   left: 0;
+
   width: 0;
   height: 2px;
-  background: linear-gradient(90deg, #60a5fa, #3b82f6);
+
+  background:
+    linear-gradient(
+      90deg,
+      #60E0FA,
+      #7992FC,
+      #FB5FEF
+    );
+
   transition: width 0.3s ease-out;
 }
 
@@ -114,7 +191,22 @@
 
 .price {
   position: relative;
-  text-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+
+  text-shadow:
+    0 0 20px rgba(121, 146, 252, 0.30);
+}
+.featuredPrice {
+  background:
+    linear-gradient(
+      90deg,
+      #60E0FA,
+      #7992FC,
+      #FB5FEF
+    );
+
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
 }
 
 .featureItem {

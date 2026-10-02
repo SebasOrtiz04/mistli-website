@@ -35,7 +35,7 @@ export const RenderBlock: React.FC<{ block: ContentBlock }> = ({ block }) => {
         <ul className="space-y-2 pl-0 list-none">
           {block.items.map((item, i) => (
             <li key={i} className="flex gap-2 text-white/60">
-              <span className="text-violet-400 mt-[2px]">•</span>
+              <span className="text-brand-400 mt-[2px]">•</span>
               {item}
             </li>
           ))}
@@ -71,7 +71,7 @@ export const RenderBlock: React.FC<{ block: ContentBlock }> = ({ block }) => {
 
     case "code":
       return (
-        <pre className="bg-black/40 border border-white/10 rounded-xl p-4 overflow-x-auto text-sm text-emerald-300">
+        <pre className="bg-black/40 border border-white/10 rounded-xl p-4 overflow-x-auto text-sm text-cyan-300">
           <code>
             {block.code}
           </code>
@@ -104,7 +104,7 @@ export const RenderBlock: React.FC<{ block: ContentBlock }> = ({ block }) => {
 
     case "quote":
       return (
-        <blockquote className="border-l-4 border-violet-500 pl-4 italic text-white/60 my-6">
+        <blockquote className="border-l-4 border-brand-500 pl-4 italic text-white/60 my-6">
           {block.text}
           {block.author && (
             <div className="text-xs text-white/30 mt-2">

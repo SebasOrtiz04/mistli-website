@@ -89,7 +89,7 @@ const ReportGenerationSection: React.FC<ReportGenerationSectionProps> = ({
           </div>
 
           {/* CTA */}
-          <CustomButton href={baseWhats + encodeURIComponent(t('home.excel.whatsappMsg'))} color='green' icon="mdi:whatsapp" label={t('home.excel.cta')} />
+          <CustomButton href={baseWhats + encodeURIComponent(t('home.excel.whatsappMsg'))} color='dark' icon="mdi:whatsapp" label={t('home.excel.cta')} />
         </div>
 
         {/* RIGHT - VISUAL */}

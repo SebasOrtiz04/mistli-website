@@ -7,7 +7,7 @@ interface NoticiasProps {
 const categoryColors: Record<string, string> = {
   cyan: "bg-cyan-400/10 text-cyan-300 border-cyan-400/40",
   purple: "bg-purple-400/10 text-purple-300 border-purple-400/40",
-  green: "bg-emerald-400/10 text-emerald-300 border-emerald-400/40",
+  green: "bg-emerald-400/10 text-cyan-300 border-emerald-400/40",
   orange: "bg-orange-400/10 text-orange-300 border-orange-400/40",
   blue: "bg-blue-400/10 text-blue-300 border-blue-400/40",
   pink: "bg-pink-400/10 text-pink-300 border-pink-400/40",

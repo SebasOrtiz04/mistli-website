@@ -1,4 +1,4 @@
-import PageLayout from "../../layouts/PageLayout";
+import MainLayout from "../../layouts/MainLayout";
 
 const sections = [
   {
@@ -71,7 +71,7 @@ const sections = [
 
 export default function TermsPage() {
   return (
-    <PageLayout>
+    <MainLayout>
       <div className="max-w-3xl mx-auto px-6 py-14">
 
         {/* Header */}
@@ -140,6 +140,6 @@ export default function TermsPage() {
           ))}
         </div>
       </div>
-    </PageLayout>
+    </MainLayout>
   );
 }
