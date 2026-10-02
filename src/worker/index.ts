@@ -2,7 +2,7 @@ import { createWorkersAI } from "workers-ai-provider";
 import { generateText } from "ai";
 
 interface Env {
-  AI: Ai;
+  AI: Parameters<typeof createWorkersAI>[0]["binding"];
 }
 
 const SYSTEM_PROMPT = `
