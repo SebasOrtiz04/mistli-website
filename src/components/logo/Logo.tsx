@@ -25,7 +25,7 @@ export default function Logo({
       {/* Isotipo */}
       <div className="w-9 h-9 shrink-0">
         <img
-          src="/logo.svg"
+          src="/maskable-icon.png"
           alt=""
           className="w-full h-full object-contain"
         />

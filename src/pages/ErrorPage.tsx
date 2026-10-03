@@ -53,7 +53,7 @@ export default function ErrorPage({ error }: ErrorPageProps) {
           href="/"
           className="mb-12 inline-flex items-center gap-2.5 no-underline"
         >
-          <img src="/logo.svg" alt="" className="h-8 w-8 object-contain" />
+          <img src="/maskable-icon.png" alt="" className="h-8 w-8 object-contain" />
           <span className="text-[17px] font-bold tracking-tight text-white">
             Mistli
           </span>
