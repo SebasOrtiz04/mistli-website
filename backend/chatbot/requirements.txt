@@ -2,7 +2,8 @@ fastapi
 uvicorn[standard]
 
 langchain
-langchain-ollama
+# langchain-ollama
+langchain-openai
 langgraph
 
 google-api-python-client
