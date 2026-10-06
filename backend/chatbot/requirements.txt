@@ -1,0 +1,13 @@
+fastapi
+uvicorn[standard]
+
+langchain
+langchain-ollama
+langgraph
+
+google-api-python-client
+google-auth-httplib2
+google-auth-oauthlib
+
+python-dotenv
+pydantic
