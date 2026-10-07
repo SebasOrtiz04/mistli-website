@@ -311,7 +311,7 @@ async def send_chat_history_by_email_2(
     if not MAILGUN_FROM:
         return "ERROR: MAILGUN_FROM no está configurado."
 
-    destination = recipient or MAILGUN_TO
+    destination = recipient
 
     if not destination:
         return "ERROR: No se especificó un correo destinatario."
