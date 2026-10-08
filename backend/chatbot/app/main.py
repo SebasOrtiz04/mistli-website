@@ -33,6 +33,7 @@ app.add_middleware(
     allow_origins=[
         "http://localhost",
         "https://mistli.com.mx",
+        "https://www.mistli.com.mx",
     ],
     allow_credentials=True,
     allow_methods=["*"],
