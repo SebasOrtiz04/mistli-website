@@ -1,0 +1,84 @@
+services:
+
+  # ============================================================
+  # FASTAPI + LANGCHAIN + OLLAMA CLIENT
+  # ============================================================
+
+  ai-api:
+    build:
+      context: ./backend/chatbot
+      dockerfile: dockerfile
+
+    container_name: mistli-ai-api
+
+    # Solo accesible desde la red interna de Docker.
+    # Nginx será quien exponga la API al exterior.
+    expose:
+      - "11343"
+
+    env_file:
+      - ./backend/chatbot/.env
+
+    volumes:
+      # Persistir el OAuth token de Google Calendar
+      - ./backend/chatbot/token.json:/app/token.json
+
+    restart: unless-stopped
+
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+
+  # ============================================================
+  # FRONTEND VITE
+  # ============================================================
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+
+    container_name: mistli-frontend
+
+    # Solo accesible desde Nginx
+    expose:
+      - "5173"
+
+    environment:
+      # El navegador utilizará el mismo dominio.
+      #
+      # https://mistli.com.mx/api/chat
+      #
+      # Nginx lo enviará internamente a:
+      #
+      # http://ai-api:11343/chat
+      VITE_MISTLI_AI_URL: /api
+
+    depends_on:
+      - ai-api
+
+    restart: unless-stopped
+
+
+  # ============================================================
+  # NGINX
+  # ============================================================
+
+  nginx:
+    image: nginx:alpine
+
+    container_name: mistli-nginx
+
+    ports:
+      - "80:80"
+      # Cuando agregues HTTPS:
+      # - "443:443"
+
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+
+    depends_on:
+      - frontend
+      - ai-api
+
+    restart: unless-stopped
