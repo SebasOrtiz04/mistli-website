@@ -1,145 +1,470 @@
-import MainLayout from "../../layouts/MainLayout";
-
-const sections = [
-  {
-    title: "Acceptance of Terms",
-    content: "By accessing or using the Mistli platform, you agree to be bound by these Terms of Service and our Privacy Policy. If you do not agree to these terms, you may not use our services. These terms apply to all users, including free trial users, paid subscribers, and administrators.",
-  },
-  {
-    title: "Description of Service",
-    content: "Mistli is a cloud-based management portal that provides workspace collaboration, user management, activity monitoring, and API integration services. We reserve the right to modify, suspend, or discontinue any part of the service at any time with reasonable notice.",
-  },
-  {
-    title: "Account Responsibilities",
-    items: [
-      { label: "Account Security", text: "You are responsible for maintaining the confidentiality of your login credentials. You must notify us immediately at security@mistli.io if you suspect unauthorized access to your account." },
-      { label: "Accurate Information", text: "You agree to provide accurate, current, and complete information when creating your account and to keep this information up to date." },
-      { label: "Authorized Use", text: "Your account is for your personal or organizational use only. You may not share credentials with third parties or allow unauthorized individuals to access your workspace." },
-      { label: "Minimum Age", text: "You must be at least 18 years old to use Mistli. By using our service, you represent that you meet this requirement." },
-    ],
-  },
-  {
-    title: "Acceptable Use Policy",
-    content: "You agree not to use Mistli to:",
-    items: [
-      { label: "", text: "Violate any applicable local, national, or international laws or regulations." },
-      { label: "", text: "Transmit any harmful, offensive, or illegal content through the platform." },
-      { label: "", text: "Attempt to gain unauthorized access to other users' accounts or any systems connected to Mistli." },
-      { label: "", text: "Use the platform to send unsolicited communications (spam)." },
-      { label: "", text: "Reverse engineer, decompile, or disassemble any part of the Mistli software." },
-      { label: "", text: "Use automated tools to scrape, crawl, or excessively load our infrastructure." },
-    ],
-  },
-  {
-    title: "Billing & Subscriptions",
-    items: [
-      { label: "Billing Cycle", text: "Paid plans are billed monthly or annually in advance. Prices are listed in USD and are subject to applicable taxes." },
-      { label: "Refunds", text: "We offer a 14-day money-back guarantee for new paid subscriptions. Refund requests after this period are evaluated on a case-by-case basis." },
-      { label: "Cancellation", text: "You may cancel your subscription at any time. Your workspace remains active until the end of the current billing period. No partial refunds are issued for unused time." },
-      { label: "Price Changes", text: "We may change our pricing with 30 days notice. Existing subscribers will be notified by email before any price change takes effect." },
-    ],
-  },
-  {
-    title: "Intellectual Property",
-    content: "All content, software, and technology on the Mistli platform — including our logo, interface design, and underlying code — is the exclusive property of Mistli Technologies Inc. and is protected by copyright, trademark, and other intellectual property laws. You may not reproduce, distribute, or create derivative works without our explicit written consent.\n\nYou retain full ownership of any data or content you upload to Mistli. By using our service, you grant us a limited, non-exclusive license to store and process your content solely to provide the service.",
-  },
-  {
-    title: "Data & Privacy",
-    content: "Our collection and use of personal information is governed by our Privacy Policy, which is incorporated into these Terms by reference. By using Mistli, you consent to our data practices as described in the Privacy Policy.",
-  },
-  {
-    title: "Limitation of Liability",
-    content: "To the maximum extent permitted by law, Mistli Technologies Inc. shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including loss of profits, data, or goodwill, arising from your use of or inability to use the service.\n\nOur total liability for any claim arising from these Terms or your use of the service shall not exceed the amount you paid to us in the 12 months preceding the claim.",
-  },
-  {
-    title: "Termination",
-    content: "We may suspend or terminate your account at our discretion if you violate these Terms, engage in fraudulent activity, or if required by law. We will provide notice where reasonably possible. Upon termination, your right to use the service ceases immediately. Provisions of these Terms that by their nature should survive termination will remain in effect.",
-  },
-  {
-    title: "Governing Law",
-    content: "These Terms shall be governed by and construed in accordance with the laws of the State of Delaware, United States, without regard to its conflict of law provisions. Any disputes arising from these Terms shall be subject to the exclusive jurisdiction of the courts located in Delaware.",
-  },
-  {
-    title: "Changes to Terms",
-    content: "We reserve the right to modify these Terms at any time. We will notify users of material changes via email or in-app notification at least 30 days before they take effect. Your continued use of Mistli after changes take effect constitutes acceptance of the new Terms.",
-  },
-  {
-    title: "Contact",
-    content: "For questions about these Terms, contact our legal team at legal@mistli.io or write to:\n\nMistli Technologies Inc.\n123 Market Street, Suite 400\nSan Francisco, CA 94105\nUnited States",
-  },
-];
+import { useTranslation } from "react-i18next";
+import Icon from "../../components/iconify/Icon";
 
 export default function TermsPage() {
+  const { t } = useTranslation();
+
+  const sections = t("terms.sections", {
+    returnObjects: true,
+  }) as Array<{
+    title: string;
+    content?: string;
+    items?: Array<{
+      label: string;
+      text: string;
+    }>;
+  }>;
+
   return (
-    <MainLayout>
-      <div className="max-w-3xl mx-auto px-6 py-14">
+      <div className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
+        {/* =====================================================
+            AMBIENT BACKGROUND
+        ===================================================== */}
 
-        {/* Header */}
-        <div className="mb-12">
-          <div className="flex items-center gap-2 mb-4">
-            <span className="text-[11px] font-semibold text-[#7c6dfa] uppercase tracking-widest">Legal</span>
-          </div>
-          <h1 className="text-[32px] font-bold text-[#f0f0f8] tracking-tight mb-3">Terms of Service</h1>
-          <p className="text-[14px] text-[#666]">Last updated: <span className="text-[#888]">December 1, 2024</span></p>
-          <div className="mt-6 p-4 rounded-xl text-[13px] text-[#888] leading-relaxed"
-            style={{ background: "rgba(124,109,250,0.06)", border: "1px solid rgba(124,109,250,0.15)" }}>
-            Please read these Terms of Service carefully before using the Mistli platform. These terms form a legally binding agreement between you and Mistli Technologies Inc.
-          </div>
+        <div
+          aria-hidden
+          className="pointer-events-none fixed inset-0 overflow-hidden"
+        >
+          {/* Brand glow */}
+          <div
+            className="
+              absolute
+              -left-[20vw]
+              top-[5%]
+              h-[45vw]
+              w-[45vw]
+              max-h-[700px]
+              max-w-[700px]
+              rounded-full
+              bg-brand-500/[0.07]
+              blur-[150px]
+            "
+          />
+
+          {/* Cyan glow */}
+          <div
+            className="
+              absolute
+              -right-[18vw]
+              top-[30%]
+              h-[40vw]
+              w-[40vw]
+              max-h-[650px]
+              max-w-[650px]
+              rounded-full
+              bg-cyan-500/[0.045]
+              blur-[160px]
+            "
+          />
+
+          {/* Small accent */}
+          <div
+            className="
+              absolute
+              left-[45%]
+              top-[20%]
+              h-[280px]
+              w-[280px]
+              rounded-full
+              bg-brand-400/[0.025]
+              blur-[120px]
+            "
+          />
+
+          {/* Dot grid */}
+          <div
+            className="
+              absolute
+              inset-0
+              opacity-20
+              [background-image:radial-gradient(rgba(255,255,255,0.06)_1px,transparent_1px)]
+              [background-size:32px_32px]
+            "
+          />
+
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-ink-950/20 to-ink-950/80" />
         </div>
 
-        {/* Table of contents */}
-        <div className="mb-10 p-5 rounded-xl"
-          style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
-          <p className="text-[12px] font-semibold text-[#555] uppercase tracking-widest mb-3">Contents</p>
-          <ol className="grid grid-cols-2 gap-x-6 gap-y-1.5">
-            {sections.map((s, i) => (
-              <li key={i}>
-                <a href={`#term-${i}`}
-                  className="text-[13px] text-[#888] hover:text-[#a89cf7] transition-colors no-underline flex items-start gap-2">
-                  <span className="text-[#555] flex-shrink-0 tabular-nums">{i + 1}.</span>
-                  {s.title}
-                </a>
-              </li>
-            ))}
-          </ol>
-        </div>
+        {/* =====================================================
+            MAIN
+        ===================================================== */}
 
-        {/* Sections */}
-        <div className="space-y-10">
-          {sections.map((section, i) => (
-            <section key={i} id={`term-${i}`}>
-              <h2 className="text-[18px] font-bold text-[#e8e8f4] tracking-tight mb-4 flex items-center gap-3">
-                <span className="text-[13px] font-semibold text-[#7c6dfa] tabular-nums w-6 flex-shrink-0">{i + 1}.</span>
-                {section.title}
-              </h2>
+        <main className="relative z-10">
+          <div className="mx-auto max-w-4xl px-5 py-14 sm:px-8 lg:py-20">
+            {/* =================================================
+                HEADER
+            ================================================= */}
 
-              <div className="pl-9 space-y-3">
-                {section.content && section.content.split("\n").map((line, j) =>
-                  line.trim() === "" ? <div key={j} className="h-1" /> :
-                  <p key={j} className="text-[13px] text-[#888] leading-relaxed">{line}</p>
-                )}
-                {section.items && (
-                  <div className="space-y-4 mt-2">
-                    {section.items.map((item, j) => (
-                      <div key={j} className="flex gap-3">
-                        <div className="mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: "#7c6dfa" }} />
-                        <div>
-                          {item.label && <span className="text-[13px] font-semibold text-[#ccc]">{item.label} — </span>}
-                          <span className="text-[13px] text-[#888] leading-relaxed">{item.text}</span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
+            <div className="mb-12">
+              <div className="mb-5 flex items-center gap-2">
+                <div
+                  className="
+                    flex
+                    h-8
+                    w-8
+                    items-center
+                    justify-center
+                    rounded-lg
+                    border
+                    border-brand-400/20
+                    bg-brand-500/10
+                  "
+                >
+                  <Icon
+                    icon="mdi:file-document-outline"
+                    width={16}
+                    className="text-brand-300"
+                  />
+                </div>
+
+                <span
+                  className="
+                    text-[11px]
+                    font-semibold
+                    uppercase
+                    tracking-[0.16em]
+                    text-brand-400
+                  "
+                >
+                  {t("terms.header.badge")}
+                </span>
               </div>
 
-              {i < sections.length - 1 && (
-                <div className="mt-8 h-px" style={{ background: "rgba(255,255,255,0.05)" }} />
-              )}
-            </section>
-          ))}
-        </div>
+              <h1
+                className="
+                  mb-4
+                  text-3xl
+                  font-semibold
+                  tracking-[-0.04em]
+                  text-ink-50
+                  sm:text-[40px]
+                "
+              >
+                {t("terms.header.title")}
+              </h1>
+
+              <p className="text-[13px] text-ink-600">
+                {t("terms.header.lastUpdated")}{" "}
+                <span className="text-ink-500">
+                  {t("terms.header.date")}
+                </span>
+              </p>
+
+              {/* Intro */}
+              <div
+                className="
+                  relative
+                  mt-8
+                  overflow-hidden
+                  rounded-2xl
+                  border
+                  border-brand-400/10
+                  bg-surface-900/70
+                  p-5
+                  shadow-lg
+                  shadow-black/20
+                  backdrop-blur-xl
+                "
+              >
+                <div
+                  className="
+                    absolute
+                    left-0
+                    top-0
+                    h-full
+                    w-[2px]
+                    bg-gradient-to-b
+                    from-brand-400
+                    to-cyan-400
+                  "
+                />
+
+                <p className="pl-2 text-[13px] leading-7 text-ink-400">
+                  {t("terms.header.description")}
+                </p>
+              </div>
+            </div>
+
+            {/* =================================================
+                TABLE OF CONTENTS
+            ================================================= */}
+
+            <div
+              className="
+                mb-14
+                overflow-hidden
+                rounded-2xl
+                border
+                border-white/[0.07]
+                bg-surface-900/60
+                shadow-xl
+                shadow-black/10
+                backdrop-blur-xl
+              "
+            >
+              <div
+                className="
+                  border-b
+                  border-white/[0.06]
+                  bg-white/[0.015]
+                  px-5
+                  py-4
+                "
+              >
+                <div className="flex items-center gap-2.5">
+                  <Icon
+                    icon="mdi:format-list-bulleted"
+                    width={16}
+                    className="text-brand-400"
+                  />
+
+                  <p
+                    className="
+                      text-[11px]
+                      font-semibold
+                      uppercase
+                      tracking-[0.16em]
+                      text-ink-500
+                    "
+                  >
+                    {t("terms.navigation.contents")}
+                  </p>
+                </div>
+              </div>
+
+              <div className="p-5">
+                <ol className="grid gap-1 sm:grid-cols-2">
+                  {sections.map((section, index) => (
+                    <li key={index}>
+                      <a
+                        href={`#term-${index}`}
+                        className="
+                          group
+                          flex
+                          items-center
+                          gap-3
+                          rounded-lg
+                          px-3
+                          py-2.5
+                          text-[13px]
+                          text-ink-500
+                          no-underline
+                          transition-all
+                          hover:bg-brand-500/[0.05]
+                          hover:text-ink-200
+                        "
+                      >
+                        <span
+                          className="
+                            flex
+                            h-6
+                            w-6
+                            shrink-0
+                            items-center
+                            justify-center
+                            rounded-md
+                            border
+                            border-white/[0.06]
+                            bg-white/[0.02]
+                            text-[10px]
+                            font-medium
+                            tabular-nums
+                            text-ink-700
+                            transition-colors
+                            group-hover:border-brand-400/20
+                            group-hover:text-brand-400
+                          "
+                        >
+                          {index + 1}
+                        </span>
+
+                        <span>{section.title}</span>
+
+                        <Icon
+                          icon="mdi:arrow-top-right"
+                          width={13}
+                          className="
+                            ml-auto
+                            text-ink-700
+                            opacity-0
+                            transition-all
+                            group-hover:text-brand-400
+                            group-hover:opacity-100
+                          "
+                        />
+                      </a>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </div>
+
+            {/* =================================================
+                SECTIONS
+            ================================================= */}
+
+            <div className="space-y-12">
+              {sections.map((section, index) => (
+                <section
+                  key={index}
+                  id={`term-${index}`}
+                  className="scroll-mt-8"
+                >
+                  {/* Heading */}
+                  <div className="mb-6 flex items-start gap-4">
+                    <div
+                      className="
+                        mt-0.5
+                        flex
+                        h-8
+                        w-8
+                        shrink-0
+                        items-center
+                        justify-center
+                        rounded-lg
+                        border
+                        border-brand-400/15
+                        bg-brand-500/[0.07]
+                      "
+                    >
+                      <span className="text-[11px] font-semibold tabular-nums text-brand-400">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                    </div>
+
+                    <div>
+                      <h2
+                        className="
+                          text-[19px]
+                          font-semibold
+                          tracking-[-0.025em]
+                          text-ink-100
+                        "
+                      >
+                        {section.title}
+                      </h2>
+
+                      <div
+                        className="
+                          mt-2
+                          h-px
+                          w-10
+                          bg-gradient-to-r
+                          from-brand-400
+                          to-cyan-400
+                        "
+                      />
+                    </div>
+                  </div>
+
+                  {/* Content */}
+                  <div className="space-y-5 pl-12">
+                    {section.content &&
+                      section.content
+                        .split("\n")
+                        .map((line, lineIndex) =>
+                          line.trim() === "" ? (
+                            <div
+                              key={lineIndex}
+                              className="h-1"
+                            />
+                          ) : (
+                            <p
+                              key={lineIndex}
+                              className="
+                                text-[13px]
+                                leading-7
+                                text-ink-500
+                              "
+                            >
+                              {line}
+                            </p>
+                          ),
+                        )}
+
+                    {/* Items */}
+                    {section.items && (
+                      <div className="space-y-4">
+                        {section.items.map(
+                          (item, itemIndex) => (
+                            <div
+                              key={itemIndex}
+                              className="flex gap-3"
+                            >
+                              <div
+                                className="
+                                  mt-[9px]
+                                  h-1.5
+                                  w-1.5
+                                  shrink-0
+                                  rounded-full
+                                  bg-brand-400
+                                  shadow-sm
+                                  shadow-brand-400/30
+                                "
+                              />
+
+                              <div className="text-[13px] leading-7">
+                                {item.label && (
+                                  <span className="font-semibold text-ink-200">
+                                    {item.label}
+                                    {" — "}
+                                  </span>
+                                )}
+
+                                <span className="text-ink-500">
+                                  {item.text}
+                                </span>
+                              </div>
+                            </div>
+                          ),
+                        )}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Divider */}
+                  {index < sections.length - 1 && (
+                    <div className="mt-10 h-px bg-white/[0.05]" />
+                  )}
+                </section>
+              ))}
+            </div>
+
+            {/* =================================================
+                FOOTER
+            ================================================= */}
+
+            <div
+              className="
+                mt-16
+                border-t
+                border-white/[0.06]
+                pt-6
+              "
+            >
+              <div className="flex items-center gap-2">
+                <Icon
+                  icon="mdi:file-check-outline"
+                  width={16}
+                  className="text-brand-400/70"
+                />
+
+                <span className="text-[11px] text-ink-700">
+                  Mistli
+                </span>
+
+                <span className="text-[11px] text-ink-800">
+                  •
+                </span>
+
+                <span className="text-[11px] text-ink-700">
+                  {t("terms.header.title")}
+                </span>
+              </div>
+            </div>
+          </div>
+        </main>
       </div>
-    </MainLayout>
   );
 }

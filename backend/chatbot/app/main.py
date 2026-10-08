@@ -1,6 +1,7 @@
 import json
 from typing import Literal
 
+from app.config import MAILGUN_TO
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
@@ -15,9 +16,10 @@ from langchain_core.messages import (
 
 from app.agent import agent
 
+from app.routes.forms import router as forms_router
 
 app = FastAPI(
-    title="AI Assistant API",
+    title="AI Assistant API and backend MISTLI",
     version="1.0.0",
 )
 
@@ -215,7 +217,8 @@ async def chat_stream(messages):
 # ============================================================
 @app.get("/api/test")
 async def test(testnum: int = 0):
-    from app.tools import check_calendar_availability_2, create_calendar_event_2, send_chat_history_by_email_2
+    from functions.functionsCalendar import check_calendar_availability_2, create_calendar_event_2 
+    from functions.functionsMailgun import send_chat_history_by_email_2,send_email_mailgun
 
     if testnum == 1:
         # Test check_calendar_availability
@@ -250,6 +253,18 @@ async def test(testnum: int = 0):
             "status": "ok",
             "email_result": email_result,
         }
+    elif testnum == 4:
+        # Test send_email_mailgun
+        email_result = await send_email_mailgun(
+            subject="Test Email",
+            text="This is a test email.",
+            html="<p>This is a test email.</p>",
+            reply_to=MAILGUN_TO
+        )
+        return {
+            "status": "ok",
+            "email_result": email_result,
+        }
 
 @app.post("/api/chat")
 async def chat(request: ChatRequest):
@@ -277,3 +292,5 @@ async def health():
     return {
         "status": "ok"
     }
+
+app.include_router(forms_router)

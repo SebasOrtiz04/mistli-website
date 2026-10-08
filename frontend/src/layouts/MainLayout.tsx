@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import Footer from "../sections/website/home/Footer.tsx";
+import Footer from "../components/ui/Footer.tsx";
 import Header from "../components/ui/Header.tsx";
 import { Providers } from "./provider.tsx";
 

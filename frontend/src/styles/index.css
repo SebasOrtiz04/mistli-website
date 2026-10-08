@@ -454,3 +454,69 @@ body {
     transform: none;
   }
 }
+
+@layer components {
+  .m-input {
+    @apply w-full rounded-xl border border-white/[0.08]
+      bg-white/[0.025]
+      px-4 py-3
+      text-sm text-ink-100
+      outline-none
+      transition-all duration-200
+      placeholder:text-ink-600;
+  }
+
+  .m-input:hover {
+    @apply border-white/[0.14];
+  }
+
+  .m-input:focus {
+    @apply border-brand-500/60
+      bg-brand-500/[0.035]
+      ring-2
+      ring-brand-500/10;
+  }
+
+  .m-input:disabled {
+    @apply cursor-not-allowed opacity-50;
+  }
+
+  .m-label {
+    @apply mb-2 block text-xs font-medium text-ink-300;
+  }
+
+  .m-section-label {
+    @apply text-[10px]
+      font-semibold
+      uppercase
+      tracking-[0.18em]
+      text-cyan-400;
+  }
+
+  .m-btn-primary {
+    @apply inline-flex
+      items-center
+      gap-2
+      rounded-xl
+      bg-brand-500
+      px-5
+      py-3
+      text-sm
+      font-semibold
+      text-white
+      shadow-lg
+      shadow-brand-500/20
+      transition-all
+      duration-200;
+  }
+
+  .m-btn-primary:hover {
+    @apply bg-brand-400
+      shadow-xl
+      shadow-brand-500/25;
+  }
+
+  .m-btn-primary:active {
+    @apply scale-[0.98];
+  }
+}

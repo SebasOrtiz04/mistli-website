@@ -1,117 +1,440 @@
-const sections = [
-  {
-    title: "Information We Collect",
-    content: [
-      { subtitle: "Account Information", text: "When you create a Mistli account, we collect your email address, display name, and authentication credentials. If you sign in via Google SSO, we receive your name and email from Google in accordance with their OAuth policies." },
-      { subtitle: "Usage Data", text: "We collect information about how you interact with the Mistli platform, including pages visited, features used, timestamps of actions, and session duration. This data helps us improve the product and diagnose issues." },
-      { subtitle: "Device & Technical Information", text: "We may collect your IP address, browser type, operating system, and device identifiers for security monitoring and fraud prevention purposes." },
-    ],
-  },
-  {
-    title: "How We Use Your Information",
-    content: [
-      { subtitle: "Service Delivery", text: "We use your information to provide, maintain, and improve the Mistli platform, process authentication requests, and manage your workspace." },
-      { subtitle: "Communication", text: "We may send you transactional emails (password resets, invitations, billing notices) and, with your consent, product updates and newsletters. You can unsubscribe from non-transactional emails at any time." },
-      { subtitle: "Security & Compliance", text: "We use collected data to detect and prevent fraud, abuse, and unauthorized access. We may retain logs for up to 90 days for security auditing purposes." },
-    ],
-  },
-  {
-    title: "Data Sharing & Third Parties",
-    content: [
-      { subtitle: "Firebase / Google Cloud", text: "Mistli is built on Google Firebase. Your data is stored and processed on Google Cloud infrastructure. Google acts as a data processor under our terms and is bound by their Data Processing Addendum." },
-      { subtitle: "No Selling of Data", text: "We do not sell, rent, or trade your personal information to third parties for marketing purposes. Period." },
-      { subtitle: "Legal Requirements", text: "We may disclose your information if required by law, court order, or governmental authority, or if we believe disclosure is necessary to protect our rights or the safety of users." },
-    ],
-  },
-  {
-    title: "Data Retention",
-    content: [
-      { subtitle: "Active Accounts", text: "We retain your data for as long as your account is active. You may request deletion of your account and associated data at any time." },
-      { subtitle: "After Cancellation", text: "Upon plan cancellation, your workspace data is retained for 30 days to allow for recovery. After this period, data is permanently deleted from our systems." },
-      { subtitle: "Logs", text: "Activity and security logs are retained for 90 days and cannot be individually deleted, as they may be required for security investigations." },
-    ],
-  },
-  {
-    title: "Your Rights",
-    content: [
-      { subtitle: "Access & Portability", text: "You have the right to access the personal data we hold about you and request a copy in a portable format. Admins can export workspace data from Settings → Data & Privacy." },
-      { subtitle: "Correction", text: "You may update your name and email from your Profile settings at any time. For corrections to other data, contact our support team." },
-      { subtitle: "Deletion", text: "You may request deletion of your account and personal data by contacting support@mistli.io. We will process your request within 30 days." },
-      { subtitle: "GDPR & CCPA", text: "If you are located in the European Economic Area or California, you have additional rights under GDPR and CCPA respectively. Contact us at privacy@mistli.io to exercise these rights." },
-    ],
-  },
-  {
-    title: "Cookies",
-    content: [
-      { subtitle: "Essential Cookies", text: "We use strictly necessary cookies to maintain your session and authentication state. These cannot be disabled without breaking core functionality." },
-      { subtitle: "Analytics", text: "With your consent, we use anonymized analytics cookies to understand how users navigate the platform. No personally identifiable information is included in analytics data." },
-    ],
-  },
-  {
-    title: "Contact",
-    content: [
-      { subtitle: "Privacy Questions", text: "For privacy-related inquiries, contact our Data Protection Officer at privacy@mistli.io. For general support, visit our Support page." },
-      { subtitle: "Updates to This Policy", text: "We may update this Privacy Policy from time to time. We will notify you of significant changes via email or an in-app notice at least 30 days before they take effect." },
-    ],
-  },
-];
+import { useTranslation } from "react-i18next";
+import Icon from "../../components/iconify/Icon";
 
 export default function PrivacyPage() {
+  const { t } = useTranslation();
+
+  const sections = t("privacy.sections", {
+    returnObjects: true,
+  }) as Array<{
+    title: string;
+    content: Array<{
+      subtitle: string;
+      text: string;
+    }>;
+  }>;
+
   return (
-      <div className="max-w-3xl mx-auto px-6 py-14">
+    <div className="relative min-h-screen overflow-hidden bg-ink-950 text-ink-50">
+      {/* =====================================================
+          AMBIENT BACKGROUND
+      ===================================================== */}
 
-        {/* Header */}
-        <div className="mb-12">
-          <div className="flex items-center gap-2 mb-4">
-            <span className="text-[11px] font-semibold text-[#7c6dfa] uppercase tracking-widest">Legal</span>
-          </div>
-          <h1 className="text-[32px] font-bold text-[#f0f0f8] tracking-tight mb-3">Privacy Policy</h1>
-          <p className="text-[14px] text-[#666]">Last updated: <span className="text-[#888]">December 1, 2024</span></p>
-          <div className="mt-6 p-4 rounded-xl text-[13px] text-[#888] leading-relaxed"
-            style={{ background: "rgba(124,109,250,0.06)", border: "1px solid rgba(124,109,250,0.15)" }}>
-            This Privacy Policy describes how Mistli Technologies Inc. ("Mistli", "we", "us", or "our") collects, uses, and protects your personal information when you use our platform and services.
-          </div>
-        </div>
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-0 overflow-hidden"
+      >
+        {/* Brand glow */}
+        <div
+          className="
+            absolute
+            -left-[20vw]
+            top-[5%]
+            h-[45vw]
+            w-[45vw]
+            max-h-[700px]
+            max-w-[700px]
+            rounded-full
+            bg-brand-500/[0.07]
+            blur-[150px]
+          "
+        />
 
-        {/* Table of contents */}
-        <div className="mb-10 p-5 rounded-xl"
-          style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
-          <p className="text-[12px] font-semibold text-[#555] uppercase tracking-widest mb-3">Contents</p>
-          <ol className="space-y-1.5">
-            {sections.map((s, i) => (
-              <li key={i}>
-                <a href={`#section-${i}`}
-                  className="text-[13px] text-[#888] hover:text-[#a89cf7] transition-colors no-underline flex items-center gap-2">
-                  <span className="text-[#555] w-4">{i + 1}.</span>
-                  {s.title}
-                </a>
-              </li>
-            ))}
-          </ol>
-        </div>
+        {/* Cyan glow */}
+        <div
+          className="
+            absolute
+            -right-[18vw]
+            top-[30%]
+            h-[40vw]
+            w-[40vw]
+            max-h-[650px]
+            max-w-[650px]
+            rounded-full
+            bg-cyan-500/[0.045]
+            blur-[160px]
+          "
+        />
 
-        {/* Sections */}
-        <div className="space-y-12">
-          {sections.map((section, i) => (
-            <section key={i} id={`section-${i}`}>
-              <h2 className="text-[18px] font-bold text-[#e8e8f4] tracking-tight mb-5 flex items-center gap-3">
-                <span className="text-[13px] font-semibold text-[#7c6dfa] tabular-nums w-6">{i + 1}.</span>
-                {section.title}
-              </h2>
-              <div className="space-y-5 pl-9">
-                {section.content.map((item, j) => (
-                  <div key={j}>
-                    <h3 className="text-[14px] font-semibold text-[#ccc] mb-1">{item.subtitle}</h3>
-                    <p className="text-[13px] text-[#888] leading-relaxed">{item.text}</p>
-                  </div>
-                ))}
-              </div>
-              {i < sections.length - 1 && (
-                <div className="mt-10 h-px" style={{ background: "rgba(255,255,255,0.05)" }} />
-              )}
-            </section>
-          ))}
-        </div>
+        {/* Small central accent */}
+        <div
+          className="
+            absolute
+            left-[45%]
+            top-[20%]
+            h-[280px]
+            w-[280px]
+            rounded-full
+            bg-brand-400/[0.025]
+            blur-[120px]
+          "
+        />
+
+        {/* Grid */}
+        <div
+          className="
+            absolute
+            inset-0
+            opacity-20
+            [background-image:radial-gradient(rgba(255,255,255,0.06)_1px,transparent_1px)]
+            [background-size:32px_32px]
+          "
+        />
+
+        {/* Bottom fade */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-ink-950/20 to-ink-950/80" />
       </div>
+
+      {/* =====================================================
+          MAIN
+      ===================================================== */}
+
+      <main className="relative z-10">
+        <div className="mx-auto max-w-4xl px-5 py-14 sm:px-8 lg:py-20">
+          {/* =================================================
+              HEADER
+          ================================================= */}
+
+          <div className="mb-12">
+            {/* Badge */}
+            <div className="mb-5 flex items-center gap-2">
+              <div
+                className="
+                  flex
+                  h-8
+                  w-8
+                  items-center
+                  justify-center
+                  rounded-lg
+                  border
+                  border-brand-400/20
+                  bg-brand-500/10
+                "
+              >
+                <Icon
+                  icon="mdi:shield-lock-outline"
+                  width={16}
+                  className="text-brand-300"
+                />
+              </div>
+
+              <span
+                className="
+                  text-[11px]
+                  font-semibold
+                  uppercase
+                  tracking-[0.16em]
+                  text-brand-400
+                "
+              >
+                {t("privacy.header.badge")}
+              </span>
+            </div>
+
+            {/* Title */}
+            <h1
+              className="
+                mb-4
+                text-3xl
+                font-semibold
+                tracking-[-0.04em]
+                text-ink-50
+                sm:text-[40px]
+              "
+            >
+              {t("privacy.header.title")}
+            </h1>
+
+            {/* Date */}
+            <p className="text-[13px] text-ink-600">
+              {t("privacy.header.lastUpdated")}{" "}
+              <span className="text-ink-500">
+                {t("privacy.header.date")}
+              </span>
+            </p>
+
+            {/* Intro */}
+            <div
+              className="
+                relative
+                mt-8
+                overflow-hidden
+                rounded-2xl
+                border
+                border-brand-400/10
+                bg-surface-900/70
+                p-5
+                shadow-lg
+                shadow-black/20
+                backdrop-blur-xl
+              "
+            >
+              {/* Accent line */}
+              <div
+                className="
+                  absolute
+                  left-0
+                  top-0
+                  h-full
+                  w-[2px]
+                  bg-gradient-to-b
+                  from-brand-400
+                  to-cyan-400
+                "
+              />
+
+              <div className="pl-2">
+                <p className="text-[13px] leading-7 text-ink-400">
+                  {t("privacy.header.description")}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* =================================================
+              TABLE OF CONTENTS
+          ================================================= */}
+
+          <div
+            className="
+              mb-14
+              overflow-hidden
+              rounded-2xl
+              border
+              border-white/[0.07]
+              bg-surface-900/60
+              shadow-xl
+              shadow-black/10
+              backdrop-blur-xl
+            "
+          >
+            {/* Header */}
+            <div
+              className="
+                border-b
+                border-white/[0.06]
+                bg-white/[0.015]
+                px-5
+                py-4
+              "
+            >
+              <div className="flex items-center gap-2.5">
+                <Icon
+                  icon="mdi:format-list-bulleted"
+                  width={16}
+                  className="text-brand-400"
+                />
+
+                <p
+                  className="
+                    text-[11px]
+                    font-semibold
+                    uppercase
+                    tracking-[0.16em]
+                    text-ink-500
+                  "
+                >
+                  {t("privacy.navigation.contents")}
+                </p>
+              </div>
+            </div>
+
+            {/* Items */}
+            <div className="p-5">
+              <ol className="grid gap-1 sm:grid-cols-2">
+                {sections.map((section, index) => (
+                  <li key={index}>
+                    <a
+                      href={`#section-${index}`}
+                      className="
+                        group
+                        flex
+                        items-center
+                        gap-3
+                        rounded-lg
+                        px-3
+                        py-2.5
+                        text-[13px]
+                        text-ink-500
+                        no-underline
+                        transition-all
+                        hover:bg-brand-500/[0.05]
+                        hover:text-ink-200
+                      "
+                    >
+                      <span
+                        className="
+                          flex
+                          h-6
+                          w-6
+                          shrink-0
+                          items-center
+                          justify-center
+                          rounded-md
+                          border
+                          border-white/[0.06]
+                          bg-white/[0.02]
+                          text-[10px]
+                          font-medium
+                          tabular-nums
+                          text-ink-700
+                          transition-colors
+                          group-hover:border-brand-400/20
+                          group-hover:text-brand-400
+                        "
+                      >
+                        {index + 1}
+                      </span>
+
+                      <span>{section.title}</span>
+
+                      <Icon
+                        icon="mdi:arrow-top-right"
+                        width={13}
+                        className="
+                          ml-auto
+                          text-ink-700
+                          opacity-0
+                          transition-all
+                          group-hover:text-brand-400
+                          group-hover:opacity-100
+                        "
+                      />
+                    </a>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </div>
+
+          {/* =================================================
+              SECTIONS
+          ================================================= */}
+
+          <div className="space-y-12">
+            {sections.map((section, index) => (
+              <section
+                key={index}
+                id={`section-${index}`}
+                className="scroll-mt-8"
+              >
+                {/* Section heading */}
+                <div className="mb-6 flex items-start gap-4">
+                  <div
+                    className="
+                      mt-0.5
+                      flex
+                      h-8
+                      w-8
+                      shrink-0
+                      items-center
+                      justify-center
+                      rounded-lg
+                      border
+                      border-brand-400/15
+                      bg-brand-500/[0.07]
+                    "
+                  >
+                    <span className="text-[11px] font-semibold tabular-nums text-brand-400">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                  </div>
+
+                  <div>
+                    <h2
+                      className="
+                        text-[19px]
+                        font-semibold
+                        tracking-[-0.025em]
+                        text-ink-100
+                      "
+                    >
+                      {section.title}
+                    </h2>
+
+                    <div
+                      className="
+                        mt-2
+                        h-px
+                        w-10
+                        bg-gradient-to-r
+                        from-brand-400
+                        to-cyan-400
+                      "
+                    />
+                  </div>
+                </div>
+
+                {/* Content */}
+                <div className="space-y-7 pl-12">
+                  {section.content.map((item, itemIndex) => (
+                    <div key={itemIndex}>
+                      <h3
+                        className="
+                          mb-2
+                          text-[14px]
+                          font-semibold
+                          text-ink-200
+                        "
+                      >
+                        {item.subtitle}
+                      </h3>
+
+                      <p
+                        className="
+                          text-[13px]
+                          leading-7
+                          text-ink-500
+                        "
+                      >
+                        {item.text}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Divider */}
+                {index < sections.length - 1 && (
+                  <div className="mt-10 h-px bg-white/[0.05]" />
+                )}
+              </section>
+            ))}
+          </div>
+
+          {/* =================================================
+              FOOTER
+          ================================================= */}
+
+          <div
+            className="
+              mt-16
+              border-t
+              border-white/[0.06]
+              pt-6
+            "
+          >
+            <div className="flex items-center gap-2">
+              <Icon
+                icon="mdi:shield-check-outline"
+                width={16}
+                className="text-brand-400/70"
+              />
+
+              <span className="text-[11px] text-ink-700">
+                Mistli
+              </span>
+
+              <span className="text-[11px] text-ink-800">
+                •
+              </span>
+
+              <span className="text-[11px] text-ink-700">
+                {t("privacy.header.title")}
+              </span>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
   );
 }

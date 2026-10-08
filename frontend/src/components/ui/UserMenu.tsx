@@ -31,7 +31,6 @@ export default function UserMenu({
   onToggle,
   onClose,
 }: UserMenuProps) {
-
   const context = useContext(FirebaseContext);
 
   const [loading, setLoading] = useState(false);
@@ -42,15 +41,12 @@ export default function UserMenu({
 
   const dispatch = useDispatch<AppDispatch>();
 
-  /*
-   * =====================================================
-   * IDIOMA
-   * =====================================================
-   */
+  // =====================================================
+  // IDIOMA
+  // =====================================================
 
   const idioma = useSelector(
-    (state: RootState) =>
-      state.locale.language
+    (state: RootState) => state.locale.language,
   );
 
   const bandera =
@@ -58,519 +54,418 @@ export default function UserMenu({
       ? "circle-flags:mx"
       : "circle-flags:us-um";
 
-
-  /*
-   * =====================================================
-   * CLICK OUTSIDE
-   * =====================================================
-   *
-   * Solo se escucha cuando ESTE menú está abierto. Antes se
-   * registraba siempre, así que cualquier toque dentro del menú
-   * móvil del Navbar (que está "fuera" de este ref) llamaba a
-   * onClose() y cerraba el menú de navegación antes de que el
-   * click llegara al botón "Servicios".
-   */
+  // =====================================================
+  // CLICK OUTSIDE
+  // =====================================================
 
   useEffect(() => {
-
     if (!open) return;
 
-    const handleClickOutside = (
-      e: PointerEvent
-    ) => {
-
+    const handleClickOutside = (e: PointerEvent) => {
       if (
         menuRef.current &&
-        !menuRef.current.contains(
-          e.target as Node
-        )
+        !menuRef.current.contains(e.target as Node)
       ) {
         onClose();
       }
-
     };
 
     document.addEventListener(
       "pointerdown",
-      handleClickOutside
+      handleClickOutside,
     );
 
     return () =>
       document.removeEventListener(
         "pointerdown",
-        handleClickOutside
+        handleClickOutside,
       );
-
   }, [open, onClose]);
-
 
   const usuario = context?.usuario;
   const firebase = context?.firebase;
 
+  // =====================================================
+  // LOGOUT
+  // =====================================================
 
-  /*
-   * =====================================================
-   * LOGOUT
-   * =====================================================
-   */
+  const cerrarSesion = useCallback(async () => {
+    if (!firebase) return;
 
-  const cerrarSesion = useCallback(
-    async () => {
+    try {
+      setLoading(true);
 
-      if (!firebase) return;
+      onClose();
 
-      try {
-
-        setLoading(true);
-
-        onClose();
-
-        await firebase.cerrarSesion();
-
-      } catch (err) {
-
-        console.error(
-          "Error logout:",
-          err
-        );
-
-      } finally {
-
-        setLoading(false);
-
-      }
-
-    },
-    [firebase, onClose]
-  );
-
+      await firebase.cerrarSesion();
+    } catch (err) {
+      console.error("Error logout:", err);
+    } finally {
+      setLoading(false);
+    }
+  }, [firebase, onClose]);
 
   if (!context) return null;
 
+  // =====================================================
+  // SELECTOR DE IDIOMA
+  // =====================================================
 
-  /*
-   * =====================================================
-   * USUARIO NO AUTENTICADO
-   * =====================================================
-   */
+  const selectorIdioma = (
+    <button
+      type="button"
+      onClick={() => dispatch(toggleLanguage())}
+      className="
+        flex shrink-0 items-center gap-1.5
+        rounded-full border border-white/[0.08]
+        bg-white/[0.03]
+        px-2.5 py-1.5
+        text-xs font-medium text-ink-300
+        transition-all
+        hover:border-white/[0.16]
+        hover:bg-white/[0.06]
+        hover:text-white
+        active:scale-95
+        cursor-pointer
+      "
+      aria-label={`Cambiar idioma. Idioma actual: ${idioma}`}
+    >
+      <Icon
+        icon={bandera}
+        width={18}
+        height={18}
+      />
+
+      <span>{idioma}</span>
+    </button>
+  );
+
+  // =====================================================
+  // USUARIO NO AUTENTICADO
+  // =====================================================
 
   if (!usuario) {
-
     return (
-      <button
-        disabled={loading}
-        onClick={() =>
-          navigate("/auth/login")
-        }
-        className="
-          flex
-          shrink-0
-          items-center
-          gap-2
-          whitespace-nowrap
-          px-3
-          sm:px-4
-          py-2
-          rounded-full
-          bg-brand-500
-          text-white
-          text-sm
-          font-medium
-          hover:bg-brand-600
-          active:scale-95
-          disabled:opacity-50
-          transition-all
-          cursor-pointer
-        "
-      >
+      <div className="flex items-center gap-2">
+        {selectorIdioma}
 
-        {loading ? (
+        <button
+          disabled={loading}
+          onClick={() => navigate("/auth/login")}
+          className="
+            flex shrink-0 items-center gap-2
+            whitespace-nowrap
+            rounded-full
+            bg-brand-500
+            px-3 py-2
+            text-sm font-medium
+            text-white
+            transition-all
+            hover:bg-brand-600
+            active:scale-95
+            disabled:opacity-50
+            cursor-pointer
+            sm:px-4
+          "
+        >
+          {loading ? (
+            <span
+              className="
+                h-4 w-4
+                rounded-full
+                border-2
+                border-white
+                border-t-transparent
+                animate-spin
+              "
+            />
+          ) : (
+            <Icon
+              icon="mdi:login"
+              className="text-base"
+            />
+          )}
 
-          <span
-            className="
-              w-4
-              h-4
-              border-2
-              border-white
-              border-t-transparent
-              rounded-full
-              animate-spin
-            "
-          />
-
-        ) : (
-
-          <Icon
-            icon="mdi:login"
-            className="text-base"
-          />
-
-        )}
-
-        {loading
-          ? "Entrando..."
-          : "Iniciar sesión"}
-
-      </button>
+          {loading
+            ? "Entrando..."
+            : "Iniciar sesión"}
+        </button>
+      </div>
     );
   }
 
-
-  /*
-   * =====================================================
-   * USUARIO AUTENTICADO
-   * =====================================================
-   */
+  // =====================================================
+  // USUARIO AUTENTICADO
+  // =====================================================
 
   return (
+    <div className="flex items-center gap-2">
+      {/* Idioma siempre visible */}
+      {selectorIdioma}
 
-    <div
-      className="relative"
-      ref={menuRef}
-    >
-
-      {/* =================================================
-          AVATAR
-      ================================================== */}
-
-      <button
-        type="button"
-        onClick={onToggle}
-        disabled={loading}
-        className="
-          w-10
-          h-10
-          rounded-full
-          overflow-hidden
-          ring-2
-          ring-transparent
-          hover:ring-brand-400
-          active:scale-95
-          disabled:opacity-50
-          transition-all
-          cursor-pointer
-          focus:outline-none
-          bg-[#171923]
-        "
-        aria-label="Menú de usuario"
-        aria-expanded={open}
+      {/* Menú del usuario */}
+      <div
+        className="relative"
+        ref={menuRef}
       >
+        {/* =================================================
+            AVATAR
+        ================================================== */}
 
-        {usuario.photoURL ? (
-
-          <img
-            src={usuario.photoURL}
-            alt={
-              usuario.displayName ??
-              "Perfil"
-            }
-            referrerPolicy="no-referrer"
-            className="
-              w-full
-              h-full
-              object-cover
-            "
-          />
-
-        ) : (
-
-          <span
-            className="
-              w-full
-              h-full
-              flex
-              items-center
-              justify-center
-            "
-          >
-            <Icon
-              icon="mdi:user"
-              className="
-                text-xl
-                text-[#888]
-              "
-            />
-          </span>
-
-        )}
-
-      </button>
-
-
-      {/* =================================================
-          DROPDOWN
-      ================================================== */}
-
-      {open && (
-
-        <div
+        <button
+          type="button"
+          onClick={onToggle}
+          disabled={loading}
           className="
-            fixed
-            right-4
-            top-[80px]
-            w-64
-            max-w-[calc(100vw-2rem)]
-            md:absolute
-            md:right-0
-            md:top-full
-            md:mt-3
-            rounded-2xl
-            bg-[#11131C]/95
-            backdrop-blur-xl
-            border
-            border-white/10
-            shadow-2xl
-            shadow-black/40
-            py-2
-            z-[60]
+            h-10 w-10
+            overflow-hidden
+            rounded-full
+            bg-[#171923]
+            ring-2
+            ring-transparent
+            transition-all
+            hover:ring-brand-400
+            active:scale-95
+            disabled:opacity-50
+            cursor-pointer
+            focus:outline-none
           "
+          aria-label="Menú de usuario"
+          aria-expanded={open}
         >
-
-          {/* =================================================
-              INFORMACIÓN DEL USUARIO
-          ================================================== */}
-
-          <div
-            className="
-              px-4
-              py-3
-              border-b
-              border-white/[0.06]
-            "
-          >
-
-            <p
+          {usuario.photoURL ? (
+            <img
+              src={usuario.photoURL}
+              alt={
+                usuario.displayName ??
+                "Perfil"
+              }
+              referrerPolicy="no-referrer"
               className="
-                text-sm
-                font-semibold
-                text-white
-                truncate
+                h-full
+                w-full
+                object-cover
               "
-            >
-              {usuario.displayName ??
-                "Usuario"}
-            </p>
-
-            <p
-              className="
-                text-xs
-                text-[#777]
-                truncate
-              "
-            >
-              {usuario.email}
-            </p>
-
-          </div>
-
-
-          {/* =================================================
-              IDIOMA
-          ================================================== */}
-
-          <button
-            type="button"
-            onClick={() =>
-              dispatch(toggleLanguage())
-            }
-            className="
-              w-full
-              flex
-              items-center
-              gap-3
-              px-4
-              py-3
-              text-sm
-              text-[#ccc]
-              hover:bg-white/[0.06]
-              transition-colors
-              cursor-pointer
-            "
-          >
-
-            <Icon
-              icon={bandera}
-              width={20}
-              height={20}
             />
-
-            <span>
-              Idioma
-            </span>
-
+          ) : (
             <span
               className="
-                ml-auto
-                text-xs
-                text-[#666]
-                font-medium
+                flex
+                h-full
+                w-full
+                items-center
+                justify-center
               "
             >
-              {idioma}
+              <Icon
+                icon="mdi:user"
+                className="
+                  text-xl
+                  text-[#888]
+                "
+              />
             </span>
+          )}
+        </button>
 
-          </button>
+        {/* =================================================
+            DROPDOWN
+        ================================================== */}
 
-
-          {/* =================================================
-              NOTICIAS
-          ================================================== */}
-
-          <button
-            type="button"
-            onClick={() => {
-
-              onClose();
-
-              navigate("/noticias");
-
-            }}
+        {open && (
+          <div
             className="
-              w-full
-              flex
-              items-center
-              gap-3
-              px-4
-              py-3
-              text-sm
-              text-[#ccc]
-              hover:bg-white/[0.06]
-              transition-colors
-              cursor-pointer
+              fixed
+              right-4
+              top-[80px]
+              z-[60]
+              w-64
+              max-w-[calc(100vw-2rem)]
+              rounded-2xl
+              border
+              border-white/10
+              bg-[#11131C]/95
+              py-2
+              shadow-2xl
+              shadow-black/40
+              backdrop-blur-xl
+              md:absolute
+              md:right-0
+              md:top-full
+              md:mt-3
             "
           >
+            {/* =================================================
+                INFORMACIÓN DEL USUARIO
+            ================================================== */}
 
-            <Icon
-              icon="mdi:newspaper-variant-outline"
-              width={19}
-              height={19}
-            />
+            <div
+              className="
+                border-b
+                border-white/[0.06]
+                px-4
+                py-3
+              "
+            >
+              <p
+                className="
+                  truncate
+                  text-sm
+                  font-semibold
+                  text-white
+                "
+              >
+                {usuario.displayName ??
+                  "Usuario"}
+              </p>
 
-            <span>
-              Noticias
-            </span>
+              <p
+                className="
+                  truncate
+                  text-xs
+                  text-[#777]
+                "
+              >
+                {usuario.email}
+              </p>
+            </div>
 
-          </button>
-
-
-          {/* =================================================
-              CREAR NOTICIA — SOLO ADMIN
-          ================================================== */}
-
-          {role === "admin" && (
+            {/* =================================================
+                NOTICIAS
+            ================================================== */}
 
             <button
               type="button"
               onClick={() => {
-
                 onClose();
-
-                navigate("/createnews");
-
+                navigate("/noticias");
               }}
               className="
-                w-full
                 flex
+                w-full
                 items-center
                 gap-3
                 px-4
                 py-3
                 text-sm
-                text-brand-300
-                hover:bg-brand-500/10
+                text-[#ccc]
                 transition-colors
+                hover:bg-white/[0.06]
                 cursor-pointer
               "
             >
-
               <Icon
-                icon="mdi:plus-circle-outline"
+                icon="mdi:newspaper-variant-outline"
                 width={19}
                 height={19}
               />
 
               <span>
-                Crear noticia
+                Noticias
               </span>
-
             </button>
 
-          )}
+            {/* =================================================
+                CREAR NOTICIA — SOLO ADMIN
+            ================================================== */}
 
-
-          {/* =================================================
-              SEPARADOR
-          ================================================== */}
-
-          <div
-            className="
-              my-1
-              h-px
-              bg-white/[0.06]
-            "
-          />
-
-
-          {/* =================================================
-              CERRAR SESIÓN
-          ================================================== */}
-
-          <button
-            type="button"
-            onClick={cerrarSesion}
-            disabled={loading}
-            className="
-              w-full
-              flex
-              items-center
-              gap-3
-              px-4
-              py-3
-              text-sm
-              text-red-400
-              hover:bg-red-500/10
-              disabled:opacity-50
-              transition-colors
-              cursor-pointer
-            "
-          >
-
-            {loading ? (
-
-              <span
+            {role === "admin" && (
+              <button
+                type="button"
+                onClick={() => {
+                  onClose();
+                  navigate("/createnews");
+                }}
                 className="
-                  w-4
-                  h-4
-                  border-2
-                  border-red-400
-                  border-t-transparent
-                  rounded-full
-                  animate-spin
+                  flex
+                  w-full
+                  items-center
+                  gap-3
+                  px-4
+                  py-3
+                  text-sm
+                  text-brand-300
+                  transition-colors
+                  hover:bg-brand-500/10
+                  cursor-pointer
                 "
-              />
+              >
+                <Icon
+                  icon="mdi:plus-circle-outline"
+                  width={19}
+                  height={19}
+                />
 
-            ) : (
-
-              <Icon
-                icon="mdi:logout"
-                width={19}
-                height={19}
-              />
-
+                <span>
+                  Crear noticia
+                </span>
+              </button>
             )}
 
-            <span>
-              {loading
-                ? "Saliendo..."
-                : "Cerrar sesión"}
-            </span>
+            {/* =================================================
+                SEPARADOR
+            ================================================== */}
 
-          </button>
+            <div
+              className="
+                my-1
+                h-px
+                bg-white/[0.06]
+              "
+            />
 
-        </div>
+            {/* =================================================
+                CERRAR SESIÓN
+            ================================================== */}
 
-      )}
+            <button
+              type="button"
+              onClick={cerrarSesion}
+              disabled={loading}
+              className="
+                flex
+                w-full
+                items-center
+                gap-3
+                px-4
+                py-3
+                text-sm
+                text-red-400
+                transition-colors
+                hover:bg-red-500/10
+                disabled:opacity-50
+                cursor-pointer
+              "
+            >
+              {loading ? (
+                <span
+                  className="
+                    h-4
+                    w-4
+                    rounded-full
+                    border-2
+                    border-red-400
+                    border-t-transparent
+                    animate-spin
+                  "
+                />
+              ) : (
+                <Icon
+                  icon="mdi:logout"
+                  width={19}
+                  height={19}
+                />
+              )}
 
+              <span>
+                {loading
+                  ? "Saliendo..."
+                  : "Cerrar sesión"}
+              </span>
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

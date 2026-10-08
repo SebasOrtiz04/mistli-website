@@ -12,3 +12,5 @@ google-auth-oauthlib
 
 python-dotenv
 pydantic
+
+email-validator

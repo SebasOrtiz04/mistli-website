@@ -196,6 +196,8 @@ export const home = {
       "APIs",
       "Automation",
       "Databases",
+      "Matlab",
+      "Mobile"
     ],
   },
 
