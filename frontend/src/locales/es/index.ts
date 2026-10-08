@@ -9,11 +9,13 @@ import automation from './automation';
 import web from './web';
 import apps from './apps';
 import documents from './documents';
-// import docs from './docs';
-// import terms from './terms';
-// import privacy from './privacy';
-// import support from './support';
-// import contact from './contact.ts';
+import docs from './docs';
+import terms from './terms';
+import privacy from './privacy';
+import support from './support';
+import contact from './contact.ts';
+import forgotPassword from './forgotPassword.ts';
+import login from './login.ts'
 
 export default {
 //   common,
@@ -26,9 +28,11 @@ export default {
   web,
   apps,
   documents,
-  // docs,
-  // terms,
-  // privacy,
-  // support,
-  // contact
+  docs,
+  terms,
+  privacy,
+  support,
+  contact,
+  forgotPassword,
+  login
 };

@@ -1,6 +1,8 @@
 import { useState, useCallback, useContext } from "react";
+import { useTranslation } from "react-i18next";
 import { FirebaseContext } from "../../lib/firebase";
 import { User } from "firebase/auth";
+import { Icon } from "@iconify/react";
 
 interface Props {
   onClose: () => void;
@@ -10,197 +12,380 @@ interface Props {
 
 type Step = "form" | "sent";
 
-export default function ForgotPasswordModal({ onClose, defaultEmail = "" }: Props) {
+export default function ForgotPasswordModal({
+  onClose,
+  defaultEmail = "",
+}: Props) {
+  const { t } = useTranslation();
+
   const [email, setEmail] = useState(defaultEmail);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [step, setStep] = useState<Step>("form");
 
   const context = useContext(FirebaseContext);
-  const { firebase } = context || { usuario: null as User | null, firebase: null };
+
+  const { firebase } = context || {
+    usuario: null as User | null,
+    firebase: null,
+  };
 
   const handleReset = useCallback(async () => {
     if (!firebase) return;
+
     if (!email.trim()) {
-      setError("Ingresa un correo válido.");
+      setError(t("forgotPassword.validation.invalidEmail"));
       return;
     }
 
     try {
       setLoading(true);
       setError(null);
+
       await firebase.recuperarPassword(email.trim());
       setStep("sent");
     } catch (err: any) {
       if (err?.code === "auth/user-not-found") {
-        setError("No encontramos una cuenta con ese correo.");
+        setError(t("forgotPassword.validation.userNotFound"));
       } else if (err?.code === "auth/invalid-email") {
-        setError("El formato del correo no es válido.");
+        setError(t("forgotPassword.validation.invalidEmailFormat"));
       } else {
-        setError("No se pudo enviar el correo. Intenta de nuevo.");
+        setError(t("forgotPassword.validation.sendError"));
       }
     } finally {
       setLoading(false);
     }
-  }, [firebase, email]);
+  }, [firebase, email, t]);
 
   return (
-    /* Backdrop */
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center px-4"
-      style={{ background: "rgba(0,0,0,0.6)", backdropFilter: "blur(6px)" }}
-      onClick={(e) => e.target === e.currentTarget && onClose()}
+      className="
+        fixed inset-0 z-50
+        flex items-center justify-center
+        bg-ink-950/80
+        px-4
+        backdrop-blur-md
+      "
+      onClick={(e) => {
+        if (e.target === e.currentTarget) {
+          onClose();
+        }
+      }}
     >
       <div
-        className="w-full max-w-[400px] rounded-[20px] p-8 relative"
-        style={{
-          background: "rgba(18,18,32,0.97)",
-          border: "1px solid rgba(255,255,255,0.08)",
-          boxShadow: "0 24px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(124,109,250,0.08)",
-        }}
+        className="
+          relative w-full max-w-md
+          overflow-hidden
+          rounded-3xl
+          border border-white/10
+          bg-surface-900/95
+          shadow-2xl shadow-black/50
+        "
       >
-        {/* Close button */}
+        {/* Ambient glow */}
+        <div className="pointer-events-none absolute -right-24 -top-24 h-48 w-48 rounded-full bg-brand-500/10 blur-3xl" />
+
+        <div className="pointer-events-none absolute -bottom-24 -left-24 h-48 w-48 rounded-full bg-cyan-400/10 blur-3xl" />
+
+        {/* Close */}
         <button
+          type="button"
           onClick={onClose}
-          className="absolute top-4 right-4 text-[#555] hover:text-[#aaa] transition-colors p-1"
-          aria-label="Cerrar"
+          aria-label={t("forgotPassword.close")}
+          className="
+            absolute right-4 top-4 z-10
+            flex h-9 w-9 items-center justify-center
+            rounded-xl
+            border border-white/5
+            bg-white/[0.03]
+            text-ink-400
+            transition-all
+            hover:border-white/10
+            hover:bg-white/[0.06]
+            hover:text-white
+          "
         >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-            <path d="M18 6 6 18M6 6l12 12" />
-          </svg>
+          <Icon icon="mdi:close" width={20} />
         </button>
 
-        {step === "form" ? (
-          <>
-            {/* Icon */}
-            <div
-              className="w-[48px] h-[48px] rounded-full flex items-center justify-center mx-auto mb-5"
-              style={{ background: "rgba(124,109,250,0.15)", border: "1px solid rgba(124,109,250,0.25)" }}
-            >
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#a89cf7" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="2" y="4" width="20" height="16" rx="2" />
-                <path d="m2 7 10 7 10-7" />
-              </svg>
-            </div>
-
-            <h2 className="text-[20px] font-bold text-center text-[#f0f0f8] tracking-tight mb-1">
-              Reset your password
-            </h2>
-            <p className="text-[13px] text-[#777] text-center mb-7 leading-relaxed">
-              Enter your work email and we'll send you a link to reset your password.
-            </p>
-
-            {/* Error */}
-            {error && (
+        <div className="relative px-6 py-8 sm:px-8">
+          {step === "form" ? (
+            <>
+              {/* Icon */}
               <div
-                className="mb-4 px-4 py-3 rounded-xl text-[13px] text-red-300"
-                style={{ background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.2)" }}
+                className="
+                  mx-auto mb-5
+                  flex h-14 w-14 items-center justify-center
+                  rounded-2xl
+                  border border-brand-500/20
+                  bg-brand-500/10
+                  shadow-lg shadow-brand-500/10
+                "
               >
-                {error}
-              </div>
-            )}
-
-            {/* Email input */}
-            <div className="mb-5">
-              <label className="block text-[13px] font-medium text-[#bbb] mb-2">Work Email</label>
-              <div className="relative flex items-center">
-                <span className="pointer-events-none absolute left-[14px] flex items-center">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#7c6dfa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <rect x="2" y="4" width="20" height="16" rx="2" />
-                    <path d="m2 7 10 7 10-7" />
-                  </svg>
-                </span>
-                <input
-                  type="email"
-                  placeholder="name@company.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  onKeyDown={(e) => e.key === "Enter" && handleReset()}
-                  className="w-full rounded-[10px] py-3 pl-[42px] pr-4 text-sm text-[#e0e0ee] outline-none transition-all placeholder:text-[#555]"
-                  style={{
-                    background: "rgba(255,255,255,0.04)",
-                    border: "1px solid rgba(255,255,255,0.08)",
-                    boxSizing: "border-box",
-                  }}
-                  onFocus={(e) => (e.currentTarget.style.borderColor = "#7c6dfa")}
-                  onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)")}
-                  autoFocus
+                <Icon
+                  icon="mdi:lock-reset"
+                  width={27}
+                  className="text-brand-400"
                 />
               </div>
-            </div>
 
-            {/* Send button */}
-            <button
-              onClick={handleReset}
-              disabled={loading}
-              className="w-full py-[13px] rounded-xl text-[14px] font-semibold text-white tracking-tight transition-all hover:opacity-90 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
-              style={{
-                background: "linear-gradient(135deg, #7c6dfa 0%, #5a4de0 100%)",
-                boxShadow: "0 4px 20px rgba(124,109,250,0.3)",
-              }}
-            >
-              {loading ? (
-                <span className="flex items-center justify-center gap-2">
-                  <svg className="animate-spin" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
-                  </svg>
-                  Sending...
-                </span>
-              ) : "Send Reset Link"}
-            </button>
+              {/* Heading */}
+              <div className="mb-7 text-center">
+                <h2 className="text-xl font-bold tracking-tight text-white">
+                  {t("forgotPassword.form.title")}
+                </h2>
 
-            <button
-              onClick={onClose}
-              className="w-full mt-3 py-3 text-[13px] text-[#666] hover:text-[#aaa] transition-colors"
-            >
-              Back to sign in
-            </button>
-          </>
-        ) : (
-          /* Step: sent */
-          <>
-            <div
-              className="w-[48px] h-[48px] rounded-full flex items-center justify-center mx-auto mb-5"
-              style={{ background: "rgba(52,211,153,0.12)", border: "1px solid rgba(52,211,153,0.25)" }}
-            >
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6ee7b7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                <path d="m9 11 3 3L22 4" />
-              </svg>
-            </div>
+                <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-ink-400">
+                  {t("forgotPassword.form.description")}
+                </p>
+              </div>
 
-            <h2 className="text-[20px] font-bold text-center text-[#f0f0f8] tracking-tight mb-1">
-              Check your inbox
-            </h2>
-            <p className="text-[13px] text-[#777] text-center mb-2 leading-relaxed">
-              We sent a password reset link to
-            </p>
-            <p className="text-[13px] font-semibold text-[#a89cf7] text-center mb-7">
-              {email}
-            </p>
+              {/* Error */}
+              {error && (
+                <div
+                  className="
+                    mb-5 flex items-start gap-3
+                    rounded-xl
+                    border border-danger-500/20
+                    bg-danger-500/10
+                    px-4 py-3
+                    text-sm text-danger-300
+                  "
+                >
+                  <Icon
+                    icon="mdi:alert-circle-outline"
+                    width={19}
+                    className="mt-0.5 shrink-0"
+                  />
 
-            <button
-              onClick={onClose}
-              className="w-full py-[13px] rounded-xl text-[14px] font-semibold text-white tracking-tight transition-all hover:opacity-90"
-              style={{
-                background: "linear-gradient(135deg, #7c6dfa 0%, #5a4de0 100%)",
-                boxShadow: "0 4px 20px rgba(124,109,250,0.3)",
-              }}
-            >
-              Back to sign in
-            </button>
+                  <span>{error}</span>
+                </div>
+              )}
 
-            <p className="text-[12px] text-[#555] text-center mt-4">
-              Didn't receive it?{" "}
+              {/* Email */}
+              <div className="mb-5">
+                <label
+                  htmlFor="forgot-email"
+                  className="mb-2 block text-sm font-medium text-ink-200"
+                >
+                  {t("forgotPassword.form.email.label")}
+                </label>
+
+                <div className="relative">
+                  <Icon
+                    icon="mdi:email-outline"
+                    width={19}
+                    className="
+                      pointer-events-none
+                      absolute left-4 top-1/2
+                      -translate-y-1/2
+                      text-brand-400
+                    "
+                  />
+
+                  <input
+                    id="forgot-email"
+                    type="email"
+                    placeholder={t(
+                      "forgotPassword.form.email.placeholder",
+                    )}
+                    value={email}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+
+                      if (error) {
+                        setError(null);
+                      }
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        void handleReset();
+                      }
+                    }}
+                    autoFocus
+                    className="
+                      w-full rounded-xl
+                      border border-white/10
+                      bg-white/[0.04]
+                      py-3.5 pl-12 pr-4
+                      text-sm text-white
+                      outline-none
+                      transition-all
+                      placeholder:text-ink-500
+                      focus:border-brand-500/60
+                      focus:bg-white/[0.06]
+                      focus:ring-2
+                      focus:ring-brand-500/10
+                    "
+                  />
+                </div>
+              </div>
+
+              {/* Send */}
               <button
-                onClick={() => { setStep("form"); setError(null); }}
-                className="text-[#7c6dfa] hover:text-[#a89cf7] transition-colors underline underline-offset-2"
+                type="button"
+                onClick={() => void handleReset()}
+                disabled={loading}
+                className="
+                  flex w-full items-center justify-center
+                  rounded-xl
+                  bg-brand-500
+                  py-3.5
+                  text-sm font-semibold text-ink-950
+                  shadow-lg shadow-brand-500/20
+                  transition-all
+                  hover:bg-brand-400
+                  hover:shadow-brand-500/30
+                  active:scale-[0.98]
+                  disabled:cursor-not-allowed
+                  disabled:opacity-50
+                "
               >
-                Try again
+                {loading ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <Icon
+                      icon="mdi:loading"
+                      width={18}
+                      className="animate-spin"
+                    />
+
+                    {t("forgotPassword.form.submit.sending")}
+                  </span>
+                ) : (
+                  <span className="flex items-center justify-center gap-2">
+                    {t("forgotPassword.form.submit.send")}
+
+                    <Icon
+                      icon="mdi:arrow-right"
+                      width={18}
+                    />
+                  </span>
+                )}
               </button>
-            </p>
-          </>
-        )}
+
+              {/* Back */}
+              <button
+                type="button"
+                onClick={onClose}
+                className="
+                  mt-3 w-full
+                  py-3
+                  text-sm
+                  text-ink-400
+                  transition-colors
+                  hover:text-white
+                "
+              >
+                {t("forgotPassword.form.back")}
+              </button>
+            </>
+          ) : (
+            <>
+              {/* Success icon */}
+              <div
+                className="
+                  mx-auto mb-5
+                  flex h-14 w-14 items-center justify-center
+                  rounded-2xl
+                  border border-success-500/20
+                  bg-success-500/10
+                  shadow-lg shadow-success-500/10
+                "
+              >
+                <Icon
+                  icon="mdi:check-circle-outline"
+                  width={28}
+                  className="text-success-400"
+                />
+              </div>
+
+              {/* Heading */}
+              <div className="text-center">
+                <h2 className="text-xl font-bold tracking-tight text-white">
+                  {t("forgotPassword.sent.title")}
+                </h2>
+
+                <p className="mt-2 text-sm leading-relaxed text-ink-400">
+                  {t("forgotPassword.sent.description")}
+                </p>
+
+                <p className="mt-1 break-all text-sm font-semibold text-brand-400">
+                  {email}
+                </p>
+              </div>
+
+              {/* Success info */}
+              <div
+                className="
+                  mt-6
+                  rounded-xl
+                  border border-success-500/10
+                  bg-success-500/5
+                  px-4 py-3
+                "
+              >
+                <div className="flex items-start gap-3">
+                  <Icon
+                    icon="mdi:email-check-outline"
+                    width={20}
+                    className="mt-0.5 shrink-0 text-success-400"
+                  />
+
+                  <p className="text-xs leading-relaxed text-ink-300">
+                    {t("forgotPassword.sent.info")}
+                  </p>
+                </div>
+              </div>
+
+              {/* Back */}
+              <button
+                type="button"
+                onClick={onClose}
+                className="
+                  mt-6 flex w-full items-center justify-center
+                  gap-2
+                  rounded-xl
+                  bg-brand-500
+                  py-3.5
+                  text-sm font-semibold
+                  text-ink-950
+                  shadow-lg shadow-brand-500/20
+                  transition-all
+                  hover:bg-brand-400
+                  hover:shadow-brand-500/30
+                "
+              >
+                {t("forgotPassword.sent.back")}
+              </button>
+
+              {/* Try again */}
+              <p className="mt-4 text-center text-xs text-ink-500">
+                {t("forgotPassword.sent.retry.question")}{" "}
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setStep("form");
+                    setError(null);
+                  }}
+                  className="
+                    font-medium
+                    text-brand-400
+                    underline
+                    underline-offset-2
+                    transition-colors
+                    hover:text-brand-300
+                  "
+                >
+                  {t("forgotPassword.sent.retry.action")}
+                </button>
+              </p>
+            </>
+          )}
+        </div>
+
+        {/* Bottom accent */}
+        <div className="h-px w-full bg-gradient-to-r from-transparent via-brand-500/40 to-transparent" />
       </div>
     </div>
   );

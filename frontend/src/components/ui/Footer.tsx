@@ -1,13 +1,17 @@
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import Icon from "../../../components/iconify/Icon";
-import Logo from "../../../components/logo/Logo";
+import Icon from "../iconify/Icon";
+import Logo from "../logo/Logo";
 
 /* Cámbialo por un correo @mistli.com.mx cuando lo tengas. */
 const CONTACT_EMAIL = "fernandosanchezor@gmail.com";
 
-/* `accent` coincide con los data-accent de index.css */
-
+const SOCIAL_LINKS = {
+  instagram:
+    "https://www.instagram.com/mistlisoftware?stkn=dWxtZHdzeWE5cWU4",
+  facebook:
+    "https://www.facebook.com/share/1LWR1vn6xD/",
+};
 
 const linkClass =
   "inline-flex items-center gap-2 py-1 text-sm text-[#AEB3C2] transition-colors hover:text-white";
@@ -17,8 +21,22 @@ const headingClass =
 
 export default function Footer() {
   const { t } = useTranslation();
-  const services = t("footer.footer.services", { returnObjects: true }) as { label: string; path: string; accent: string }[];
-  const resources = t("footer.footer.resources", { returnObjects: true }) as { label: string; path: string }[];
+
+  const services = t("footer.footer.services", {
+    returnObjects: true,
+  }) as {
+    label: string;
+    path: string;
+    accent: string;
+  }[];
+
+  const resources = t("footer.footer.resources", {
+    returnObjects: true,
+  }) as {
+    label: string;
+    path: string;
+  }[];
+
   return (
     <footer className="relative overflow-hidden border-t border-white/[0.06] bg-[#06080D] text-[#AEB3C2]">
       {/* Línea de degradado de marca en el borde superior */}
@@ -51,7 +69,9 @@ export default function Footer() {
           {/* Servicios */}
 
           <nav aria-label="Servicios">
-            <h2 className={headingClass}>{t("footer.footer.titles.services")}</h2>
+            <h2 className={headingClass}>
+              {t("footer.footer.titles.services")}
+            </h2>
 
             <ul>
               {services.map((service) => (
@@ -62,6 +82,7 @@ export default function Footer() {
                     className={`${linkClass} group hover:text-[color:var(--accent)]`}
                   >
                     <span className="h-1 w-1 rounded-full bg-[color:var(--accent)] opacity-60 transition-opacity group-hover:opacity-100" />
+
                     {service.label}
                   </Link>
                 </li>
@@ -72,12 +93,17 @@ export default function Footer() {
           {/* Recursos */}
 
           <nav aria-label="Recursos">
-            <h2 className={headingClass}>{t("footer.footer.titles.resources")}</h2>
+            <h2 className={headingClass}>
+              {t("footer.footer.titles.resources")}
+            </h2>
 
             <ul>
               {resources.map((item) => (
                 <li key={item.path}>
-                  <Link to={item.path} className={linkClass}>
+                  <Link
+                    to={item.path}
+                    className={linkClass}
+                  >
                     {item.label}
                   </Link>
                 </li>
@@ -88,36 +114,116 @@ export default function Footer() {
           {/* Contacto */}
 
           <div>
-            <h2 className={headingClass}>{t("footer.footer.titles.contact")}</h2>
+            <h2 className={headingClass}>
+              {t("footer.footer.titles.contact")}
+            </h2>
 
             <ul className="space-y-4 text-sm">
+              {/* Email */}
               <li>
                 <a
                   href={`mailto:${CONTACT_EMAIL}`}
                   className="group flex items-center gap-3 text-[#AEB3C2] transition-colors hover:text-white"
                 >
                   <span className="m-icon-tile flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
-                    <Icon icon="mdi:email-outline" width={16} height={16} />
+                    <Icon
+                      icon="mdi:email-outline"
+                      width={16}
+                      height={16}
+                    />
                   </span>
 
-                  <span className="break-all">{CONTACT_EMAIL}</span>
+                  <span className="break-all">
+                    {CONTACT_EMAIL}
+                  </span>
                 </a>
               </li>
 
+              {/* Location */}
               <li className="flex items-center gap-3 text-[#AEB3C2]">
                 <span className="m-icon-tile flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
-                  <Icon icon="mdi:map-marker-outline" width={16} height={16} />
+                  <Icon
+                    icon="mdi:map-marker-outline"
+                    width={16}
+                    height={16}
+                  />
                 </span>
 
                 México / Remoto
               </li>
             </ul>
 
+            {/* Social media */}
+            <div className="mt-6">
+              <p className="mb-3 text-[11px] font-medium uppercase tracking-[0.14em] text-[#666D7D]">
+                Síguenos
+              </p>
+
+              <div className="flex items-center gap-2">
+                {/* Instagram */}
+                <a
+                  href={SOCIAL_LINKS.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Instagram de Mistli"
+                  className="
+                    m-icon-tile
+                    flex
+                    h-9
+                    w-9
+                    items-center
+                    justify-center
+                    rounded-lg
+                    text-[#AEB3C2]
+                    transition-all
+                    hover:-translate-y-0.5
+                    hover:text-white
+                  "
+                >
+                  <Icon
+                    icon="mdi:instagram"
+                    width={18}
+                    height={18}
+                  />
+                </a>
+
+                {/* Facebook */}
+                <a
+                  href={SOCIAL_LINKS.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Facebook de Mistli"
+                  className="
+                    m-icon-tile
+                    flex
+                    h-9
+                    w-9
+                    items-center
+                    justify-center
+                    rounded-lg
+                    text-[#AEB3C2]
+                    transition-all
+                    hover:-translate-y-0.5
+                    hover:text-white
+                  "
+                >
+                  <Icon
+                    icon="mdi:facebook"
+                    width={18}
+                    height={18}
+                  />
+                </a>
+              </div>
+            </div>
+
+            {/* Contact CTA */}
             <Link
               to="/contacto"
               className="group mt-6 inline-flex items-center gap-1.5 text-sm font-medium"
             >
-              <span className="m-gradient-text">{t("footer.footer.cuentanos")}</span>
+              <span className="m-gradient-text">
+                {t("footer.footer.cuentanos")}
+              </span>
 
               <Icon
                 icon="mdi:arrow-right"
@@ -132,14 +238,22 @@ export default function Footer() {
         {/* ---------- Bottom ---------- */}
 
         <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-white/[0.08] pt-8 text-xs text-[#858B9D] md:flex-row">
-          <p className="text-center md:text-left">{t("footer.footer.ley")}</p>
+          <p className="text-center md:text-left">
+            {t("footer.footer.ley")}
+          </p>
 
           <div className="flex gap-6">
-            <Link to="/terms" className="transition-colors hover:text-white">
+            <Link
+              to="/terms"
+              className="transition-colors hover:text-white"
+            >
               {t("footer.footer.terms")}
             </Link>
 
-            <Link to="/privacy" className="transition-colors hover:text-white">
+            <Link
+              to="/privacy"
+              className="transition-colors hover:text-white"
+            >
               {t("footer.footer.privacy")}
             </Link>
           </div>
