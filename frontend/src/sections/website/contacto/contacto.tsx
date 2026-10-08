@@ -12,11 +12,11 @@ type ServiceKey =
   | "documentos"
   | "otro";
 
-type Service = {
-  label: string;
-  description: string;
-  icon: string;
-};
+// type Service = {
+//   label: string;
+//   description: string;
+//   icon: string;
+// };
 
 type ContactForm = {
   name: string;
