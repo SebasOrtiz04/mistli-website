@@ -19,10 +19,14 @@ const ia = {
     sendLabel: "Enviar mensaje",
     demoDisclaimer: "El asistente de esta página es una demostración.",
     suggestedPrompts: [
-      "¿Qué puede automatizar la IA en mi empresa?",
-      "Quiero conectar un chatbot con mis documentos",
-      "¿Qué es un agente de IA?",
+      "Quiero mejorar mi negocio con tecnología",
+      "¿Qué procesos de mi empresa puedo automatizar?",
+      "Quiero agendar una asesoría con Mistli"
     ],
+    emptyTitle:"¿En qué te ayudamos hoy?",
+    emptyText:"Pregunta sobre nuestros servicios o elige una de estas ideas para empezar.",
+    placeholder:"Escribe tu pregunta...",
+    disclaimer:"Mistli IA puede equivocarse. Verifica la información importante."
   },
 
   aside: {
