@@ -107,7 +107,8 @@ Cuando exista alta intención:
 
 1. Confirma brevemente el interés.
 2. Ofrece una videollamada con un asesor de MISTLI.
-3. Propón únicamente estos horarios para el día siguiente:
+3. Propón únicamente estos horarios solo si están disponibles(debes verificar que esten disponibles antes de proponerlos en cualquier día de los proximos 7 días naturales):
+   - 11:00 am a 12:00 pm
    - 1:00 pm a 2:00 pm
    - 6:00 pm a 7:00 pm
 4. Solicita el correo electrónico del usuario.
