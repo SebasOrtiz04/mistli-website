@@ -839,13 +839,12 @@ const send = async (text: string, base: Message[]) => {
                     </div>
 
                     <h3 className="text-lg font-semibold tracking-tight">
-                      {t("ia.chat.emptyTitle", "¿En qué te ayudamos hoy?")}
+                      {t("ia.chat.emptyTitle")}
                     </h3>
 
                     <p className="mt-2 max-w-sm text-sm leading-6 text-[#858B9D]">
                       {t(
-                        "ia.chat.emptyText",
-                        "Pregunta sobre nuestros servicios o elige una de estas ideas para empezar."
+                        "ia.chat.emptyText"
                       )}
                     </p>
 
@@ -947,8 +946,7 @@ const send = async (text: string, base: Message[]) => {
                     }}
                     rows={1}
                     placeholder={t(
-                      "ia.chat.placeholder",
-                      "Escribe tu pregunta..."
+                      "ia.chat.placeholder"
                     )}
                     className="max-h-40 min-h-11 flex-1 resize-none bg-transparent px-3 py-3 text-sm leading-5 text-[#F4F5F8] outline-none placeholder:text-[#5F6473]"
                   />
@@ -980,10 +978,7 @@ const send = async (text: string, base: Message[]) => {
                 </form>
 
                 <p className="mt-2.5 text-center text-[11px] text-[#5F6473]">
-                  {t(
-                    "ia.chat.disclaimer",
-                    "Mistli IA puede equivocarse. Verifica la información importante."
-                  )}
+                  {t("ia.chat.disclaimer")}
                 </p>
 
               </div>
