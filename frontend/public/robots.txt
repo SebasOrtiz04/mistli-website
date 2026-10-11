@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://mistli.com.mx/sitemap.xml
+Sitemap: https://www.mistli.com.mx/sitemap.xml
