@@ -1,0 +1,16 @@
+fastapi
+uvicorn[standard]
+
+langchain
+# langchain-ollama
+langchain-openai
+langgraph
+
+google-api-python-client
+google-auth-httplib2
+google-auth-oauthlib
+
+python-dotenv
+pydantic
+
+email-validator
