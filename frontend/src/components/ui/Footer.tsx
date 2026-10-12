@@ -4,7 +4,7 @@ import Icon from "../iconify/Icon";
 import Logo from "../logo/Logo";
 
 /* Cámbialo por un correo @mistli.com.mx cuando lo tengas. */
-const CONTACT_EMAIL = "fernandosanchezor@gmail.com";
+const CONTACT_EMAIL = "contacto@mistli.com.mx";
 
 const SOCIAL_LINKS = {
   instagram:
