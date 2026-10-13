@@ -42,7 +42,7 @@ services:
 
     # Solo accesible desde Nginx
     expose:
-      - "5173"
+      - "3000"
 
     environment:
       # El navegador utilizará el mismo dominio.
@@ -52,7 +52,7 @@ services:
       # Nginx lo enviará internamente a:
       #
       # http://ai-api:11343/chat
-      VITE_MISTLI_AI_URL: /api
+      NEXT_PUBLIC_MISTLI_AI_URL: /api
 
     depends_on:
       - ai-api
