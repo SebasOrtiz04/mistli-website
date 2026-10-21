@@ -116,7 +116,7 @@ const blocks = Array.isArray(rawContent) ? rawContent : parsedBlocks;
     };
   }, [noticia]);
 
-  if (loadingNews) return <Message>Cargando...</Message>;
+  if (loadingNews) return <Splash/>;
   if (error) return <Message>Ocurrió un error al cargar la noticia.</Message>;
   if (!newsData) return <Message>Noticia no encontrada.</Message>;
 
@@ -220,7 +220,7 @@ const blocks = Array.isArray(rawContent) ? rawContent : parsedBlocks;
           <aside className="lg:w-64 xl:w-72 shrink-0 flex flex-col gap-5">
 
             {/* Share card */}
-            <div className="bg-white/[0.04] border border-white/[0.08] rounded-2xl p-5">
+            <div className="bg-white/4 border border-white/8 rounded-2xl p-5">
               <div className="flex items-center gap-2 text-white text-sm font-semibold mb-4">
                 <ShareIcon /> Compartir
               </div>
@@ -265,14 +265,14 @@ const blocks = Array.isArray(rawContent) ? rawContent : parsedBlocks;
 
             {/* Related posts card */}
             {relatedPosts && relatedPosts.length > 0 && (
-              <div className="bg-white/[0.04] border border-white/[0.08] rounded-2xl p-5 flex flex-col gap-4">
+              <div className="bg-white/4 border border-white/8 rounded-2xl p-5 flex flex-col gap-4">
                 <p className="text-white text-sm font-semibold">Noticias Relacionadas</p>
                 <div className="flex flex-col gap-4">
                   {relatedPosts.map((post, i) => {
                     const relColor = getStyles(post.categoryColor);
                     return (
                       <div key={post.id}>
-                        {i > 0 && <div className="border-t border-white/[0.06] mb-4" />}
+                        {i > 0 && <div className="border-t border-white/6 mb-4" />}
                         <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold tracking-widest mb-2 ${relColor.badge}`}>
                           {post.category}
                         </span>

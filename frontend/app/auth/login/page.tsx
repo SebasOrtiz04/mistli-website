@@ -576,7 +576,7 @@ export default function LoginView() {
                   KEEP SIGNED IN
               ================================================== */}
 
-              <button
+              {/* <button
                 type="button"
                 onClick={() =>
                   setKeepSigned(!keepSigned)
@@ -625,7 +625,7 @@ export default function LoginView() {
                 >
                   {t("login.form.keepSigned")}
                 </span>
-              </button>
+              </button> */}
 
               {/* =================================================
                   SIGN IN

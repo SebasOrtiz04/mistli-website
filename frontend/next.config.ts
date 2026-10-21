@@ -20,7 +20,11 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "firebasestorage.googleapis.com",
-      }
+      },
+      // {
+      //   protocol: "https",
+      //   hostname: "imgs.search.brave.com",
+      // }
     ]
   }
 };
