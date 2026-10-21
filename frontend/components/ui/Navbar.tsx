@@ -4,7 +4,7 @@ import { Suspense, useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import Icon from "../iconify/Icon";
-import Splash from "./Splash";
+import NavbarSplash from "./NavbarSplash";
 
 interface NavbarProps {
   open: boolean;
@@ -426,7 +426,7 @@ function NavbarContent({ open, onToggle, onClose }: NavbarProps) {
 export default function Navbar({open,onToggle,onClose}:NavbarProps){
   return (
     <Suspense fallback={
-      <Splash/>
+      <NavbarSplash/>
     }>
       <NavbarContent open={open} onToggle={onToggle} onClose={onClose}/>
     </Suspense>

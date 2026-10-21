@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import useNoticias from "@/hooks/useNoticias";
 import Icon from "@/components/iconify/Icon";
 import { NewsletterBanner } from "@/components/ui/NewsletterBanner";
+import Image from "next/image";
 
 const categoryColors: Record<string, string> = {
   cyan: "border-cyan-400/20 bg-cyan-400/[0.07] text-cyan-300",
@@ -34,20 +35,21 @@ const CardImage: React.FC<{
   const showImage = Boolean(src) && !failed;
 
   return (
-    <div className="relative mb-5 aspect-video overflow-hidden rounded-xl border border-white/[0.07] bg-white/[0.025]">
+    <div className="relative mb-5 aspect-video overflow-hidden rounded-xl border border-white/[0.07] bg-white/2.5">
       {showImage ? (
         <>
-          <img
+          <Image
             src={src as string}
+            fill
             alt={alt}
             loading="lazy"
             onError={() => setFailed(true)}
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+            className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
           />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
+          <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/35 via-transparent to-transparent" />
         </>
       ) : (
-        <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-brand-500/[0.10] via-transparent to-cyan-400/[0.06] text-brand-300">
+        <div className="flex h-full w-full items-center justify-center bg-linear-to-br from-brand-500/10 via-transparent to-cyan-400/6 text-brand-300">
           <Icon icon={icon} width={34} height={34} />
         </div>
       )}

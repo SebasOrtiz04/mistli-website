@@ -1,0 +1,208 @@
+
+.navbarSplash {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+
+  width: 100%;
+  height: 72px;
+  min-height: 72px;
+  padding-inline: clamp(1rem, 4vw, 3rem);
+
+  background: var(--mistli-bg, #080A10);
+  border-bottom: 1px solid
+    var(--mistli-border, rgba(255, 255, 255, 0.08));
+
+  color: var(--mistli-text, #F4F5F8);
+}
+
+/* Glow discreto de marca */
+.glow {
+  position: absolute;
+  z-index: -1;
+  top: -50px;
+  right: 10%;
+  width: 240px;
+  height: 100px;
+
+  background: radial-gradient(
+    ellipse,
+    rgba(121, 146, 252, 0.10),
+    rgba(96, 224, 250, 0.05) 45%,
+    transparent 75%
+  );
+
+  pointer-events: none;
+}
+
+/* Identidad de Mistli */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-shrink: 0;
+}
+
+.brandMark {
+  display: grid;
+  place-items: center;
+
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+
+  background: linear-gradient(
+    135deg,
+    rgba(96, 224, 250, 0.13),
+    rgba(121, 146, 252, 0.16),
+    rgba(251, 95, 239, 0.10)
+  );
+
+  border: 1px solid rgba(121, 146, 252, 0.25);
+
+  color: var(--mistli-cyan, #60E0FA);
+  font-size: 25px;
+  font-weight: 700;
+  line-height: 1;
+
+  box-shadow: 0 0 22px rgba(121, 146, 252, 0.08);
+}
+
+.brandName {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+
+  background: var(
+    --mistli-gradient-text,
+    linear-gradient(100deg, #60E0FA, #7992FC 50%, #FB5FEF)
+  );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Enlaces simulados */
+.desktopLinks {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+}
+
+.linkSkeleton {
+  position: relative;
+  overflow: hidden;
+
+  display: block;
+  width: 62px;
+  height: 8px;
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.075);
+}
+
+.linkSkeleton:nth-child(2) {
+  width: 78px;
+}
+
+.linkSkeleton:nth-child(3) {
+  width: 90px;
+}
+
+.linkSkeleton:nth-child(4) {
+  width: 64px;
+}
+
+/* Brillo animado */
+.linkSkeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(96, 224, 250, 0.18),
+    rgba(121, 146, 252, 0.20),
+    transparent
+  );
+
+  transform: translateX(-100%);
+  animation: navbarShimmer 1.8s ease-in-out infinite;
+}
+
+/* Menú móvil */
+.mobileMenu {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+
+  width: 40px;
+  height: 40px;
+  padding: 10px;
+
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.mobileMenu span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(174, 179, 194, 0.65);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@keyframes navbarShimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  65%,
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@media (max-width: 767px) {
+  .navbarSplash {
+    gap: 1rem;
+    padding-inline: 1rem;
+  }
+
+  .desktopLinks {
+    display: none;
+  }
+
+  .mobileMenu {
+    display: flex;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .linkSkeleton::after {
+    animation: none;
+    transform: none;
+    opacity: 0.3;
+  }
+}

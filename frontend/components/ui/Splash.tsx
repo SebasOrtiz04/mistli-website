@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function Splash() {
   return (
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-ink-950 text-ink-50">
@@ -15,12 +17,12 @@ export default function Splash() {
             absolute
             left-1/2
             top-1/2
-            h-[420px]
-            w-[420px]
+            h-105
+            w-105
             -translate-x-1/2
             -translate-y-1/2
             rounded-full
-            bg-brand-500/[0.10]
+            bg-brand-500/10
             blur-[120px]
             animate-pulse
           "
@@ -32,12 +34,12 @@ export default function Splash() {
             absolute
             left-[42%]
             top-[46%]
-            h-[260px]
-            w-[260px]
+            h-65
+            w-65
             -translate-x-1/2
             -translate-y-1/2
             rounded-full
-            bg-cyan-400/[0.08]
+            bg-cyan-400/8
             blur-[100px]
           "
         />
@@ -48,12 +50,12 @@ export default function Splash() {
             absolute
             left-[58%]
             top-[52%]
-            h-[220px]
-            w-[220px]
+            h-55
+            w-55
             -translate-x-1/2
             -translate-y-1/2
             rounded-full
-            bg-magenta-500/[0.06]
+            bg-magenta-500/6
             blur-[100px]
           "
         />
@@ -64,8 +66,8 @@ export default function Splash() {
             absolute
             inset-0
             opacity-20
-            [background-image:radial-gradient(rgba(255,255,255,0.07)_1px,transparent_1px)]
-            [background-size:32px_32px]
+            bg-[radial-gradient(rgba(255,255,255,0.07)_1px,transparent_1px)]]
+            bg-size-[32px_32px]
           "
         />
 
@@ -94,7 +96,7 @@ export default function Splash() {
               w-64
               rounded-full
               border
-              border-brand-400/[0.08]
+              border-brand-400/8
               animate-[ping_3s_ease-out_infinite]
             "
           />
@@ -107,7 +109,7 @@ export default function Splash() {
               w-52
               rounded-full
               border
-              border-cyan-400/[0.10]
+              border-cyan-400/10
               animate-[ping_3s_ease-out_1s_infinite]
             "
           />
@@ -119,10 +121,10 @@ export default function Splash() {
               h-40
               w-40
               rounded-full
-              bg-gradient-to-br
-              from-brand-500/[0.12]
-              via-cyan-400/[0.08]
-              to-magenta-500/[0.08]
+              bg-linear-to-br
+              from-brand-500/12
+              via-cyan-400/8
+              to-magenta-500/8
               blur-2xl
               animate-pulse
             "
@@ -144,23 +146,24 @@ export default function Splash() {
                 absolute
                 inset-0
                 rounded-full
-                bg-brand-500/[0.12]
+                bg-brand-500/12
                 blur-2xl
               "
             />
 
-            <img
+            <Image
               src="/logo.png"
+              fill
+              sizes="h-auto w-32"
               alt="Mistli"
               className="
                 relative
                 z-10
-                h-auto
-                w-32
                 object-contain
                 drop-shadow-[0_0_25px_rgba(121,146,252,0.35)]
                 animate-[mistliFloat_3s_ease-in-out_infinite]
               "
+              priority
             />
           </div>
         </div>
