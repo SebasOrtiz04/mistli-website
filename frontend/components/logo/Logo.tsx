@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 interface LogoProps {
   variant?: "light" | "dark";
@@ -23,10 +24,12 @@ export default function Logo({
       aria-label="Mistli - Inicio"
     >
       {/* Isotipo */}
-      <div className="w-9 h-9 shrink-0">
-        <img
+      <div className="w-9 h-9 shrink-0 relative">
+        <Image
           src="/maskable-icon.png"
           alt=""
+          fill
+          sizes="w-9 h-9"
           className="w-full h-full object-contain"
         />
       </div>

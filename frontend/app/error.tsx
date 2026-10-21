@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect } from "react";
+import Image from "next/image";
 
 interface ErrorProps {
   error: Error & { digest?: string };
@@ -60,7 +61,7 @@ export default function Error({ error, reset }: ErrorProps) {
           className="mb-12 inline-flex items-center gap-2.5 no-underline"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/maskable-icon.png" alt="" className="h-8 w-8 object-contain" />
+          <Image src="/maskable-icon.png" width={32} height={32} alt="" className="object-contain" />
           <span className="text-[17px] font-bold tracking-tight text-white">
             Mistli
           </span>
