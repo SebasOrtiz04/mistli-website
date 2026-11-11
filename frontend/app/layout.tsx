@@ -1,4 +1,6 @@
+
 import type { Metadata, Viewport } from "next";
+import type { ReactNode } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import I18nProvider from "@/Providers/Provider";
@@ -13,7 +15,6 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
-
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.mistli.com.mx"),
@@ -44,7 +45,12 @@ export const metadata: Metadata = {
     description:
       "Software, automatización e inteligencia artificial para tu negocio.",
     images: [
-      { url: "/og-image.png", width: 1200, height: 630, alt: "Mistli, soluciones en la nube" },
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Mistli, soluciones en la nube",
+      },
     ],
   },
   twitter: {
@@ -63,18 +69,21 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
-  return (
-    <MainLayout>
+interface LayoutProps {
+  children: ReactNode;
+}
 
-      <html
-        lang="es"
-        className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-      >
+export default function RootLayout({ children }: LayoutProps) {
+  return (
+    <html
+      lang="es"
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+    >
+      <body className="min-h-full flex flex-col">
         <I18nProvider>
-          <body className="min-h-full flex flex-col">{children}</body>
+          <MainLayout>{children}</MainLayout>
         </I18nProvider>
-      </html>
-    </MainLayout>
+      </body>
+    </html>
   );
 }
