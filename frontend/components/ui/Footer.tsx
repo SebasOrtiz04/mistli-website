@@ -5,7 +5,9 @@ import Logo from "../logo/Logo";
 
 /* Cámbialo por un correo @mistli.com.mx cuando lo tengas. */
 const CONTACT_EMAIL = "contacto@mistli.com.mx";
-
+const CONTACT_PHONE = "+52 1 22 1213 5220";
+const CONTACT_PHONE_WHATS = "+5212212135220";
+const TEXT_WHATS= encodeURIComponent("Me interesa cotizar un servicio de Mistli. ¿Podrían darme más información?");
 const SOCIAL_LINKS = {
   instagram:
     "https://www.instagram.com/mistlisoftware?stkn=dWxtZHdzeWE5cWU4",
@@ -123,7 +125,7 @@ export default function Footer() {
               <li>
                 <a
                   href={`mailto:${CONTACT_EMAIL}`}
-                  className="group flex items-center gap-3 text-[#AEB3C2] transition-colors hover:text-white"
+                  className="group flex items-center gap-3 text-ink-300 transition-colors hover:text-white"
                 >
                   <span className="m-icon-tile flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
                     <Icon
@@ -138,9 +140,30 @@ export default function Footer() {
                   </span>
                 </a>
               </li>
+              {/* whatsapp */}
+              <li>
+                <a
+                  href={`https://wa.me/${CONTACT_PHONE_WHATS}?text=${TEXT_WHATS}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center gap-3 text-ink-300 transition-colors hover:text-white"
+                >
+                  <span className="m-icon-tile flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
+                    <Icon
+                      icon="mdi:whatsapp"
+                      width={16}
+                      height={16}
+                    />
+                  </span>
+
+                  <span className="break-all">
+                    {CONTACT_PHONE}
+                  </span>
+                </a>
+              </li>
 
               {/* Location */}
-              <li className="flex items-center gap-3 text-[#AEB3C2]">
+              <li className="flex items-center gap-3 text-ink-300">
                 <span className="m-icon-tile flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
                   <Icon
                     icon="mdi:map-marker-outline"
